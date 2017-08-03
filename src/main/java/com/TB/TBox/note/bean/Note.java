@@ -20,7 +20,7 @@ public class Note {
 	private int lowOpinion; //坏评量
 	private int opinionNumber; //评论总人数
 	
-	
+
 	//set-get
 	public int getNoteId() {
 		return noteId;

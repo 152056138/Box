@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.TB.TBox.note.mapper.NoteMapper">
+    <insert id="addNote" keyProperty="id" parameterType="com.TB.TBox.note.bean.Note">
+        insert into mood_note (mood,noteAdout,noteImg,noteContent,time,uid) values (#{mood},#{noteAdout},#{noteImg},#{noteContent},#{time},#{uid})
+    </insert>
+    
+    <delete id="delNote" parameterType="int">
+    	delete from mood_note where id=#{id}
+    </delete>
+    
+    <select id="schNotebyId" parameterType="int" resultType="com.TB.TBox.note.bean.Note">
+    	select * from mood_note where id=#{id}
+    </select>
+     <select id="schNoteall" resultType="com.TB.TBox.note.bean.Note">
+    	select * from mood_note
+    </select>
+    
+</mapper>
