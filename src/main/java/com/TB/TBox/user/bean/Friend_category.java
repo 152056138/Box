@@ -4,6 +4,7 @@
 package com.TB.TBox.user.bean;
 
 
+
 public class Friend_category {
 	private int cid; //主键
 	private String category; //分类
@@ -15,6 +16,7 @@ public class Friend_category {
 	public void setCid(int cid) {
 		this.cid = cid;
 	}
+	
 	public String getCategory() {
 		return category;
 	}
