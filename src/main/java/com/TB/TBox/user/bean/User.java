@@ -26,6 +26,33 @@ public class User {
 	private int age; //年龄
 	
 	
+	
+	//注册账号时调用这个构造函数
+	public User(String number, String password, String phone, String place) {
+		super();
+		this.number = number;
+		this.password = password;
+		this.phone = phone;
+		this.place = place;
+	}
+	
+	
+	//创建角色的时候调用这个构造函数
+	public User(String username,String constellation, String blood, String signature, Date birthday, Blob ufacing, String hobby, String job,
+			String gender, String personalPassword, int age) {
+		super();
+		this.username = username;
+		this.constellation = constellation;
+		this.blood = blood;
+		this.signature = signature;
+		this.birthday = birthday;
+		this.ufacing = ufacing;
+		this.hobby = hobby;
+		this.job = job;
+		this.gender = gender;
+		this.personalPassword = personalPassword;
+		this.age = age;
+	}
 	//set-get
 	public int getUid() {
 		return uid;
