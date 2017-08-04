@@ -3,17 +3,15 @@
  */
 package com.TB.TBox.user.bean;
 
-import java.sql.Blob;
-import java.util.Date;
 
 public class Friends {
 	private int fid; //好友列表id 主键
 	private String friendNumber; //好友账号
 	private String friendUsername; //好友名称
 	private int cid; //所在分类id
-	private Date friendTime; //加为好友时间
+	private String friendTime; //加为好友时间
 	private String friendNickname; //好友昵称
-	private Blob facing; //好友头像
+	private byte[] facing; //好友头像
 	private int uid; //好友列表拥有者id（此用户）
 	private int recoverFriend; //删除好友是不会真正的删除数据，而是此标志位变化表示
 	
@@ -42,10 +40,10 @@ public class Friends {
 	public void setCid(int cid) {
 		this.cid = cid;
 	}
-	public Date getFriendTime() {
+	public String getFriendTime() {
 		return friendTime;
 	}
-	public void setFriendTime(Date friendTime) {
+	public void setFriendTime(String friendTime) {
 		this.friendTime = friendTime;
 	}
 	public String getFriendNickname() {
@@ -54,10 +52,10 @@ public class Friends {
 	public void setFriendNickname(String friendNickname) {
 		this.friendNickname = friendNickname;
 	}
-	public Blob getFacing() {
+	public byte[] getFacing() {
 		return facing;
 	}
-	public void setFacing(Blob facing) {
+	public void setFacing(byte[] facing) {
 		this.facing = facing;
 	}
 	public int getUid() {

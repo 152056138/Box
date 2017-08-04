@@ -7,4 +7,6 @@ public interface UserMapper {
 	public void addUser(User user);
 	public void createRole(User user);
 	public User selectUserByID(int uid);
+	public void updateRole(User user);
+	public User selectUserByNumber(String number);
 }

@@ -5,7 +5,6 @@
     <typeAliases>
        <typeAlias alias="User" type="com.TB.TBox.user.bean.User"/>
     </typeAliases>
-
     <environments default="development">
         <environment id="development">
         <transactionManager type="JDBC"/>
@@ -23,4 +22,6 @@
         <mapper resource="com/TB/xml/note.xml"/>
         <mapper resource="com/TB/xml/evaluate.xml"/>
     </mappers>
+    
+
 </configuration>
