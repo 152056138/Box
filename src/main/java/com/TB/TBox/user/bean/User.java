@@ -3,8 +3,7 @@
  */
 package com.TB.TBox.user.bean;
 
-import java.sql.Blob;
-import java.util.Date;
+import com.google.gson.Gson;
 
 public class User {
 	private int uid; //用户id
@@ -16,8 +15,8 @@ public class User {
 	private String constellation; //星座
 	private String blood; //血型
 	private String signature; //个性签名
-	private Date birthday; //生日
-	private Blob ufacing; //头像
+	private String birthday; //生日
+	private byte[] ufacing; //头像
 	private String hobby; //兴趣
 	private String job; //职业
 	private String gender; //性别
@@ -25,8 +24,34 @@ public class User {
 	private String fingerprint; //指纹信息
 	private int age; //年龄
 	
-	
-	
+	private static Gson gson = new Gson();
+	public User(){
+		
+	}
+	public User(int uid, String number, String username, String password, String phone, String place,
+			String constellation, String blood, String signature, String birthday, byte[] ufacing, String hobby, String job,
+			String gender, String personalPassword, String fingerprint, int age) {
+		super();
+		this.uid = uid;
+		this.number = number;
+		this.username = username;
+		this.password = password;
+		this.phone = phone;
+		this.place = place;
+		this.constellation = constellation;
+		this.blood = blood;
+		this.signature = signature;
+		this.birthday = birthday;
+		this.ufacing = ufacing;
+		this.hobby = hobby;
+		this.job = job;
+		this.gender = gender;
+		this.personalPassword = personalPassword;
+		this.fingerprint = fingerprint;
+		this.age = age;
+	}
+
+
 	//注册账号时调用这个构造函数
 	public User(String number, String password, String phone, String place) {
 		super();
@@ -38,9 +63,10 @@ public class User {
 	
 	
 	//创建角色的时候调用这个构造函数
-	public User(String username,String constellation, String blood, String signature, Date birthday, Blob ufacing, String hobby, String job,
+	public User(int uid,String username,String constellation, String blood, String signature, String birthday, byte[] ufacing, String hobby, String job,
 			String gender, String personalPassword, int age) {
 		super();
+		this.uid = uid;
 		this.username = username;
 		this.constellation = constellation;
 		this.blood = blood;
@@ -108,16 +134,16 @@ public class User {
 	public void setSignature(String signature) {
 		this.signature = signature;
 	}
-	public Date getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(Date birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
-	public Blob getUfacing() {
+	public byte[] getUfacing() {
 		return ufacing;
 	}
-	public void setUfacing(Blob ufacing) {
+	public void setUfacing(byte[] ufacing) {
 		this.ufacing = ufacing;
 	}
 	public String getHobby() {
@@ -156,5 +182,16 @@ public class User {
 	public void setAge(int age) {
 		this.age = age;
 	}
+	@Override
+	public String toString() {
+		return "User [uid=" + uid + ", number=" + number + ", username=" + username + ", password=" + password
+				+ ", phone=" + phone + ", place=" + place + ", constellation=" + constellation + ", blood=" + blood
+				+ ", signature=" + signature + ", birthday=" + birthday + ", ufacing=" + ufacing + ", hobby=" + hobby
+				+ ", job=" + job + ", gender=" + gender + ", personalPassword=" + personalPassword + ", fingerprint="
+				+ fingerprint + ", age=" + age + "]";
+	}
 	
+	public String toJson(){
+		return gson.toJson(this);
+	}
 }
