@@ -20,5 +20,7 @@
    
     <mappers>
         <mapper resource="com/TB/xml/user.xml"/>
+        <mapper resource="com/TB/xml/note.xml"/>
+        <mapper resource="com/TB/xml/evaluate.xml"/>
     </mappers>
 </configuration>

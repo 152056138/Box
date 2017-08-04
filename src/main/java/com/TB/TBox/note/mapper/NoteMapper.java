@@ -11,12 +11,12 @@ public interface NoteMapper {
 	/*
 	 * 添加纸条
 	 */
-	public void addNote();
+	public void addNote(Note note);
 	
 	/*
 	 * 删除纸条
 	 */
-	public void delNote();
+	public void delNotebyId(int noteId);
 	
 	
 	/*
@@ -25,6 +25,6 @@ public interface NoteMapper {
 	//显示全部
 	public List<Note> schNoteall();
 	//按id查找
-	public Note schNotebyId();
+	public Note schNotebyId(int noteId);
 	
 }

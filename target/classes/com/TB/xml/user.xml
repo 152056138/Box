@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.TB.TBox.user.mapper.UserMapper">
+<insert id="addUser" parameterType="User" 
+        useGeneratedKeys="true" keyProperty="uid"> 
+        insert into mood_user(number,password,phone,place)  
+             values(#{number},#{password},#{phone},#{place})  
+    </insert>
+<update id="createRole" parameterType="User" >
+        update mood_user set username=#{username},constellation=#{constellation},blood=#{blood},signature=#{signature},birthday=#{birthday},ufacing=#{ufacing jdbcType="BLOB"},hobby=#{hobby},job=#{job},gender=#{gender},personalPassword=#{personalPassword},age=#{age} where uid=#{uid}
+    </update>
+<select id="selectUserByID" parameterType="int" resultType="User">
+        select * from mood_user where uid = #{uid}
+    </select>
+
+ 	
+</mapper>

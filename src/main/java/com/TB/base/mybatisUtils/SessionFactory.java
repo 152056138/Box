@@ -10,9 +10,10 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.springframework.stereotype.Repository;
 
 
-
+@Repository
 public class SessionFactory {
 	private static SqlSessionFactory sqlSessionFactory;
     private static Reader reader;
