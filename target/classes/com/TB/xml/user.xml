@@ -6,14 +6,21 @@
 <insert id="addUser" parameterType="User" 
         useGeneratedKeys="true" keyProperty="uid"> 
         insert into mood_user(number,password,phone,place)  
-             values(#{number},#{password},#{phone},#{place})  
+             values(#{number},#{password},#{phone},#{place},ufacing=#{ufacing})  
     </insert>
 <update id="createRole" parameterType="User" >
-        update mood_user set username=#{username},constellation=#{constellation},blood=#{blood},signature=#{signature},birthday=#{birthday},ufacing=#{ufacing jdbcType="BLOB"},hobby=#{hobby},job=#{job},gender=#{gender},personalPassword=#{personalPassword},age=#{age} where uid=#{uid}
+        update mood_user set username=#{username},constellation=#{constellation},blood=#{blood},signature=#{signature},birthday=#{birthday},ufacing=#{ufacing},hobby=#{hobby},job=#{job},gender=#{gender},personalPassword=#{personalPassword},age=#{age} where uid=#{uid}
+    </update>
+    
+<update id="updateRole" parameterType="User" >
+        update mood_user set phone=#{phone},password=#{password},place=#{place},username=#{username},constellation=#{constellation},blood=#{blood},signature=#{signature},birthday=#{birthday},ufacing=#{ufacing},hobby=#{hobby},job=#{job},gender=#{gender},personalPassword=#{personalPassword},age=#{age} where uid=#{uid}
     </update>
 <select id="selectUserByID" parameterType="int" resultType="User">
         select * from mood_user where uid = #{uid}
-    </select>
+</select>
 
+<select id="selectUserByNumber" parameterType="String" resultType="User">
+        select * from mood_user where number = #{number}
+</select>
  	
 </mapper>
