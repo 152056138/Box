@@ -5,7 +5,9 @@ package com.TB.TBox.note.bean;
 
 import java.util.Date;
 
+
 import org.springframework.stereotype.Component;
+@Component
 public class Evaluate {
 	private int eid; //评回id
 	private int noteId; //被评纸条id

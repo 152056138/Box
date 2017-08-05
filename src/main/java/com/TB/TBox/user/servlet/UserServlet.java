@@ -1,24 +1,28 @@
 package com.TB.TBox.user.servlet;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.TB.TBox.user.bean.User;
 import com.TB.TBox.user.service.UserService;
@@ -35,12 +39,12 @@ public class UserServlet {
 
 	@Autowired
 	private UserService userService;
-
 	@Autowired
 	private User user;
+	private Logger log = Logger.getLogger(UserServlet.class);
 
 	/**
-	 * 用户注册
+	 * 用户注册 缺少查询初始头像
 	 * 
 	 * @param request
 	 * @param response
@@ -60,7 +64,14 @@ public class UserServlet {
 			out.print("用户注册信息填写不完整,请填写完整！");
 			out.flush();
 			out.close();
+		} else if (userService.selectUserByNumber(number) != null) {
+			response.setContentType("text/json");
+			PrintWriter out = response.getWriter();
+			out.print("这个账号已经被注册，请重新写一个账号！");
+			out.flush();
+			out.close();
 		} else {
+
 			// 判断注册账号是不是是数字串
 			Pattern pattern = Pattern.compile("[0-9]*");
 			if (pattern.matcher(number).matches()) {
@@ -75,6 +86,8 @@ public class UserServlet {
 						out.close();
 						// 重复密码和密码是否一致
 					} else if (number.equals(repassword)) {
+
+						// 缺少查询初始头像
 						user.setNumber(number);
 						user.setPassword(password);
 						user.setPhone(phone);
@@ -121,7 +134,8 @@ public class UserServlet {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/createRole", method = RequestMethod.POST)
-	public void createRole(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void createRole(HttpServletRequest request, MultipartRequest re, HttpServletResponse response)
+			throws IOException {
 		String uuid = request.getParameter("uid");
 		int uid = Integer.parseInt(uuid);
 		user = userService.selectUserByID(uid);
@@ -146,60 +160,42 @@ public class UserServlet {
 		String uage = request.getParameter("age");
 		int age = Integer.parseInt(uage);
 		user.setAge(age);
-		// 判断上传表单是否为multipart/form-data类型
-		if (ServletFileUpload.isMultipartContent(request)) {
-			try {
-				// 1.创建DiskFileItemFactory对象，设置缓存区大小和临时文件目录
-				DiskFileItemFactory factory = new DiskFileItemFactory();
-				System.out.println(System.getProperty("java.io.tmpdir"));// 默认临时文件夹
-				// 2.创建ServletFileUpload对象，并设置上传文件的大小限制。
-				ServletFileUpload sfu = new ServletFileUpload(factory);
-				sfu.setSizeMax(10 * 1024 * 1024);// 以byte为单位 不能超过10M 1024byte =
-				// 1kb 1024kb=1M 1024M = 1G
-				sfu.setHeaderEncoding("utf-8");
-				// 3.调用ServletFileUpload.parseRequest方法解析request对象，得到一个保存了所有上传内容的List对象。
-				@SuppressWarnings("unchecked")
-				// J2SE 提供的最后一个批注是 @SuppressWarnings。该批注的作用是给编译器一条指令，
-				// 告诉它对被批注的代码元素内部的某些警告保持静默
-				List<FileItem> fileItemList = sfu.parseRequest(request);
-				Iterator<FileItem> fileItems = fileItemList.iterator();
-				// 4. 遍历list，每迭代一个FileItem对象，调用其isFormField方法判断是否是上传文件
-				while (fileItems.hasNext()) {
-					FileItem fileItem = fileItems.next();
-					// <input type="file">的上传文件的元素
-					if (!fileItem.isFormField()) {
-						byte[] b = null;
-						InputStream in = fileItem.getInputStream();
-						b = IOUtils.toByteArray(in);
-						System.out.println(b);
-						user.setUfacing(b);
-						// 6. 调用FileItem的delete()方法，删除临时文件
-						fileItem.delete();
-					}
 
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-		}
-		System.out.println(user.toJson());
+		// 对图片的获取
+		MultipartFile file = re.getFile("head");
+		CommonsMultipartFile cf = (CommonsMultipartFile) file;
+		DiskFileItem fi = (DiskFileItem) cf.getFileItem();
+		File f = fi.getStoreLocation();
+		InputStream in = new FileInputStream(f);
+		// 创建缓冲区
+		BufferedInputStream bis = new BufferedInputStream(in);
+		byte[] b3 = null;
+		b3 = IOUtils.toByteArray(bis);
+		log.info(b3);
+		// OutputStream out = new
+		// FileOutputStream("C:/Users/MrDu/Desktop/fa.jpg");
+		// out.write(b3);
+		user.setUfacing(b3);
+		log.debug(user.toJson());
 		userService.createRole(user);
+
 		response.setContentType("text/json");
-		PrintWriter out = response.getWriter();
-		out.print(user.toJson());
-		out.flush();
-		out.close();
+		PrintWriter out1 = response.getWriter();
+		out1.print(user.toJson());
+		out1.flush();
+		out1.close();
 	}
 
 	/**
-	 * 修改密码
+	 * 
+	 * 修改私人密码
 	 * 
 	 * @param request
 	 * @param response
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
-	public void updatePassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	@RequestMapping(value = "/updatePersionalPassword", method = RequestMethod.POST)
+	public void updatePersionalPassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String uuid = request.getParameter("uid");
 		int uid = Integer.parseInt(uuid);
 		user = userService.selectUserByID(uid);
@@ -216,14 +212,15 @@ public class UserServlet {
 	}
 
 	/**
-	 * 修改私人密码
+	 * 
+	 * 修改密码
 	 * 
 	 * @param request
 	 * @param response
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/updatepersionPasswprd", method = RequestMethod.POST)
-	public void updatepersionPasswprd(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	@RequestMapping(value = "/updatePasswprd", method = RequestMethod.POST)
+	public void updatePasswprd(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String uuid = request.getParameter("uid");
 		int uid = Integer.parseInt(uuid);
 		user = userService.selectUserByID(uid);
@@ -241,6 +238,7 @@ public class UserServlet {
 
 	/**
 	 * 查看用户信息
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws IOException
@@ -254,6 +252,7 @@ public class UserServlet {
 		formuser.setUid(user.getUid());
 		formuser.setPhone(user.getPhone());
 		formuser.setPlace(user.getPlace());
+		formuser.setUfacing(user.getUfacing());
 		formuser.setNumber(user.getNumber());
 		System.out.println(formuser.toJson());
 		response.setContentType("text/json");
@@ -262,9 +261,10 @@ public class UserServlet {
 		out.flush();
 		out.close();
 	}
-	
+
 	/**
 	 * 查看角色信息
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws IOException
@@ -292,4 +292,160 @@ public class UserServlet {
 		out.flush();
 		out.close();
 	}
+
+	/**
+	 * 修改用户信息
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/updateUserData", method = RequestMethod.POST)
+	public void updateUserData(HttpServletRequest request, MultipartRequest re, HttpServletResponse response)
+			throws IOException {
+		String uuid = request.getParameter("uid");
+		int uid = Integer.parseInt(uuid);
+		user = userService.selectUserByID(uid);
+		String phone = request.getParameter("phone");
+		user.setPhone(phone);
+		String place = request.getParameter("place");
+		user.setPlace(place);
+		// 对图片的获取
+		MultipartFile file = re.getFile("head");
+		CommonsMultipartFile cf = (CommonsMultipartFile) file;
+		DiskFileItem fi = (DiskFileItem) cf.getFileItem();
+		File f = fi.getStoreLocation();
+		InputStream in = new FileInputStream(f);
+		// 创建缓冲区
+		BufferedInputStream bis = new BufferedInputStream(in);
+		byte[] b3 = null;
+		b3 = IOUtils.toByteArray(bis);
+		log.info(b3);
+		// OutputStream out = new
+		// FileOutputStream("C:/Users/MrDu/Desktop/fa.jpg");
+		// out.write(b3);
+		user.setUfacing(b3);
+		userService.updateRole(user);
+		System.out.println(user.toJson());
+		response.setContentType("text/json");
+		PrintWriter out = response.getWriter();
+		out.print(user.toJson());
+		out.flush();
+		out.close();
+
+	}
+
+	/**
+	 * 修改角色信息
+	 * 
+	 * @param request
+	 * @param re
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/updateRoleData", method = RequestMethod.POST)
+	public void updateRoleData(HttpServletRequest request, MultipartRequest re, HttpServletResponse response)
+			throws IOException {
+		String uuid = request.getParameter("uid");
+		int uid = Integer.parseInt(uuid);
+		user = userService.selectUserByID(uid);
+		String username = request.getParameter("username");
+		user.setUsername(username);
+		String constellation = request.getParameter("constellation");
+		user.setConstellation(constellation);
+		String blood = request.getParameter("blood");
+		user.setBlood(blood);
+		String signature = request.getParameter("signature");
+		user.setSignature(signature);
+		String birthday = request.getParameter("birthday");
+		user.setBirthday(birthday);
+		String hobby = request.getParameter("hobby");
+		user.setHobby(hobby);
+		String job = request.getParameter("job");
+		user.setJob(job);
+		String gender = request.getParameter("gender");
+		user.setGender(gender);
+		String personalPassword = request.getParameter("personalPassword");
+		user.setPersonalPassword(personalPassword);
+		String uage = request.getParameter("age");
+		int age = Integer.parseInt(uage);
+		user.setAge(age);
+
+		// 对图片的获取
+		MultipartFile file = re.getFile("head");
+		CommonsMultipartFile cf = (CommonsMultipartFile) file;
+		DiskFileItem fi = (DiskFileItem) cf.getFileItem();
+		File f = fi.getStoreLocation();
+		InputStream in = new FileInputStream(f);
+		// 创建缓冲区
+		BufferedInputStream bis = new BufferedInputStream(in);
+		byte[] b3 = null;
+		b3 = IOUtils.toByteArray(bis);
+		log.info(b3);
+		// OutputStream out = new
+		// FileOutputStream("C:/Users/MrDu/Desktop/fa.jpg");
+		// out.write(b3);
+		user.setUfacing(b3);
+		log.debug(user.toJson());
+		userService.updateRole(user);
+
+		response.setContentType("text/json");
+		PrintWriter out = response.getWriter();
+		out.print(user.toJson());
+		out.flush();
+		out.close();
+	}
+
+	/**
+	 * 登陆功能
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String number = request.getParameter("number");
+		String password = request.getParameter("password");
+		user = userService.selectUserByNumber(number);
+		if (user == null) {
+			response.setContentType("text/json");
+			PrintWriter out = response.getWriter();
+			out.print("您输入的账号不存在！");
+			out.flush();
+			out.close();
+		} else {
+			if (password.equals(user.getPassword())) {
+				response.setContentType("text/json");
+				PrintWriter out = response.getWriter();
+				out.print("登陆成功！");
+				out.flush();
+				out.close();
+			} else {
+				response.setContentType("text/json");
+				PrintWriter out = response.getWriter();
+				out.print("您输入的密码不正确！");
+				out.flush();
+				out.close();
+			}
+		}
+	}
+
+	//测试方法
+	@Test
+	public void a() {
+		String number = "1334610525";
+		String password = "erererer";
+		user = userService.selectUserByNumber(number);
+		if (user == null) {
+			System.out.println("您输入的账号不存在！");
+		} else {
+			if (password.equals(user.getPassword())) {
+				System.out.println("登陆成功！");
+			} else {
+				System.out.println("您输入的密码不正确！");
+			}
+		}
+	}
+
 }

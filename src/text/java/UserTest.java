@@ -90,6 +90,18 @@ public void a() {
 //				}
 //
 //			}
-
+		 User user = new User();
+		 String number="1334610525";
+			String password = "erererer";
+			user = userService.selectUserByNumber(number);
+			if(user==null){
+				System.out.println("您输入的账号不存在！");
+			}else{
+				if(password.equals(user.getPassword())){
+					System.out.println("登陆成功！");
+				}else{
+					System.out.println("您输入的密码不正确！");
+				}
+			}
 }
 }

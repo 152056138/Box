@@ -3,6 +3,7 @@
  */
 package com.TB.TBox.user.bean;
 
+import com.google.gson.Gson;
 
 public class Friends {
 	private int fid; //好友列表id 主键
@@ -14,7 +15,14 @@ public class Friends {
 	private byte[] facing; //好友头像
 	private int uid; //好友列表拥有者id（此用户）
 	private int recoverFriend; //删除好友是不会真正的删除数据，而是此标志位变化表示
+	private String friendContent;//用户给好友的便签，用来记录一些事情
 	
+	private static Gson gson = new Gson();
+	
+	//json序列化
+	public String toJson(){
+		return gson.toJson(this);
+	}
 	//set-get
 	public int getFid() {
 		return fid;
@@ -69,6 +77,12 @@ public class Friends {
 	}
 	public void setRecoverFriend(int recoverFriend) {
 		this.recoverFriend = recoverFriend;
+	}
+	public String getFriendContent() {
+		return friendContent;
+	}
+	public void setFriendContent(String friendContent) {
+		this.friendContent = friendContent;
 	}
 	
 }
