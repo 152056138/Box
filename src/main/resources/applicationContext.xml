@@ -11,6 +11,7 @@
 	<!-- scan the annotation beans -->
 	<context:component-scan base-package="com.TB.TBox" />
 	<context:component-scan base-package="com.TB.base" />
+	<context:component-scan base-package="com.TB" />
 	
 	
 </beans>

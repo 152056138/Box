@@ -79,12 +79,12 @@ public class NoteServlet {
 				// TODO: handle exception
 			}
 		}
-		System.out.println(user.toJson());
-		userService.createRole(user);
-		response.setContentType("text/json");
-		PrintWriter out = response.getWriter();
-		out.print(user.toJson());
-		out.flush();
-		out.close();
+//		System.out.println(user.toJson());
+//		userService.createRole(user);
+//		response.setContentType("text/json");
+//		PrintWriter out = response.getWriter();
+//		out.print(user.toJsson());
+//		out.flush();
+//		out.close();
 	}
 }
