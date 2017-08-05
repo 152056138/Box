@@ -1,18 +1,13 @@
 package com.TB.TBox.user.servlet;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.util.regex.Pattern;
 
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.disk.DiskFileItem;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +15,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
+import com.TB.TBox.dataUtils.FileUploadUtil;
 import com.TB.TBox.user.bean.User;
 import com.TB.TBox.user.service.UserService;
 
@@ -39,6 +32,8 @@ public class UserServlet {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private FileUploadUtil fileUtil;
 	@Autowired
 	private User user;
 	private Logger log = Logger.getLogger(UserServlet.class);
@@ -139,51 +134,50 @@ public class UserServlet {
 		String uuid = request.getParameter("uid");
 		int uid = Integer.parseInt(uuid);
 		user = userService.selectUserByID(uid);
-		String username = request.getParameter("username");
-		user.setUsername(username);
-		String constellation = request.getParameter("constellation");
-		user.setConstellation(constellation);
-		String blood = request.getParameter("blood");
-		user.setBlood(blood);
-		String signature = request.getParameter("signature");
-		user.setSignature(signature);
-		String birthday = request.getParameter("birthday");
-		user.setBirthday(birthday);
-		String hobby = request.getParameter("hobby");
-		user.setHobby(hobby);
-		String job = request.getParameter("job");
-		user.setJob(job);
-		String gender = request.getParameter("gender");
-		user.setGender(gender);
-		String personalPassword = request.getParameter("personalPassword");
-		user.setPersonalPassword(personalPassword);
-		String uage = request.getParameter("age");
-		int age = Integer.parseInt(uage);
-		user.setAge(age);
+		 String username = request.getParameter("username");
+		 user.setUsername(username);
+		 String constellation = request.getParameter("constellation");
+		 user.setConstellation(constellation);
+		 String blood = request.getParameter("blood");
+		 user.setBlood(blood);
+		 String signature = request.getParameter("signature");
+		 user.setSignature(signature);
+		 String birthday = request.getParameter("birthday");
+		 user.setBirthday(birthday);
+		 String hobby = request.getParameter("hobby");
+		 user.setHobby(hobby);
+		 String job = request.getParameter("job");
+		 user.setJob(job);
+		 String gender = request.getParameter("gender");
+		 user.setGender(gender);
+		 String personalPassword = request.getParameter("personalPassword");
+		 user.setPersonalPassword(personalPassword);
+		 String uage = request.getParameter("age");
+		 int age = Integer.parseInt(uage);
+		 user.setAge(age);
 
-		// 对图片的获取
-		MultipartFile file = re.getFile("head");
-		CommonsMultipartFile cf = (CommonsMultipartFile) file;
-		DiskFileItem fi = (DiskFileItem) cf.getFileItem();
-		File f = fi.getStoreLocation();
-		InputStream in = new FileInputStream(f);
-		// 创建缓冲区
-		BufferedInputStream bis = new BufferedInputStream(in);
-		byte[] b3 = null;
-		b3 = IOUtils.toByteArray(bis);
-		log.info(b3);
-		// OutputStream out = new
-		// FileOutputStream("C:/Users/MrDu/Desktop/fa.jpg");
-		// out.write(b3);
-		user.setUfacing(b3);
-		log.debug(user.toJson());
-		userService.createRole(user);
+		// 获取图片
+		List<byte[]> b3List = null;
+		b3List = fileUtil.MultiPartFileUpLoad(re);
+		for (byte[] b3 : b3List) {
+			user.setUfacing(b3);
+			// OutputStream out = new
+			// FileOutputStream("C:/Users/MrDu/Desktop/faa.jpg");
+			// BufferedOutputStream buf = new BufferedOutputStream(out);
+			// buf.write(b3);
+			// buf.flush();
+			// buf.close();
+		}
 
+		// log.debug(user.toJson());
+		// userService.createRole(user);
+		//
 		response.setContentType("text/json");
 		PrintWriter out1 = response.getWriter();
 		out1.print(user.toJson());
 		out1.flush();
 		out1.close();
+
 	}
 
 	/**
@@ -310,28 +304,27 @@ public class UserServlet {
 		user.setPhone(phone);
 		String place = request.getParameter("place");
 		user.setPlace(place);
-		// 对图片的获取
-		MultipartFile file = re.getFile("head");
-		CommonsMultipartFile cf = (CommonsMultipartFile) file;
-		DiskFileItem fi = (DiskFileItem) cf.getFileItem();
-		File f = fi.getStoreLocation();
-		InputStream in = new FileInputStream(f);
-		// 创建缓冲区
-		BufferedInputStream bis = new BufferedInputStream(in);
-		byte[] b3 = null;
-		b3 = IOUtils.toByteArray(bis);
-		log.info(b3);
-		// OutputStream out = new
-		// FileOutputStream("C:/Users/MrDu/Desktop/fa.jpg");
-		// out.write(b3);
-		user.setUfacing(b3);
-		userService.updateRole(user);
-		System.out.println(user.toJson());
+		// 获取图片
+		List<byte[]> b3List = null;
+		b3List = fileUtil.MultiPartFileUpLoad(re);
+		for (byte[] b3 : b3List) {
+			user.setUfacing(b3);
+			// OutputStream out = new
+			// FileOutputStream("C:/Users/MrDu/Desktop/faa.jpg");
+			// BufferedOutputStream buf = new BufferedOutputStream(out);
+			// buf.write(b3);
+			// buf.flush();
+			// buf.close();
+		}
+
+		// log.debug(user.toJson());
+		// userService.createRole(user);
+		//
 		response.setContentType("text/json");
-		PrintWriter out = response.getWriter();
-		out.print(user.toJson());
-		out.flush();
-		out.close();
+		PrintWriter out1 = response.getWriter();
+		out1.print(user.toJson());
+		out1.flush();
+		out1.close();
 
 	}
 
@@ -371,29 +364,27 @@ public class UserServlet {
 		int age = Integer.parseInt(uage);
 		user.setAge(age);
 
-		// 对图片的获取
-		MultipartFile file = re.getFile("head");
-		CommonsMultipartFile cf = (CommonsMultipartFile) file;
-		DiskFileItem fi = (DiskFileItem) cf.getFileItem();
-		File f = fi.getStoreLocation();
-		InputStream in = new FileInputStream(f);
-		// 创建缓冲区
-		BufferedInputStream bis = new BufferedInputStream(in);
-		byte[] b3 = null;
-		b3 = IOUtils.toByteArray(bis);
-		log.info(b3);
-		// OutputStream out = new
-		// FileOutputStream("C:/Users/MrDu/Desktop/fa.jpg");
-		// out.write(b3);
-		user.setUfacing(b3);
-		log.debug(user.toJson());
-		userService.updateRole(user);
+		// 获取图片
+		List<byte[]> b3List = null;
+		b3List = fileUtil.MultiPartFileUpLoad(re);
+		for (byte[] b3 : b3List) {
+			user.setUfacing(b3);
+			// OutputStream out = new
+			// FileOutputStream("C:/Users/MrDu/Desktop/faa.jpg");
+			// BufferedOutputStream buf = new BufferedOutputStream(out);
+			// buf.write(b3);
+			// buf.flush();
+			// buf.close();
+		}
 
+		// log.debug(user.toJson());
+		// userService.createRole(user);
+		//
 		response.setContentType("text/json");
-		PrintWriter out = response.getWriter();
-		out.print(user.toJson());
-		out.flush();
-		out.close();
+		PrintWriter out1 = response.getWriter();
+		out1.print(user.toJson());
+		out1.flush();
+		out1.close();
 	}
 
 	/**
@@ -431,7 +422,7 @@ public class UserServlet {
 		}
 	}
 
-	//测试方法
+	// 测试方法
 	@Test
 	public void a() {
 		String number = "1334610525";

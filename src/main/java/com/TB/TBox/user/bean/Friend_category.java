@@ -24,5 +24,4 @@ public class Friend_category {
 		this.category = category;
 	}
 	
-	
 }
