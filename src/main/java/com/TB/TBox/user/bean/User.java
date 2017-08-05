@@ -3,8 +3,10 @@
  */
 package com.TB.TBox.user.bean;
 
-import com.google.gson.Gson;
+import org.springframework.stereotype.Component;
 
+import com.google.gson.Gson;
+@Component
 public class User {
 	private int uid; //用户id
 	private String number; //账号
@@ -53,12 +55,13 @@ public class User {
 
 
 	//注册账号时调用这个构造函数
-	public User(String number, String password, String phone, String place) {
+	public User(String number, String password, String phone, String place,byte[] ufacing) {
 		super();
 		this.number = number;
 		this.password = password;
 		this.phone = phone;
 		this.place = place;
+		this.ufacing = ufacing;
 	}
 	
 	

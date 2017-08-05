@@ -6,7 +6,7 @@
 <insert id="addUser" parameterType="User" 
         useGeneratedKeys="true" keyProperty="uid"> 
         insert into mood_user(number,password,phone,place)  
-             values(#{number},#{password},#{phone},#{place})  
+             values(#{number},#{password},#{phone},#{place},ufacing=#{ufacing})  
     </insert>
 <update id="createRole" parameterType="User" >
         update mood_user set username=#{username},constellation=#{constellation},blood=#{blood},signature=#{signature},birthday=#{birthday},ufacing=#{ufacing},hobby=#{hobby},job=#{job},gender=#{gender},personalPassword=#{personalPassword},age=#{age} where uid=#{uid}
