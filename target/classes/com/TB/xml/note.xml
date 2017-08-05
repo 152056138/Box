@@ -7,6 +7,9 @@
         insert into mood_note (mood,noteAdout,noteImg,noteContent,time,uid) values (#{mood},#{noteAdout},#{noteImg},#{noteContent},#{time},#{uid})
     </insert>
     
+    <insert id="">
+    </insert>
+    
     <delete id="delNotebyId" parameterType="int">
     	delete from mood_note where noteId=#{noteId}
     </delete>
@@ -17,5 +20,6 @@
      <select id="schNoteall" resultType="com.TB.TBox.note.bean.Note">
     	select * from mood_note
     </select>
+   
     
 </mapper>

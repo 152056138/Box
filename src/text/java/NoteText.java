@@ -46,8 +46,8 @@ public class NoteText {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Note note = new  Note( 2, "it", b, "go", new Date(), 1, 1, 1, 1, 1, 2);
-		noteService.addNote(note);
+//		Note note ;
+//		noteService.addNote(note);
 	}
 	
 	//测试删除

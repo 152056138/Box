@@ -4,9 +4,11 @@
 package com.TB.TBox.note.bean;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.google.gson.Gson;
 import com.mysql.jdbc.Blob;
 
 @Component
@@ -14,7 +16,7 @@ public class Note {
 	private int noteId; //纸条id
 	private int mood; //此刻的心情
 	private String noteAdout; //纸条关于谁
-	private byte[] noteImg; //图片
+	private List<byte[]> noteImg; //图片
 	private String noteContent; //内容
 	private Date time; //发布时间
 	private int goodNum; //点赞数
@@ -24,10 +26,11 @@ public class Note {
 	private int lowOpinion; //坏评量
 	private int opinionNumber; //评论总人数
 	
+	private static Gson gson = new Gson();
 	
 	//构造函数
 	public Note(){}
-	public Note( int mood, String noteAdout, byte[] noteImg, String noteContent, Date time, int goodNum,
+	public Note( int mood, String noteAdout, List<byte[]> noteImg, String noteContent, Date time, int goodNum,
 			int egg, int uid, int highOpinion, int lowOpinion, int opinionNumber) {
 		super();
 		this.mood = mood;
@@ -61,10 +64,10 @@ public class Note {
 	public void setNoteAdout(String noteAdout) {
 		this.noteAdout = noteAdout;
 	}
-	public byte[] getNoteImg() {
+	public List<byte[]> getNoteImg() {
 		return noteImg;
 	}
-	public void setNoteImg(byte[] noteImg) {
+	public void setNoteImg(List<byte[]> noteImg) {
 		this.noteImg = noteImg;
 	}
 	public String getNoteContent() {
@@ -115,6 +118,11 @@ public class Note {
 	public void setOpinionNumber(int opinionNumber) {
 		this.opinionNumber = opinionNumber;
 	}
-	
-	
+	/**
+	 * 转化数据为json
+	 * @return
+	 */
+	public String toJson(){
+		return gson.toJson(this);
+	}
 }
