@@ -84,7 +84,11 @@ public class NoteServlet {
 //		userService.createRole(user);
 //		response.setContentType("text/json");
 //		PrintWriter out = response.getWriter();
+<<<<<<< HEAD
 //		out.print(user.toJson());
+=======
+//		out.print(user.toJsson());
+>>>>>>> 2ef7ce758a1680c191466629e679d6637dd41f13
 //		out.flush();
 //		out.close();
 	}

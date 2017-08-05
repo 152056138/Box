@@ -1,4 +1,4 @@
-package com.TB.TBox.dataUtils;
+package com.TB.TBox.dataBean;
 
 public class Weather {
 private int localWeatherId;
