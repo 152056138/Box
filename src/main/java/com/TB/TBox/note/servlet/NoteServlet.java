@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.TB.TBox.note.service.NoteService;
 
@@ -37,7 +38,7 @@ public class NoteServlet {
 	 * @param response
 	 */
 	@RequestMapping(value="/addNote", method = RequestMethod.POST)
-	public void addNote(HttpServletRequest request,HttpServletResponse response){
+	public void addNote(HttpServletRequest request,HttpServletResponse response,MultipartRequest re){
 		//从前台接收数据
 		int mood =Integer.parseInt( request.getParameter("mood"));
 		String noteAdout = request.getParameter("noteAdout");
@@ -79,12 +80,12 @@ public class NoteServlet {
 				// TODO: handle exception
 			}
 		}
-		System.out.println(user.toJson());
-		userService.createRole(user);
-		response.setContentType("text/json");
-		PrintWriter out = response.getWriter();
-		out.print(user.toJson());
-		out.flush();
-		out.close();
+//		System.out.println(user.toJson());
+//		userService.createRole(user);
+//		response.setContentType("text/json");
+//		PrintWriter out = response.getWriter();
+//		out.print(user.toJson());
+//		out.flush();
+//		out.close();
 	}
 }

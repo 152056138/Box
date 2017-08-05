@@ -4,7 +4,7 @@
 
 <mapper namespace="com.TB.TBox.note.mapper.NoteMapper">
     <insert id="addNote" keyProperty="id" parameterType="com.TB.TBox.note.bean.Note">
-        insert into mood_note (mood,noteAdout,noteImg,noteContent,time,uid) values (#{mood},#{noteAdout},#{noteImg},#{noteContent},#{time},#{uid})
+        insert into mood_note (mood,noteAdout,noteContent,time,uid) values (#{mood},#{noteAdout},#{noteContent},#{time},#{uid})
     </insert>
     
     <insert id="">
