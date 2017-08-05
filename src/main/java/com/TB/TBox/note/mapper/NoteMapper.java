@@ -27,4 +27,8 @@ public interface NoteMapper {
 	//按id查找
 	public Note schNotebyId(int noteId);
 	
+	/*
+	 * 储存图片
+	 */
+	public void addpho();
 }
