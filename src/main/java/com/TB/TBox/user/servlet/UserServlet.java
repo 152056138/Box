@@ -178,7 +178,10 @@ public class UserServlet {
 		out1.print(user.toJson());
 		out1.flush();
 		out1.close();
+<<<<<<< HEAD
 
+=======
+>>>>>>> 811125a07ab4c847a002dc456870f5db49a96346
 	}
 
 	/**
@@ -319,8 +322,7 @@ public class UserServlet {
 		}
 
 		// log.debug(user.toJson());
-		// userService.createRole(user);
-		//
+		 userService.updateRole(user);
 		response.setContentType("text/json");
 		PrintWriter out1 = response.getWriter();
 		out1.print(user.toJson());
@@ -379,8 +381,8 @@ public class UserServlet {
 		}
 
 		// log.debug(user.toJson());
-		// userService.createRole(user);
-		//
+		 userService.updateRole(user);
+		
 		response.setContentType("text/json");
 		PrintWriter out1 = response.getWriter();
 		out1.print(user.toJson());
@@ -410,7 +412,7 @@ public class UserServlet {
 			if (password.equals(user.getPassword())) {
 				response.setContentType("text/json");
 				PrintWriter out = response.getWriter();
-				out.print("登陆成功！");
+				out.print("登陆成功！"+user.toJson());
 				out.flush();
 				out.close();
 			} else {

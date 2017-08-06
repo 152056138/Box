@@ -2,26 +2,31 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-    <typeAliases>
-       <typeAlias alias="User" type="com.TB.TBox.user.bean.User"/>
-    </typeAliases>
-    <environments default="development">
-        <environment id="development">
-        <transactionManager type="JDBC"/>
-            <dataSource type="POOLED">
-            <property name="driver" value="com.mysql.jdbc.Driver"/>
-            <property name="url" value="jdbc:mysql://127.0.0.1:3306/tbox?serverTimezone=GMT&amp;characterEncoding=utf8" />
-            <property name="username" value="root"/>
-            <property name="password" value="root"/>
-            </dataSource>
-        </environment>
-    </environments>
-   
-    <mappers>
-        <mapper resource="com/TB/xml/user.xml"/>
-        <mapper resource="com/TB/xml/note.xml"/>
-        <mapper resource="com/TB/xml/evaluate.xml"/>
-    </mappers>
-    
+	<typeAliases>
+		<typeAlias alias="Friend_category" type="com.TB.TBox.user.bean.Friend_category" />
+		<typeAlias alias="User" type="com.TB.TBox.user.bean.User" />
+		<typeAlias alias="Friends" type="com.TB.TBox.user.bean.Friends" />
+	</typeAliases>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url"
+					value="jdbc:mysql://127.0.0.1:3306/tbox?serverTimezone=GMT&amp;characterEncoding=utf8" />
+				<property name="username" value="root" />
+				<property name="password" value="root" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<mappers>
+		<mapper resource="com/TB/xml/user.xml" />
+		<mapper resource="com/TB/xml/note.xml" />
+		<mapper resource="com/TB/xml/evaluate.xml" />
+		<mapper resource="com/TB/xml/friend_category.xml" />
+		<mapper resource="com/TB/xml/friend.xml" />
+	</mappers>
+
 
 </configuration>

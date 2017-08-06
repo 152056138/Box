@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.TB.TBox.user.mapper.Friend_categoryMapper">
+	<insert id="addFriend_category" parameterType="Friend_category"
+		useGeneratedKeys="true" keyProperty="cid">
+		insert into mood_category(category)
+		values(#{category})
+	</insert>
+
+	<select id="selectAllFriend_category" resultMap="friend_categoryList">
+		select * from mood_category
+	</select>
+	<resultMap type="Friend_category" id="friend_categoryList">
+		<id column="cid" property="cid" />
+		<result column="category" property="category" />
+	</resultMap>
+</mapper>
