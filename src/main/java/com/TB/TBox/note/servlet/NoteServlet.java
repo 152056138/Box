@@ -4,18 +4,17 @@
 
 package com.TB.TBox.note.servlet;
 
-import java.io.InputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Iterator;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -23,7 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartRequest;
 
+import com.TB.TBox.dataBean.ImageResp;
+import com.TB.TBox.dataUtils.FileUploadUtil;
+import com.TB.TBox.note.bean.Note;
 import com.TB.TBox.note.service.NoteService;
+import com.google.gson.Gson;
 
 @Controller
 @RequestMapping("/noteServlet")
@@ -31,65 +34,98 @@ import com.TB.TBox.note.service.NoteService;
 public class NoteServlet {
 	@Autowired
 	private NoteService noteService;
+	@Autowired
+	private FileUploadUtil fileUtil;
+	@Autowired
+	private ImageResp image;
 	
 	/**
 	 * 发布纸条
 	 * @param request
 	 * @param response
+	 * @throws IOException 
 	 */
 	@RequestMapping(value="/addNote", method = RequestMethod.POST)
-	public void addNote(HttpServletRequest request,HttpServletResponse response,MultipartRequest re){
+	public void addNote(HttpServletRequest request,HttpServletResponse response,MultipartRequest re) throws IOException{
+		List<byte[]> b3List = null;
 		//从前台接收数据
+		int uid =Integer.parseInt( request.getParameter("uid"));
 		int mood =Integer.parseInt( request.getParameter("mood"));
 		String noteAdout = request.getParameter("noteAdout");
 		String noteContent = request.getParameter("noteContent");
+		SimpleDateFormat sdt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String time = sdt.format(new Date());
+		Note note = new Note(mood, noteAdout, noteContent, time, uid);
 		//接收图片数据
-		if (ServletFileUpload.isMultipartContent(request)) {
-			try {
-				// 1.创建DiskFileItemFactory对象，设置缓存区大小和临时文件目录
-				DiskFileItemFactory factory = new DiskFileItemFactory();
-				System.out.println(System.getProperty("java.io.tmpdir"));// 默认临时文件夹
-				// 2.创建ServletFileUpload对象，并设置上传文件的大小限制。
-				ServletFileUpload sfu = new ServletFileUpload(factory);
-				sfu.setSizeMax(10 * 1024 * 1024);// 以byte为单位 不能超过10M 1024byte =
-				// 1kb 1024kb=1M 1024M = 1G
-				sfu.setHeaderEncoding("utf-8");
-				// 3.调用ServletFileUpload.parseRequest方法解析request对象，得到一个保存了所有上传内容的List对象。
-				@SuppressWarnings("unchecked")
-				// J2SE 提供的最后一个批注是 @SuppressWarnings。该批注的作用是给编译器一条指令，
-				// 告诉它对被批注的代码元素内部的某些警告保持静默
-				List<FileItem> fileItemList = sfu.parseRequest(request);
-				Iterator<FileItem> fileItems = fileItemList.iterator();
-				// 4. 遍历list，每迭代一个FileItem对象，调用其isFormField方法判断是否是上传文件
-				while (fileItems.hasNext()) {
-					FileItem fileItem = fileItems.next();
-					// <input type="file">的上传文件的元素
-					if (!fileItem.isFormField()) {
-						byte[] b = null;
-						InputStream in = fileItem.getInputStream();
-						b = IOUtils.toByteArray(in);
-						if(b!=null){
-							
-						}
-						// 6. 调用FileItem的delete()方法，删除临时文件
-						fileItem.delete();
-					}
-
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
+		try {
+			b3List = fileUtil.MultiPartFileUpLoad(re);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-//		System.out.println(user.toJson());
-//		userService.createRole(user);
-//		response.setContentType("text/json");
-//		PrintWriter out = response.getWriter();
-<<<<<<< HEAD
-//		out.print(user.toJson());
-=======
-//		out.print(user.toJsson());
->>>>>>> 2ef7ce758a1680c191466629e679d6637dd41f13
-//		out.flush();
-//		out.close();
+		//保存到数据库
+		noteService.addNote(note);
+		Map<String, Object> val = new HashMap<String, Object>();
+		val.put("uid", uid);
+		val.put("time", time);
+		int noteId = noteService.schNote(val);//获得刚存储的字条的id，以存储图片
+		for(byte[] b3 : b3List){
+			 image = new ImageResp(noteId, b3);
+			noteService.addImage(image);
+		}
+		//数据响应到前台
+		note.setImageList(b3List);
+		response.setContentType("text/json");
+		PrintWriter out = response.getWriter();
+		out.print(note.toJson());
+		out.flush();
+		out.close();
+	}
+	
+	/**
+	 * 点赞方法
+	 * @throws IOException 
+	 */
+	@RequestMapping(value="/getGoodNum", method = RequestMethod.POST)
+	public void getGoodNum(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		//获得当前点赞数和当前纸条id
+		int goodNum = Integer.parseInt(request.getParameter("goodNum"))+1;
+		int noteId = Integer.parseInt(request.getParameter("noteId"));
+		Map<String, Object> val = new HashMap<String, Object>();
+		val.put("goodNum", goodNum);
+		val.put("noteId", noteId);
+		//修改数据库
+		noteService.updGoodNum(val);
+		
+		//响应给前台
+		Gson gson = new Gson();
+		response.setContentType("text/json");
+		PrintWriter out = response.getWriter();
+		out.print(gson.toJson(goodNum));
+		out.flush();
+		out.close();
+	}
+	
+	/**
+	 * 扔鸡蛋方法
+	 * @throws IOException 
+	 */
+	@RequestMapping(value="/getEgg", method = RequestMethod.POST)
+	public void getEgg(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		//获得当前点赞数和当前纸条id
+		int egg = Integer.parseInt(request.getParameter("egg"))+1;
+		int noteId = Integer.parseInt(request.getParameter("noteId"));
+		Map<String, Object> val = new HashMap<String, Object>();
+		val.put("egg", egg);
+		val.put("noteId", noteId);
+		//修改数据库
+		noteService.updGoodNum(val);
+		//响应给前台
+		Gson gson = new Gson();
+		response.setContentType("text/json");
+		PrintWriter out = response.getWriter();
+		out.print(gson.toJson(egg));
+		out.flush();
+		out.close();
 	}
 }

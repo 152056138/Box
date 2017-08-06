@@ -8,7 +8,7 @@
 	</select>
 	
 	<insert id="addEva" parameterType="com.TB.TBox.note.bean.Evaluate">
-		insert into mood_evaluate (noteId,replyId,commentId,ifObv,commentTime,econtent,eflag) values (#{noteId},#{replyId},#{commentId},#{ifObv},#{commentTime},#{econtent}#{eflag})
+		insert into mood_evaluate (noteId,replyId,commentId,ifObv,commentTime,econtent,eflag) values (#{noteId},#{replyId},#{commentId},#{ifObv},#{commentTime},#{econtent},#{eflag})
 	</insert>
 	
 	<delete id="delEva" parameterType="int" > 

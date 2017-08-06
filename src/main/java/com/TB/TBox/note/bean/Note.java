@@ -3,22 +3,20 @@
  */
 package com.TB.TBox.note.bean;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
-import com.mysql.jdbc.Blob;
 
 @Component
 public class Note {
 	private int noteId; //纸条id
 	private int mood; //此刻的心情
 	private String noteAdout; //纸条关于谁
-	private List<byte[]> noteImg; //图片
 	private String noteContent; //内容
-	private Date time; //发布时间
+	private List<byte[]> imageList; //此字段仅作为数据响应到前台
+	private String time; //发布时间
 	private int goodNum; //点赞数
 	private int egg; //扔鸡蛋数
 	private int uid; // 写纸条的人
@@ -30,24 +28,24 @@ public class Note {
 	
 	//构造函数
 	public Note(){}
-	public Note( int mood, String noteAdout, List<byte[]> noteImg, String noteContent, Date time, int goodNum,
-			int egg, int uid, int highOpinion, int lowOpinion, int opinionNumber) {
+	public Note( int mood, String noteAdout,  String noteContent, String time, int uid) {
 		super();
 		this.mood = mood;
 		this.noteAdout = noteAdout;
-		this.noteImg = noteImg;
 		this.noteContent = noteContent;
 		this.time = time;
-		this.goodNum = goodNum;
-		this.egg = egg;
 		this.uid = uid;
-		this.highOpinion = highOpinion;
-		this.lowOpinion = lowOpinion;
-		this.opinionNumber = opinionNumber;
 	}
 	//set-get
+	
 	public int getNoteId() {
 		return noteId;
+	}
+	public List<byte[]> getImageList() {
+		return imageList;
+	}
+	public void setImageList(List<byte[]> imageList) {
+		this.imageList = imageList;
 	}
 	public void setNoteId(int noteId) {
 		this.noteId = noteId;
@@ -64,22 +62,16 @@ public class Note {
 	public void setNoteAdout(String noteAdout) {
 		this.noteAdout = noteAdout;
 	}
-	public List<byte[]> getNoteImg() {
-		return noteImg;
-	}
-	public void setNoteImg(List<byte[]> noteImg) {
-		this.noteImg = noteImg;
-	}
 	public String getNoteContent() {
 		return noteContent;
 	}
 	public void setNoteContent(String noteContent) {
 		this.noteContent = noteContent;
 	}
-	public Date getTime() {
+	public String getTime() {
 		return time;
 	}
-	public void setTime(Date time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 	public int getGoodNum() {

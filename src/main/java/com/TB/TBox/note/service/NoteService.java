@@ -5,12 +5,14 @@ package com.TB.TBox.note.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.TB.TBox.dataBean.ImageResp;
 import com.TB.TBox.note.bean.Note;
 import com.TB.TBox.note.mapper.NoteMapper;
 import com.TB.base.mybatisUtils.SessionFactory;
@@ -20,8 +22,7 @@ public class NoteService {
 	private SessionFactory sessionFactory;
 	private Note note;
 	private Logger log = Logger.getLogger(NoteService.class);
-	private SqlSession sqlSession = sessionFactory.getSession();
-	private NoteMapper noteMapper = sqlSession.getMapper(NoteMapper.class);
+	private NoteMapper noteMapper;
 	/*
 	 * set方法，依赖注入
 	 */
@@ -42,6 +43,8 @@ public class NoteService {
 	 * @param note
 	 */
 	public void addNote(Note note){
+		 SqlSession sqlSession = sessionFactory.getSession();
+		 noteMapper = sqlSession.getMapper(NoteMapper.class);
 		try {
 			noteMapper.addNote(note);
 			sqlSession.commit();
@@ -57,6 +60,8 @@ public class NoteService {
 	 * @param noteId
 	 */
 	public void delNote(int noteId){
+		SqlSession sqlSession = sessionFactory.getSession();
+		noteMapper = sqlSession.getMapper(NoteMapper.class);
 		try {
 			noteMapper.delNotebyId(noteId);
 			sqlSession.commit();
@@ -73,6 +78,8 @@ public class NoteService {
 	 */
 	public List<Note> schNoteall(){
 		List<Note> noteList = new ArrayList<Note>();
+		SqlSession sqlSession = sessionFactory.getSession();
+		noteMapper = sqlSession.getMapper(NoteMapper.class);
 		try {
 			noteList = noteMapper.schNoteall();
 			for(Note note : noteList){
@@ -90,6 +97,8 @@ public class NoteService {
 	 * @return
 	 */
 	public Note schNotebyId(int noteId){
+		SqlSession sqlSession = sessionFactory.getSession();
+		noteMapper = sqlSession.getMapper(NoteMapper.class);
 		try {
 			note = noteMapper.schNotebyId(noteId);
 			log.debug(note);
@@ -98,5 +107,74 @@ public class NoteService {
 			sqlSession.close();
 		}
 		return note;
+	}
+	/**
+	 * 按UID和time查找noteid
+	 * @param uid
+	 * @param time
+	 * @return
+	 */
+	public int schNote(Map<String, Object> val){
+		SqlSession sqlSession = sessionFactory.getSession();
+		noteMapper = sqlSession.getMapper(NoteMapper.class);
+		int noteId=0;
+		try {
+			noteId = noteMapper.schnote(val);
+			log.debug(noteId);
+		} finally {
+			// TODO: handle finally clause
+			sqlSession.close();
+		}
+		return noteId;
+	}
+	
+	/**
+	 * 存储图片到仓库
+	 * @param image
+	 * @return
+	 */
+	public void addImage(ImageResp image){
+		SqlSession sqlSession = sessionFactory.getSession();
+		noteMapper = sqlSession.getMapper(NoteMapper.class);
+		try {
+			noteMapper.addpho(image);
+			sqlSession.commit();
+			log.debug("图片储存成功");
+		} finally {
+			// TODO: handle finally clause
+			sqlSession.close();
+		}
+	}
+	
+	/**
+	 * 修改点赞数
+	 */
+	public void updGoodNum(Map<String, Object> val){
+		SqlSession sqlSession = sessionFactory.getSession();
+		noteMapper = sqlSession.getMapper(NoteMapper.class);
+		try {
+			noteMapper.updgoodNum(val);
+			sqlSession.commit();
+			log.info("赞一个");
+		} finally {
+			// TODO: handle finally clause
+			sqlSession.close();
+		}
+	}
+	
+	/**
+	 * 修改扔鸡蛋数
+	 */
+	public void updEgg(Map<String, Object> val){
+		SqlSession sqlSession = sessionFactory.getSession();
+		noteMapper = sqlSession.getMapper(NoteMapper.class);
+		try {
+			noteMapper.updegg(val);;
+			sqlSession.commit();
+			log.info("扔一个");
+		} finally {
+			// TODO: handle finally clause
+			sqlSession.close();
+		}
 	}
 }

@@ -134,56 +134,7 @@ public class UserServlet {
 		String uuid = request.getParameter("uid");
 		int uid = Integer.parseInt(uuid);
 		user = userService.selectUserByID(uid);
-<<<<<<< HEAD
-//		String username = request.getParameter("username");
-//		user.setUsername(username);
-//		String constellation = request.getParameter("constellation");
-//		user.setConstellation(constellation);
-//		String blood = request.getParameter("blood");
-//		user.setBlood(blood);
-//		String signature = request.getParameter("signature");
-//		user.setSignature(signature);
-//		String birthday = request.getParameter("birthday");
-//		user.setBirthday(birthday);
-//		String hobby = request.getParameter("hobby");
-//		user.setHobby(hobby);
-//		String job = request.getParameter("job");
-//		user.setJob(job);
-//		String gender = request.getParameter("gender");
-//		user.setGender(gender);
-//		String personalPassword = request.getParameter("personalPassword");
-//		user.setPersonalPassword(personalPassword);
-//		String uage = request.getParameter("age");
-//		int age = Integer.parseInt(uage);
-//		user.setAge(age);
 
-		// 对图片的获取
-		List<MultipartFile> file = re.getFiles("head");
-		for(MultipartFile f:file){
-			
-		}
-//		CommonsMultipartFile cf = (CommonsMultipartFile) file;
-//		DiskFileItem fi = (DiskFileItem) cf.getFileItem();
-//		File f = fi.getStoreLocation();
-//		InputStream in = new FileInputStream(f);
-//		// 创建缓冲区
-//		BufferedInputStream bis = new BufferedInputStream(in);
-//		byte[] b3 = null;
-//		b3 = IOUtils.toByteArray(bis);
-//		log.info(b3);
-//		// OutputStream out = new
-//		// FileOutputStream("C:/Users/MrDu/Desktop/fa.jpg");
-//		// out.write(b3);
-//		user.setUfacing(b3);
-//		log.debug(user.toJson());
-//		userService.createRole(user);
-//
-//		response.setContentType("text/json");
-//		PrintWriter out1 = response.getWriter();
-//		out1.print(user.toJson());
-//		out1.flush();
-//		out1.close();
-=======
 		 String username = request.getParameter("username");
 		 user.setUsername(username);
 		 String constellation = request.getParameter("constellation");
@@ -228,7 +179,6 @@ public class UserServlet {
 		out1.flush();
 		out1.close();
 
->>>>>>> 2ef7ce758a1680c191466629e679d6637dd41f13
 	}
 
 	/**

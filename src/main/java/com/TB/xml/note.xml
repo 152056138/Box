@@ -3,11 +3,12 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.TB.TBox.note.mapper.NoteMapper">
-    <insert id="addNote" keyProperty="id" parameterType="com.TB.TBox.note.bean.Note">
+    <insert id="addNote" parameterType="com.TB.TBox.note.bean.Note">
         insert into mood_note (mood,noteAdout,noteContent,time,uid) values (#{mood},#{noteAdout},#{noteContent},#{time},#{uid})
     </insert>
     
-    <insert id="">
+    <insert id="addpho" parameterType="com.TB.TBox.dataBean.ImageResp">
+    	insert into mood_imageresp (noteId,image) values (#{noteId},#{image})
     </insert>
     
     <delete id="delNotebyId" parameterType="int">
@@ -17,9 +18,21 @@
     <select id="schNotebyId" parameterType="int" resultType="com.TB.TBox.note.bean.Note">
     	select * from mood_note where noteId=#{noteId}
     </select>
+    
+    <select id="schnote" resultType="int" parameterType="Map">
+    	select noteId from mood_note where time=#{time} and uid=#{uid}
+    </select>
+    
      <select id="schNoteall" resultType="com.TB.TBox.note.bean.Note">
     	select * from mood_note
     </select>
    
+    <update id="updgoodNum" parameterType="int">
+    	update mood_note set goodNum=#{goodNum} where noteId=#{noteId}
+    </update>
+    
+    <update id="updegg" parameterType="int">
+    	update mood_note set egg=#{egg} where noteId=#{noteId}
+    </update>
     
 </mapper>

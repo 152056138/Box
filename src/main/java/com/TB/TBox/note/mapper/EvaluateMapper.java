@@ -11,7 +11,7 @@ public interface EvaluateMapper {
 	/*
 	 * 添加评回
 	 */
-	public void addEva();
+	public void addEva(Evaluate evaluate);
 	/*
 	 * 删除评回
 	 */
