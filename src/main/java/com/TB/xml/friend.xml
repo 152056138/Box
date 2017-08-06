@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.TB.TBox.user.mapper.FriendMapper">
+	<insert id="addFriend" parameterType="Friends" useGeneratedKeys="true"
+		keyProperty="fid">
+		insert into
+		mood_friend(friendNumber,friendUsername,cid,friendTime,friendNickname,facing,uid,recoverFriend)
+		values(#{friendNumber},#{friendUsername},#{cid},#{friendTime},#{friendNickname},#{facing},#{uid},#{recoverFriend})
+	</insert>
+<!-- 添加好友时查询的是用户表 -->
+
+<!-- 查询所有 -->
+	<select id="selectAllFriends" parameterType="Map" resultMap="friendsList">
+		select * from mood_friend where uid=#{uid} and
+		recoverFriend=#{recoverFriend}
+	</select>
+	<resultMap type="Friends" id="friendsList">
+		<id column="fid" property="fid" />
+		<result column="friendNumber" property="friendNumber" />
+		<result column="friendUsername" property="friendUsername" />
+		 <result column="cid" property="cid" /> 
+		<result column="friendTime" property="friendTime" />
+		<result column="friendNickname" property="friendNickname" />
+		<result column="facimg" property="facimg" />
+		<!-- <result column="uid" property="uid" /> -->
+		<result column="friendContent" property="friendContent" />
+	</resultMap>
+	<!-- 按id查询为修改做准备 -->
+	<select id="selectFriendByFid" parameterType="int" resultType="Friends">
+		select * from mood_friend where fid=#{fid}
+	</select>
+<update id="updateFriendName" parameterType="Friends">
+		update mood_friend set friendUsername=#{friendUsername} where fid=#{fid}
+	</update>
+	<update id="deleteFriend" parameterType="Friends">
+		update mood_friend set recoverFriend=#{recoverFriend} where uid=#{uid}
+	</update>
+</mapper>
