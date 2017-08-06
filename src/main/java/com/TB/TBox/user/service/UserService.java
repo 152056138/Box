@@ -3,6 +3,8 @@ package com.TB.TBox.user.service;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
@@ -95,8 +97,14 @@ public class UserService implements UserMapper{
 		}
 	
 	}
-	
-	
+	//按角色姓名查询（用于好友模块）
+	public List<User> selectUserByUsername(String username) {
+		SqlSession session =sessionFactory.getSession();
+		List<User> userList = new ArrayList<User>();
+			UserMapper userOperation = session.getMapper(UserMapper.class);
+			userList = userOperation.selectUserByUsername(username);
+		return userList;
+	}
 	//测试方法
 	@Test
 	public void userTest() throws IOException{
@@ -133,4 +141,5 @@ public class UserService implements UserMapper{
 		log.info(user.toJson());
 		
 	}
+
 }
