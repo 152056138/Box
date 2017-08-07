@@ -5,8 +5,8 @@
 <mapper namespace="com.TB.TBox.user.mapper.UserMapper">
 	<insert id="addUser" parameterType="User" useGeneratedKeys="true"
 		keyProperty="uid">
-		insert into mood_user(number,password,phone,place)
-		values(#{number},#{password},#{phone},#{place},ufacing=#{ufacing})
+		insert into mood_user(number,password,phone,place,ufacing)
+		values(#{number},#{password},#{phone},#{place},#{ufacing})
 	</insert>
 	<update id="createRole" parameterType="User">
 		update mood_user set
@@ -47,4 +47,17 @@
 		<result column="gender" property="gender" />
 		<result column="age" property="age" />
 	</resultMap>
+	<!-- 用户心情模块的操作 -->
+	<insert id="addUserMoodColor" parameterType="Mood_color">
+		insert into mood_color(uid,happy,angry,sad,scard,common)
+		values(#{uid},#{happy},#{angry},#{sad},,#{scard},#{common})
+	</insert>
+	<update id="updateMoodColor" parameterType="Mood_color">
+		update mood_color set
+		happy=#{happy},angry=#{angry},sad=#{sad},scard=#{scard},common=#{common}
+		where uid=#{uid}
+	</update>
+	<select id="selectUserMoodColor" parameterType="int" resultType="Mood_color">
+		select * from mood_color where uid = #{uid}
+	</select>
 </mapper>

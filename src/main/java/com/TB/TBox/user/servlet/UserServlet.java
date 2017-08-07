@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartRequest;
 import com.TB.TBox.dataUtils.FileUploadUtil;
+import com.TB.TBox.note.service.NoteService;
 import com.TB.TBox.user.bean.User;
 import com.TB.TBox.user.service.UserService;
 
@@ -30,6 +31,8 @@ import com.TB.TBox.user.service.UserService;
 public class UserServlet {
 	private static final long serialVersionUID = 1L;
 
+	@Autowired
+	private NoteService noteService;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -47,76 +50,62 @@ public class UserServlet {
 	 */
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
 	public void addUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String number = request.getParameter("number");
+		//截取字符串
+		String number =null;
 		String password = request.getParameter("password");
 		String repassword = request.getParameter("repassword");
 		String phone = request.getParameter("phone");
 		String place = request.getParameter("place");
+		
+		while(userService.selectUserByNumber(number) != null){
+			//获取一个随机数
+			double rand = Math.random();
+			//将随机数转换为字符串
+			String str = String.valueOf(rand).replace("0.", "");
+			//截取字符串
+			number = str.substring(0, 10);
+		}
+		
 		System.out.println(number + " " + password + " " + phone + " " + phone);
-		if ((number.isEmpty()) || (password.isEmpty()) || (phone.isEmpty()) || (phone.isEmpty())) {
+		if ((password.isEmpty()) || (phone.isEmpty()) || (phone.isEmpty())) {
 			response.setContentType("text/json");
 			PrintWriter out = response.getWriter();
 			out.print("用户注册信息填写不完整,请填写完整！");
 			out.flush();
 			out.close();
-		} else if (userService.selectUserByNumber(number) != null) {
-			response.setContentType("text/json");
-			PrintWriter out = response.getWriter();
-			out.print("这个账号已经被注册，请重新写一个账号！");
-			out.flush();
-			out.close();
-		} else {
-
-			// 判断注册账号是不是是数字串
-			Pattern pattern = Pattern.compile("[0-9]*");
-			if (pattern.matcher(number).matches()) {
-				// 判断用户的注册账号是不是是6-11位
-				if ((number.length() >= 6) && (number.length() <= 11)) {
-					// 判断密码的长度
-					if (password.length() < 6) {
-						response.setContentType("text/json");
-						PrintWriter out = response.getWriter();
-						out.print("密码位数太少，最少为6位！");
-						out.flush();
-						out.close();
-						// 重复密码和密码是否一致
-					} else if (number.equals(repassword)) {
-
-						// 缺少查询初始头像
-						user.setNumber(number);
-						user.setPassword(password);
-						user.setPhone(phone);
-						user.setPlace(place);
-						userService.addUser(user);
-						user = userService.selectUserByNumber(number);
-						System.out.println("注册成功");
-						response.setContentType("text/json");
-						PrintWriter out = response.getWriter();
-						out.print(user.toJson());
-						out.flush();
-						out.close();
-					} else {
-						response.setContentType("text/json");
-						PrintWriter out = response.getWriter();
-						out.print("密码和重复密码不一致！");
-						out.flush();
-						out.close();
-					}
-				} else {
-					response.setContentType("text/json");
-					PrintWriter out = response.getWriter();
-					out.print("注册账号应为6-11位的数字！");
-					out.flush();
-					out.close();
-				}
+		} else{
+			// 判断密码的长度
+			if (password.length() < 6) {
+				response.setContentType("text/json");
+				PrintWriter out = response.getWriter();
+				out.print("密码位数太少，最少为6位！");
+				out.flush();
+				out.close();
+				// 重复密码和密码是否一致
+			} else if (number.equals(repassword)) {
+				
+				
+				//得到默认的头像
+			//	byte[] ufacing = noteService.
+				user.setNumber(number);
+				user.setPassword(password);
+				user.setPhone(phone);
+				user.setPlace(place);
+				userService.addUser(user);
+				user = userService.selectUserByNumber(number);
+				System.out.println("注册成功");
+				response.setContentType("text/json");
+				PrintWriter out = response.getWriter();
+				out.print(user.toJson());
+				out.flush();
+				out.close();
 			} else {
 				response.setContentType("text/json");
 				PrintWriter out = response.getWriter();
-				out.print("注册账号应为6-11位的数字,不能含有其他字符！");
+				out.print("密码和重复密码不一致！");
 				out.flush();
 				out.close();
 			}
-
 		}
 
 	}
@@ -170,18 +159,13 @@ public class UserServlet {
 			// buf.close();
 		}
 
-		// log.debug(user.toJson());
-		// userService.createRole(user);
-		//
+		 userService.createRole(user);
 		response.setContentType("text/json");
 		PrintWriter out1 = response.getWriter();
 		out1.print(user.toJson());
 		out1.flush();
 		out1.close();
-<<<<<<< HEAD
 
-=======
->>>>>>> 811125a07ab4c847a002dc456870f5db49a96346
 	}
 
 	/**

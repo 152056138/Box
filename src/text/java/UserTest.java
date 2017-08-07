@@ -90,18 +90,27 @@ public void a() {
 //				}
 //
 //			}
-		 User user = new User();
-		 String number="1334610525";
-			String password = "erererer";
-			user = userService.selectUserByNumber(number);
-			if(user==null){
-				System.out.println("您输入的账号不存在！");
-			}else{
-				if(password.equals(user.getPassword())){
-					System.out.println("登陆成功！");
-				}else{
-					System.out.println("您输入的密码不正确！");
-				}
-			}
+//		 User user = new User();
+//		 String number="1334610525";
+//			String password = "erererer";
+//			user = userService.selectUserByNumber(number);
+//			if(user==null){
+//				System.out.println("您输入的账号不存在！");
+//			}else{
+//				if(password.equals(user.getPassword())){
+//					System.out.println("登陆成功！");
+//				}else{
+//					System.out.println("您输入的密码不正确！");
+//				}
+//			}
+		 
+			//获取一个随机数
+			double rand = Math.random();
+			//将随机数转换为字符串
+			String str = String.valueOf(rand).replace("0.", "");
+			//截取字符串
+			String newStr = str.substring(0, 10);
+			System.out.println(newStr);
+		}
 }
-}
+
