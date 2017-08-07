@@ -6,6 +6,8 @@
 		<typeAlias alias="Friend_category" type="com.TB.TBox.user.bean.Friend_category" />
 		<typeAlias alias="User" type="com.TB.TBox.user.bean.User" />
 		<typeAlias alias="Friends" type="com.TB.TBox.user.bean.Friends" />
+		<typeAlias alias="Memo" type="com.TB.TBox.user.bean.Memo" />
+		<typeAlias alias="Mood_color" type="com.TB.TBox.user.bean.Mood_color" />
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
