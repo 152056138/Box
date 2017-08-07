@@ -26,6 +26,7 @@
 		<mapper resource="com/TB/xml/evaluate.xml" />
 		<mapper resource="com/TB/xml/friend_category.xml" />
 		<mapper resource="com/TB/xml/friend.xml" />
+		<mapper resource="com/TB/xml/authority.xml"/>
 	</mappers>
 
 

@@ -3,6 +3,8 @@
  */
 package com.TB.TBox.note.servlet;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,24 +28,54 @@ import com.google.gson.reflect.TypeToken;
 public class AuthorityServlet {
 	@Autowired
 	private AuthorityService authorityService;
-	@Autowired
-	private Authority authority;
 	
+	/**
+	 * 为字条设置权限
+	 * @param request
+	 * @param response
+	 * @throws IOException 
+	 */
 	@RequestMapping(value="/setAuthority", method = RequestMethod.POST)
-	public void setAuthority(HttpServletRequest request,HttpServletResponse response){
-		//接收数据
+	public void setAuthority(HttpServletRequest request,HttpServletResponse response) throws IOException{
+	/*
+	 * 接收数据
+	 */
 		int noteId = Integer.parseInt(request.getParameter("noteId"));
 		//将json字串转换为list
 		String fidListStr = request.getParameter("fidList");
 		Gson gson = new Gson();
-		List<Integer> fidList = gson.fromJson(fidListStr, new TypeToken<List<Integer>>() {}.getType());
+		//将json中的fid数组取出以其类对象的形式保存
+		List<Authority> autList = gson.fromJson(fidListStr, new TypeToken<List<Authority>>() {}.getType());
 		int obvious = Integer.parseInt(request.getParameter("obvious"));
-		//定义和fidList等长的List存储权限类
-		List<Authority> autorityList = new ArrayList<Authority>();
-		for(int i = 0;i<=fidList.size();i++){
+		//定义和fidList等长的List存储权限类,来批量插入
+		List<Authority> authorityList = new ArrayList<Authority>();
+		for(int i = 0;i<=autList.size();i++){
 			if(i==0){
-				
+				Authority authority = new Authority();//需每次循环都新建一个对象，不然从头到尾都只是改变一个对象的值
+				//每对应一个字条的权限关系，开头都会有一个fid为0的记录，此记录用来查找确认此字条是以什么方式（obvious）设置权限
+				authority.setFid(0);
+				authority.setNoteId(noteId);
+				authority.setObvious(obvious);
+				authorityList.add(authority);
+				continue;
 			}
+			Authority authority = new Authority();
+			authority.setFid(autList.get(i-1).getFid());
+			authority.setNoteId(noteId);
+			authority.setObvious(obvious);
+			authorityList.add(authority);
 		}
+		/*
+		 * 存储数据库
+		 */
+		authorityService.setAut(authorityList);
+		/*
+		 * 数据响应到前台
+		 */
+			response.setContentType("text/json");
+			PrintWriter out = response.getWriter();
+			out.print("权限设置成功");
+			out.flush();
+			out.close();
 	}
 }

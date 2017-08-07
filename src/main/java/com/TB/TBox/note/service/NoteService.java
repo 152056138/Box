@@ -73,15 +73,15 @@ public class NoteService {
 	}
 	
 	/**
-	 * 查询所有
+	 * 查询我的所有字条
 	 * @return
 	 */
-	public List<Note> schNoteall(){
+	public List<Note> schMyNoteall(int uid){
 		List<Note> noteList = new ArrayList<Note>();
 		SqlSession sqlSession = sessionFactory.getSession();
 		noteMapper = sqlSession.getMapper(NoteMapper.class);
 		try {
-			noteList = noteMapper.schNoteall();
+			noteList = noteMapper.schMyNoteall(uid);
 			for(Note note : noteList){
 				log.debug(note);
 			}
@@ -146,6 +146,23 @@ public class NoteService {
 		}
 	}
 	
+	/**
+	 * 根据noteid查找图片
+	 * @param noteId
+	 */
+	public List<byte[]> sehImage(int noteId){
+		SqlSession sqlSession = sessionFactory.getSession();
+		noteMapper = sqlSession.getMapper(NoteMapper.class);
+		List<byte[]> imageList = new ArrayList<byte[]>();
+		try {
+			imageList = noteMapper.selImage(noteId);
+			log.info("图片数目："+imageList.size());
+		} finally {
+			// TODO: handle finally clause
+			sqlSession.close();
+		}
+		return imageList;
+	}
 	/**
 	 * 修改点赞数
 	 */

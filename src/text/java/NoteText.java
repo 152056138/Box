@@ -79,7 +79,7 @@ public class NoteText {
 	
 	public void schNoteall(){
 		noteService=(NoteService) appContext.getBean(NoteService.class);
-		noteService.schNoteall();
+//		noteService.schNoteall();
 	}
 	//按id查询测试
 	
@@ -90,7 +90,7 @@ public class NoteText {
 	}
 	
 	//gson转list为json
-	
+	@Test
 	public void ListtoJson(){
 		Gson gson = new Gson();
 		List<Note> noteList = new ArrayList<Note>();
@@ -98,6 +98,7 @@ public class NoteText {
 			noteList.add(new Note(1, "me", "fjskdg", "10:09", 2));
 		}
 		log.info(gson.toJson(noteList));
+		System.out.println(gson.toJson(noteList));
 	}
 	
 	//测试上传note方法
@@ -141,7 +142,7 @@ public class NoteText {
 			noteService.addImage(image);
 		}
 	}
-	@Test
+	
 	public void good(){
 		int goodNum = 2+1;
 		int noteId = 7;

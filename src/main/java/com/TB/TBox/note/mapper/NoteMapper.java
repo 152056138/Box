@@ -34,8 +34,8 @@ public interface NoteMapper {
 	/*
 	 * 查看纸条
 	 */
-	//显示全部
-	public List<Note> schNoteall();
+	//查询我的所有字条
+	public List<Note> schMyNoteall(int uid);
 	//按id查找
 	public Note schNotebyId(int noteId);
 	//按uid和time查找noteid
@@ -45,4 +45,9 @@ public interface NoteMapper {
 	 * 储存图片
 	 */
 	public void addpho(ImageResp image);
+	
+	/*
+	 * 查找图片
+	 */
+	public List<byte[]> selImage(int noteId);
 }

@@ -15,10 +15,9 @@ import com.TB.TBox.note.service.NoteService;
  *
  */
 public class EvaluateTest {
-	
+	EvaluateService eservice;
 	@Autowired
 	private FileUploadUtil fileUtil;
-	EvaluateService eservice;
 	Logger log = Logger.getLogger(NoteText.class);
 	private ApplicationContext appContext = new ClassPathXmlApplicationContext("applicationContext.xml");
 	//添加评回

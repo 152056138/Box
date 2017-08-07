@@ -63,7 +63,7 @@ public class NoteServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-<<<<<<< HEAD
+
 		//保存到数据库
 		noteService.addNote(note);
 		Map<String, Object> val = new HashMap<String, Object>();
@@ -128,16 +128,15 @@ public class NoteServlet {
 		out.print(gson.toJson(egg));
 		out.flush();
 		out.close();
-=======
-//		System.out.println(user.toJson());
-//		userService.createRole(user);
-//		response.setContentType("text/json");
-//		PrintWriter out = response.getWriter();
 
-//		out.print(user.toJson());
-
-//		out.flush();
-//		out.close();
->>>>>>> 811125a07ab4c847a002dc456870f5db49a96346
+	}
+	/**
+	 * 显示用户的所有字条
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/showMyAllNote", method = RequestMethod.POST)
+	public void showMyAllNote(HttpServletRequest request,HttpServletResponse response){
+		
 	}
 }

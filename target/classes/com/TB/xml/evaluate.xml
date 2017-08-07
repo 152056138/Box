@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.TB.TBox.note.mapper.EvaluateMapper">
+	<select id="selEva" resultType="com.TB.TBox.note.bean.Evaluate">
+		select * from mood_evaluate 
+	</select>
+	
+	<insert id="addEva" parameterType="com.TB.TBox.note.bean.Evaluate">
+		insert into mood_evaluate (noteId,replyId,commentId,ifObv,commentTime,econtent,eflag) values (#{noteId},#{replyId},#{commentId},#{ifObv},#{commentTime},#{econtent},#{eflag})
+	</insert>
+	
+	<delete id="delEva" parameterType="int" > 
+		delete from mood_evaluate where eid=#{eid}
+	</delete>
+</mapper>

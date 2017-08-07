@@ -23,9 +23,12 @@
     	select noteId from mood_note where time=#{time} and uid=#{uid}
     </select>
     
-     <select id="schNoteall" resultType="com.TB.TBox.note.bean.Note">
-    	select * from mood_note
+     <select id="schMyNoteall" resultType="com.TB.TBox.note.bean.Note" parameterType="Map">
+    	select * from mood_note where uid=#{uid} 
     </select>
+    
+    <select id="selImage" parameterType="int" resultType="byte[]">
+  		select * from mood_imageresp where noteId=#{noteId}
    
     <update id="updgoodNum" parameterType="int">
     	update mood_note set goodNum=#{goodNum} where noteId=#{noteId}
