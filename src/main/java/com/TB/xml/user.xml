@@ -49,12 +49,12 @@
 	</resultMap>
 	<!-- 用户心情模块的操作 -->
 	<insert id="addUserMoodColor" parameterType="Mood_color">
-		insert into mood_color(uid,happy,angry,sad,scard,common)
-		values(#{uid},#{happy},#{angry},#{sad},,#{scard},#{common})
+		insert into mood_color(uid,happy,angry,sad,scard,commen)
+		values(#{uid},#{happy},#{angry},#{sad},#{scard},#{commen})
 	</insert>
 	<update id="updateMoodColor" parameterType="Mood_color">
 		update mood_color set
-		happy=#{happy},angry=#{angry},sad=#{sad},scard=#{scard},common=#{common}
+		happy=#{happy},angry=#{angry},sad=#{sad},scard=#{scard},commen=#{commen}
 		where uid=#{uid}
 	</update>
 	<select id="selectUserMoodColor" parameterType="int" resultType="Mood_color">

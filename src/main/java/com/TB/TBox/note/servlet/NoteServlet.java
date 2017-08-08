@@ -63,10 +63,7 @@ public class NoteServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-<<<<<<< HEAD
 
-=======
->>>>>>> ddff7a6dff07910c6e3d9946edfd2f6a251889f7
 		//保存到数据库
 		noteService.addNote(note);
 		Map<String, Object> val = new HashMap<String, Object>();
@@ -132,7 +129,7 @@ public class NoteServlet {
 		out.flush();
 		out.close();
 
-<<<<<<< HEAD
+
 	}
 	/**
 	 * 显示用户的所有字条
@@ -142,7 +139,6 @@ public class NoteServlet {
 	@RequestMapping(value="/showMyAllNote", method = RequestMethod.POST)
 	public void showMyAllNote(HttpServletRequest request,HttpServletResponse response){
 		
-=======
->>>>>>> ddff7a6dff07910c6e3d9946edfd2f6a251889f7
+
 	}
 }

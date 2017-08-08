@@ -9,8 +9,10 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.TB.TBox.user.bean.Mood_color;
 import com.TB.TBox.user.bean.User;
 import com.TB.TBox.user.mapper.UserMapper;
 import com.TB.base.mybatisUtils.SessionFactory;
@@ -21,7 +23,8 @@ import com.TB.base.mybatisUtils.SessionFactory;
 public class UserService implements UserMapper{
 	Logger log = Logger.getLogger(UserService.class);
 		SessionFactory sessionFactory = new SessionFactory();
-		
+	@Autowired
+	private Mood_color mood_color;
 
 		/**
 		 * 注册账号
@@ -105,6 +108,58 @@ public class UserService implements UserMapper{
 			userList = userOperation.selectUserByUsername(username);
 		return userList;
 	}
+	
+	//添加用户心情颜色
+	public void addUserMoodColor(Mood_color mood_color) {
+		SqlSession session =sessionFactory.getSession();
+		try {
+			UserMapper userOperation = session.getMapper(UserMapper.class);
+			userOperation.addUserMoodColor(mood_color);
+			session.commit();
+		} finally {
+			session.close();
+		}
+		
+	}
+
+//修改用户心情颜色
+	public void updateMoodColor(Mood_color mood_color) {
+		SqlSession session =sessionFactory.getSession();
+		try {
+			UserMapper userOperation = session.getMapper(UserMapper.class);
+			userOperation.updateMoodColor(mood_color);
+			session.commit();
+		} catch (Exception e) {
+			session.close();		}
+		
+	}
+
+//查看用户心情颜色
+	public Mood_color selectUserMoodColor(int uid) {
+		SqlSession session =sessionFactory.getSession();
+		UserMapper userOperation = session.getMapper(UserMapper.class);
+		return mood_color = userOperation.selectUserMoodColor(uid);		
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//测试方法
 	@Test
 	public void userTest() throws IOException{
@@ -142,4 +197,6 @@ public class UserService implements UserMapper{
 		
 	}
 
+
+	
 }
