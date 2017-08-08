@@ -29,7 +29,7 @@
     
     <select id="selImage" parameterType="int" resultType="byte[]">
   		select * from mood_imageresp where noteId=#{noteId}
-   
+   </select>
     <update id="updgoodNum" parameterType="int">
     	update mood_note set goodNum=#{goodNum} where noteId=#{noteId}
     </update>

@@ -221,7 +221,7 @@ public class FriendServlet {
 		}
 	}
 
-	// ==========================================================================
+	// ===============================好友便签模块===========================================
 	@RequestMapping(value = "/addMemo", method = RequestMethod.POST)
 	public void addMemo(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String formuid = request.getParameter("uid");
