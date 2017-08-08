@@ -9,7 +9,7 @@ import com.TB.TBox.user.bean.Memo;
 public interface FriendMapper {
 	public void addFriend(Friends friend);
 
-	public List<Friends> selectAllFriends(Map map);
+	public List<Friends> selectAllFriends(Map<String,Object> map);
 
 	public void updateFriendName(Friends friend);
 
@@ -17,11 +17,11 @@ public interface FriendMapper {
 
 	public Friends selectFriendByFid(int fid);
 
-	public List<Friends> selectFriendsByNickname(Map map);
+	public List<Friends> selectFriendsByNickname(Map<String,Object> map);
 
-	public List<Friends> selectFriendsByUsername(Map map);
+	public List<Friends> selectFriendsByUsername(Map<String,Object> map);
 
-	public List<Friends> selectFriendsByNumber(Map map);
+	public List<Friends> selectFriendsByNumber(Map<String,Object> map);
 
 	public void addMemo(Memo memo);
 
@@ -29,7 +29,7 @@ public interface FriendMapper {
 
 	public void deleteMemo(int memoId);
 
-	public List<Memo> selectMemo(Map map);
+	public List<Memo> selectMemo(Map<String,Object> map);
 
 	public Memo selectMemoById(int memeoId);
 

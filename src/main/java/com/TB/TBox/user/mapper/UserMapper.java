@@ -12,11 +12,17 @@ public interface UserMapper {
 	public User selectUserByID(int uid);
 	public void updateRole(User user);
 	public User selectUserByNumber(String number);
-	public List<User> selectUserByUsername(String username);
 	//用户心情模块操作
 	public void addUserMoodColor(Mood_color mood_color);
 	
 	public void updateMoodColor(Mood_color mood_color);
 	
 	public Mood_color selectUserMoodColor(int uid);
+	
+	public List<User> selectUserByUsername(String username);
+	//模糊查询
+	public List<User> selectUserByVagueUsername(String username);
+	//模糊查询
+	public List<User> selectUserByByVagueNumber(String number);
+	
 }
