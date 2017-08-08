@@ -26,6 +26,8 @@ import com.TB.TBox.prosceniumBean.ProsceniumFriend;
 import com.TB.TBox.user.bean.Friends;
 import com.TB.TBox.user.bean.Memo;
 import com.TB.TBox.user.bean.User;
+import com.TB.TBox.user.interfaceTo.ToFriendsInterface;
+import com.TB.TBox.user.interfaceTo.interfaceToImp.ToFriendsImp;
 import com.TB.TBox.user.service.FriendService;
 import com.TB.TBox.user.service.UserService;
 import com.google.gson.Gson;
@@ -50,9 +52,30 @@ public class FriendServlet {
 	private Memo memo;
 	@Autowired
 	private ProsceniumFriend prosceniumFriend;
+	@Autowired
+	private ToFriendsInterface toFriendsInterface = new ToFriendsImp();
 
 	/**
-	 * 添加好友
+	 * 添加好友之前的模糊查询
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/vagueSelectFriend", method = RequestMethod.POST)
+	public void vagueSelectFriend(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String selectName = request.getParameter("selectName");
+		List<User> userList = new ArrayList<User>();
+		userList = toFriendsInterface.vagueSelectUsers(selectName);
+		response.setContentType("text/json");
+		PrintWriter out = response.getWriter();
+		out.print(gson.toJson(userList));
+		out.flush();
+		out.close();
+	}
+
+	/**
+	 * 添加好友(没有判断是否已经是好友)
 	 * 
 	 * @param request
 	 * @param response
@@ -131,7 +154,7 @@ public class FriendServlet {
 	public void selectAllFriends(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String formuid = request.getParameter("uid");
 		int uid = Integer.parseInt(formuid);
-		Map map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("uid", uid);
 		map.put("recoverFriend", 0);
 		List<Friends> friendsList = friendService.selectAllFriends(map);
@@ -157,6 +180,7 @@ public class FriendServlet {
 	 * @param response
 	 * @throws IOException
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/selectFriend", method = RequestMethod.POST)
 	public void selectFriend(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String formuid = request.getParameter("uid");
@@ -202,7 +226,7 @@ public class FriendServlet {
 	public void selectDeleteFriend(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String formuid = request.getParameter("uid");
 		int uid = Integer.parseInt(formuid);
-		Map map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("uid", uid);
 		map.put("recoverFriend", 1);
 		List<Friends> friendsList = friendService.selectAllFriends(map);
@@ -221,7 +245,7 @@ public class FriendServlet {
 		}
 	}
 
-	// ==========================================================================
+	// ===============================好友便签模块===========================================
 	@RequestMapping(value = "/addMemo", method = RequestMethod.POST)
 	public void addMemo(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String formuid = request.getParameter("uid");
@@ -302,7 +326,7 @@ public class FriendServlet {
 		String friendNumber = request.getParameter("friendNumber");
 		String formfid = request.getParameter("fid");
 		int fid = Integer.parseInt(formfid);
-		Map map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("uid", uid);
 		map.put("fid", fid);
 		prosceniumFriend.setUser(userService.selectUserByNumber(friendNumber));
@@ -396,10 +420,10 @@ public class FriendServlet {
 		// log.info(friend.toJson());
 		// }
 		// }
-		UserService userService = new UserService();
-		FriendService friendService = new FriendService();
+		// UserService userService = new UserService();
+		// FriendService friendService = new FriendService();
 		// Friends friend = new Friends();
-		User user = new User();
+		// User user = new User();
 		// ProsceniumFriend prosceniumFriend = new ProsceniumFriend();
 		// String formuid = ("1");
 		// int uid =Integer.parseInt(formuid) ;
@@ -416,41 +440,53 @@ public class FriendServlet {
 		// log.info(gson.toJson(prosceniumFriend));
 		//
 
-		String formuid = ("1");
-		int uid = Integer.parseInt(formuid);
+		// String formuid = ("1");
+		// int uid = Integer.parseInt(formuid);
+		// String selectName = ("2");
+		// List<Friends> friendList = new ArrayList<Friends>();
+		// // 判断是账号查询还是备注查询
+		// Map<String, Object> map = new HashMap<String, Object>();
+		// map.put("uid", uid);
+		// map.put("recoverFriend", 0);
+		// map.put("friendUsername", selectName);
+		// friendList = friendService.selectFriendsByUsername(map);
+		// map.remove("friendUsername");
+		// map.put("friendNumber", selectName);
+		// getClass();
+		// friendList.addAll(friendService.selectFriendsByNumber(map));
+		// map.remove("friendNumber");
+		// map.put("friendNickname", selectName);
+		// friendList.addAll(friendService.selectFriendsByNickname(map));
+		// HashSet h = new HashSet(friendList);
+		// friendList.clear();
+		// friendList.addAll(h);
+		// System.out.println(friendList.size() +
+		// "-------------------------------------------------");
+		// for (Friends friend : friendList) {
+		// System.out.println(friend.toJson());
+		// }
+		// System.out.println(friendList.size() +
+		// "-------------------------------------------------");
+		// List<Integer> fids = new ArrayList<Integer>();
+		// for (Friends friend : friendList) {
+		// fids.add(friend.getFid());
+		// }
+		//
+		// for (int fid : fids) {
+		// System.out.println(fid);
+		// }
+		// System.out.println(fids.size() +
+		// "-------------------------------------------------");
+
+		ToFriendsImp toFriendsImp = new ToFriendsImp();
 		String selectName = ("2");
-		List<Friends> friendList = new ArrayList<Friends>();
-		// 判断是账号查询还是备注查询
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("uid", uid);
-		map.put("recoverFriend", 0);
-		map.put("friendUsername", selectName);
-		friendList = friendService.selectFriendsByUsername(map);
-		map.remove("friendUsername");
-		map.put("friendNumber", selectName);
-		getClass();
-		friendList.addAll(friendService.selectFriendsByNumber(map));
-		map.remove("friendNumber");
-		map.put("friendNickname", selectName);
-		friendList.addAll(friendService.selectFriendsByNickname(map));
-		HashSet h = new HashSet(friendList);
-		friendList.clear();
-		friendList.addAll(h);
-		System.out.println(friendList.size() + "-------------------------------------------------");
-		for (Friends friend : friendList) {
-			System.out.println(friend.toJson());
+		List<User> userList = new ArrayList<User>();
+		userList = toFriendsImp.vagueSelectUsers(selectName);
+		System.out.println(userList.size() + "======================================");
+		for (User user1 : userList) {
+			log.info(user1.toJson());
 		}
-		System.out.println(friendList.size() + "-------------------------------------------------");
-		List<Integer> fids = new ArrayList<Integer>();
-		for (Friends friend : friendList) {
-			fids.add(friend.getFid());
-		}
-
-		for (int fid : fids) {
-			System.out.println(fid);
-		}
-		System.out.println(fids.size() + "-------------------------------------------------");
-
+		System.out.println(userList.size() + "======================================");
 	}
 
 }

@@ -1,9 +1,6 @@
 package com.TB.TBox.user.service;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.TB.TBox.user.bean.Friends;
 import com.TB.TBox.user.bean.Memo;
-import com.TB.TBox.user.bean.User;
 import com.TB.TBox.user.mapper.FriendMapper;
 import com.TB.base.mybatisUtils.SessionFactory;
 
@@ -44,7 +40,7 @@ public class FriendService implements FriendMapper {
 	/**
 	 * 查询所有好友
 	 */
-	public List<Friends> selectAllFriends(Map map) {
+	public List<Friends> selectAllFriends(Map<String,Object> map) {
 		SqlSession session = sessionFactory.getSession();
 		List<Friends> friendList = new ArrayList<Friends>();
 		try {
@@ -101,7 +97,7 @@ public class FriendService implements FriendMapper {
 	/**
 	 * 通过备注查询好友
 	 */
-	public List<Friends> selectFriendsByUsername(Map map) {
+	public List<Friends> selectFriendsByUsername(Map<String,Object> map) {
 		SqlSession session = sessionFactory.getSession();
 		List<Friends> friendList = new ArrayList<Friends>();
 		FriendMapper friendOperation = session.getMapper(FriendMapper.class);
@@ -112,7 +108,7 @@ public class FriendService implements FriendMapper {
 	/**
 	 * 通过账号查询好友
 	 */
-	public List<Friends> selectFriendsByNumber(Map map) {
+	public List<Friends> selectFriendsByNumber(Map<String,Object> map) {
 		SqlSession session = sessionFactory.getSession();
 		List<Friends> friendList = new ArrayList<Friends>();
 		FriendMapper friendOperation = session.getMapper(FriendMapper.class);
@@ -121,7 +117,7 @@ public class FriendService implements FriendMapper {
 	}
 
 	// 通过名字查询
-	public List<Friends> selectFriendsByNickname(Map map) {
+	public List<Friends> selectFriendsByNickname(Map<String,Object> map) {
 		SqlSession session = sessionFactory.getSession();
 		List<Friends> friendList = new ArrayList<Friends>();
 		FriendMapper friendOperation = session.getMapper(FriendMapper.class);
@@ -173,7 +169,7 @@ public class FriendService implements FriendMapper {
 		return memo;
 	}
 
-	public List<Memo> selectMemo(Map map) {
+	public List<Memo> selectMemo(Map<String,Object> map) {
 		SqlSession session = sessionFactory.getSession();
 		List<Memo> memeoList = new ArrayList<Memo>();
 		try {
@@ -234,7 +230,7 @@ public class FriendService implements FriendMapper {
 		// friendService.updateMemo(memo);
 		// log.info(memo.toJson());
 
-		Map map = new HashMap<String, Object>();
+		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("uid", 1);
 		map.put("recoverFriend", 0);
 		map.put("friendNickname", "y");

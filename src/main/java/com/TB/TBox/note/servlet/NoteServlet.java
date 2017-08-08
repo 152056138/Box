@@ -91,7 +91,12 @@ public class NoteServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+<<<<<<< HEAD
 		// 保存到数据库
+=======
+
+		//保存到数据库
+>>>>>>> 4658790eef2b75a140b15b9dc542a0ede78ed0fb
 		noteService.addNote(note);
 		Map<String, Object> val = new HashMap<String, Object>();
 		val.put("uid", uid);
@@ -158,6 +163,10 @@ public class NoteServlet {
 		out.flush();
 		out.close();
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4658790eef2b75a140b15b9dc542a0ede78ed0fb
 	}
 
 	/**
@@ -167,6 +176,7 @@ public class NoteServlet {
 	 * @throws IOException 
 	 */
 	@RequestMapping(value="/showMyAllNote", method = RequestMethod.POST)
+<<<<<<< HEAD
 	public void showMyAllNote(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		/*
 		 * 设置分页数据
@@ -247,5 +257,10 @@ public class NoteServlet {
 		out.print(gson.toJson(allNoteList));
 		out.flush();
 		out.close();
+=======
+	public void showMyAllNote(HttpServletRequest request,HttpServletResponse response){
+		
+
+>>>>>>> 4658790eef2b75a140b15b9dc542a0ede78ed0fb
 	}
 }
