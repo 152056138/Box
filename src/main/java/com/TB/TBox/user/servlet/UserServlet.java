@@ -3,7 +3,6 @@ package com.TB.TBox.user.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartRequest;
 import com.TB.TBox.dataUtils.FileUploadUtil;
 import com.TB.TBox.note.interfaceTo.InterfaceToUser;
-import com.TB.TBox.note.service.NoteService;
+import com.TB.TBox.note.interfaceTo.interfaceToImp.InterfaceToUserImp;
 import com.TB.TBox.user.bean.Mood_color;
 import com.TB.TBox.user.bean.User;
 import com.TB.TBox.user.service.UserService;
@@ -30,10 +29,10 @@ import com.google.gson.Gson;
 @RequestMapping("/user")
 @Scope("prototype")
 public class UserServlet {
-	private static final long serialVersionUID = 1L;
+	
 
 	@Autowired
-	private InterfaceToUser interfaceToUser;
+	private InterfaceToUser interfaceToUser = new InterfaceToUserImp();
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -46,7 +45,7 @@ public class UserServlet {
 	Gson gson = new Gson();
 
 	/**
-	 * 用户注册 缺少查询初始头像
+	 * 用户注册
 	 * 
 	 * @param request
 	 * @param response
@@ -323,7 +322,7 @@ public class UserServlet {
 			// buf.close();
 		}
 
-		 log.debug(user.toJson());
+		log.debug(user.toJson());
 		userService.updateRole(user);
 		response.setContentType("text/json");
 		PrintWriter out1 = response.getWriter();
@@ -382,7 +381,7 @@ public class UserServlet {
 			// buf.close();
 		}
 
-		 log.debug(user.toJson());
+		log.debug(user.toJson());
 		userService.updateRole(user);
 
 		response.setContentType("text/json");
@@ -493,68 +492,68 @@ public class UserServlet {
 		// System.out.println("您输入的密码不正确！");
 		// }
 		// }
-		//Mood_color mood_color = new Mood_color();
-		
+		// Mood_color mood_color = new Mood_color();
+
 		// String formuid = ("1");
 		// int uid = Integer.parseInt(formuid);
-//		String formuid = ("1");
-//		int uid = Integer.parseInt(formuid);
-//		mood_color = userService.selectUserMoodColor(uid);
-//		log.info(gson.toJson(mood_color));
-//		mood_color.setHappy("happy");
-//		mood_color.setAngry("angry");
-//		mood_color.setSad("sad");
-//		mood_color.setScard("scard");
-//		mood_color.setCommen("commen");
-//		userService.updateMoodColor(mood_color);
-//		log.info(mood_color);
+		// String formuid = ("1");
+		// int uid = Integer.parseInt(formuid);
+		// mood_color = userService.selectUserMoodColor(uid);
+		// log.info(gson.toJson(mood_color));
+		// mood_color.setHappy("happy");
+		// mood_color.setAngry("angry");
+		// mood_color.setSad("sad");
+		// mood_color.setScard("scard");
+		// mood_color.setCommen("commen");
+		// userService.updateMoodColor(mood_color);
+		// log.info(mood_color);
 		User user = new User();
 		UserService userService = new UserService();
 		// 截取字符串
-				String number = null;
-				String password = ("");
-				String repassword =("123123");
-				String phone =("1234567888");
-				String place =("北京市");
+		String number = null;
+		String password = ("");
+		String repassword = ("123123");
+		String phone = ("1234567888");
+		String place = ("北京市");
 
-				while (true) {
-					// 获取一个随机数
-					double rand = Math.random();
-					// 将随机数转换为字符串
-					String str = String.valueOf(rand).replace("0.", "");
-					// 截取字符串
-					number = str.substring(0, 10);
-					if (userService.selectUserByNumber(number) == null)
-						break;
+		while (true) {
+			// 获取一个随机数
+			double rand = Math.random();
+			// 将随机数转换为字符串
+			String str = String.valueOf(rand).replace("0.", "");
+			// 截取字符串
+			number = str.substring(0, 10);
+			if (userService.selectUserByNumber(number) == null)
+				break;
+		}
+
+		System.out.println(number + " " + password + " " + repassword + " " + phone);
+		if ((password.isEmpty()) || (phone.isEmpty()) || (phone.isEmpty())) {
+			System.out.println("用户注册信息填写不完整,请填写完整！");
+
+		} else {
+			// 判断密码的长度
+			if (password.length() < 6) {
+				System.out.println("密码位数太少，最少为6位！");
+				// 重复密码和密码是否一致
+			} else if (password.equals(repassword)) {
+
+				// 得到默认的头像
+				List<byte[]> ufacings = interfaceToUser.sehImage(0);
+				for (byte[] ufacing : ufacings) {
+					user.setUfacing(ufacing);
 				}
-
-				System.out.println(number + " " + password + " " + repassword + " " + phone);
-				if ((password.isEmpty()) || (phone.isEmpty()) || (phone.isEmpty())) {
-					System.out.println("用户注册信息填写不完整,请填写完整！");
-					
-				} else {
-					// 判断密码的长度
-					if (password.length() < 6) {
-						System.out.println("密码位数太少，最少为6位！");
-						// 重复密码和密码是否一致
-					} else if (password.equals(repassword)) {
-
-						// 得到默认的头像
-						List<byte[]> ufacings = interfaceToUser.sehImage(0);
-						for (byte[] ufacing : ufacings) {
-							user.setUfacing(ufacing);
-						}
-						user.setNumber(number);
-						user.setPassword(password);
-						user.setPhone(phone);
-						user.setPlace(place);
-						userService.addUser(user);
-						user = userService.selectUserByNumber(number);
-						System.out.println("注册成功");
-					} else {
-						System.out.println("密码和重复密码不一致！");
-					}
-				}
+				user.setNumber(number);
+				user.setPassword(password);
+				user.setPhone(phone);
+				user.setPlace(place);
+				userService.addUser(user);
+				user = userService.selectUserByNumber(number);
+				System.out.println("注册成功");
+			} else {
+				System.out.println("密码和重复密码不一致！");
+			}
+		}
 	}
 
 }

@@ -19,6 +19,7 @@ import com.TB.base.mybatisUtils.SessionFactory;
 
 
 
+
 @Service
 public class UserService implements UserMapper{
 	Logger log = Logger.getLogger(UserService.class);
@@ -100,15 +101,36 @@ public class UserService implements UserMapper{
 		}
 	
 	}
-	//按角色姓名查询（用于好友模块）
-	public List<User> selectUserByUsername(String username) {
-		SqlSession session =sessionFactory.getSession();
-		List<User> userList = new ArrayList<User>();
-			UserMapper userOperation = session.getMapper(UserMapper.class);
-			userList = userOperation.selectUserByUsername(username);
-		return userList;
-	}
 	
+	//===============================================================
+			//按角色姓名查询（用于好友模块）
+			public List<User> selectUserByUsername(String username) {
+				SqlSession session =sessionFactory.getSession();
+				List<User> userList = new ArrayList<User>();
+				UserMapper userOperation = session.getMapper(UserMapper.class);
+					userList = userOperation.selectUserByUsername(username);
+				return userList;
+			}
+			
+			
+			//模糊查询（用于添加好友）
+			public List<User> selectUserByVagueUsername(String username) {
+				SqlSession session =sessionFactory.getSession();
+				List<User> userList = new ArrayList<User>();
+				UserMapper userOperation = session.getMapper(UserMapper.class);
+				userList = userOperation.selectUserByVagueUsername(username);
+				return userList;
+			}
+
+		//模糊查询（用于添加好友）
+			public List<User> selectUserByByVagueNumber(String number) {
+				SqlSession session =sessionFactory.getSession();
+				List<User> userList = new ArrayList<User>();
+				UserMapper userOperation = session.getMapper(UserMapper.class);
+				userList = userOperation.selectUserByByVagueNumber(number);
+				return userList;
+			}
+	//=============================================================
 	//添加用户心情颜色
 	public void addUserMoodColor(Mood_color mood_color) {
 		SqlSession session =sessionFactory.getSession();
@@ -196,6 +218,9 @@ public class UserService implements UserMapper{
 		log.info(user.toJson());
 		
 	}
+
+
+	
 
 
 	

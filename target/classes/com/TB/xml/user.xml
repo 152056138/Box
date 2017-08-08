@@ -27,6 +27,20 @@
 		resultType="User">
 		select * from mood_user where number = #{number}
 	</select>
+	<!-- 对用户的模糊查询为添加好友做准备 -->
+	<select id="selectUserByVagueUsername" parameterType="String"
+		resultMap="userList">
+		select * from mood_user where username like
+		concat(concat('%',#{username}),'%')
+	</select>
+	<!-- 对用户的模糊查询为添加好友做准备 -->
+	<select id="selectUserByByVagueNumber" parameterType="String"
+		resultType="User">
+		select * from mood_user where number like
+		concat(concat('%',#{number}),'%')
+	</select>
+
+
 
 	<select id="selectUserByUsername" parameterType="String"
 		resultMap="userList">
@@ -49,7 +63,8 @@
 	</resultMap>
 	<!-- 用户心情模块的操作 -->
 	<insert id="addUserMoodColor" parameterType="Mood_color">
-		insert into mood_color(uid,happy,angry,sad,scard,commen)
+		insert into
+		mood_color(uid,happy,angry,sad,scard,commen)
 		values(#{uid},#{happy},#{angry},#{sad},#{scard},#{commen})
 	</insert>
 	<update id="updateMoodColor" parameterType="Mood_color">

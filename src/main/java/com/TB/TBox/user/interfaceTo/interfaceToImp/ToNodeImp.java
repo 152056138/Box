@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.TB.TBox.user.bean.User;
+import com.TB.TBox.user.interfaceTo.ToFriendsInterface;
 import com.TB.TBox.user.interfaceTo.ToNodeInterface;
 import com.TB.TBox.user.service.UserService;
 import com.TB.base.mybatisUtils.SessionFactory;
@@ -13,7 +14,6 @@ public class ToNodeImp implements ToNodeInterface {
 	private User user;
 	@Autowired
 	private UserService userService;
-	
 	SessionFactory sessionFactory = new SessionFactory();
 	/**
 	 * 通过好友的fid查询到好友对应的uid
