@@ -3,6 +3,7 @@
  */
 package com.TB.TBox.note.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -49,5 +50,24 @@ public class AuthorityService {
 			// TODO: handle finally clause
 			sqlSession.close();
 		}
+	}
+	
+	/**
+	 * 查询用户与字条的权限关系
+	 * @param noteId
+	 * @return
+	 */
+	public List<Authority> schAutByid(int noteId){
+		SqlSession sqlSession = sessionFactory.getSession();
+		authorityMapper = sqlSession.getMapper(AuthorityMapper.class);
+		List<Authority> authorityList = new ArrayList<Authority>();
+		try {
+			authorityList=authorityMapper.schAut(noteId);
+			log.info("查询成功");
+		} finally {
+			// TODO: handle finally clause
+			sqlSession.close();
+		}
+		return authorityList;
 	}
 }

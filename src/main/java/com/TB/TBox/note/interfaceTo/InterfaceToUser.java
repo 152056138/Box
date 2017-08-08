@@ -5,6 +5,9 @@ package com.TB.TBox.note.interfaceTo;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public interface InterfaceToUser {
 	/*
 	 * 根据id查询图片

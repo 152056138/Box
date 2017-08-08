@@ -67,30 +67,30 @@ public class AuthorityTest {
 				
 			    
 			    
-			    
-				int obvious = 0;
-				//定义和fidList等长的List存储权限类,来批量插入
-				List<Authority> authorityList = new ArrayList<Authority>();
-				for(int i = 0;i<=fidList.size();i++){
-					if(i==0){
-						//每对应一个字条的权限关系，开头都会有一个fid为0的记录，此记录用来查找确认此字条是以什么方式（obvious）设置权限
-						Authority authority = new Authority();
-						authority.setFid(0);
-						authority.setNoteId(noteId);
-						authority.setObvious(obvious);
-						authorityList.add(authority);
-						continue;
-					}
-					Authority authority = new Authority();
-					authority.setFid(fidList.get(i-1).getFid());
-					authority.setNoteId(noteId);
-					authority.setObvious(obvious);
-					authorityList.add(authority);
-				System.out.println(authorityList.get(i).getFid());
-				System.out.println(fidList);
-				}
-				//存储数据库
-				
-				authorityService.setAut(authorityList);
+//			    
+//				int obvious = 0;
+//				//定义和fidList等长的List存储权限类,来批量插入
+//				List<Authority> authorityList = new ArrayList<Authority>();
+//				for(int i = 0;i<=fidList.size();i++){
+//					if(i==0){
+//						//每对应一个字条的权限关系，开头都会有一个fid为0的记录，此记录用来查找确认此字条是以什么方式（obvious）设置权限
+//						Authority authority = new Authority();
+//						authority.setFid(0);
+//						authority.setNoteId(noteId);
+//						authority.setObvious(obvious);
+//						authorityList.add(authority);
+//						continue;
+//					}
+//					Authority authority = new Authority();
+//					authority.setFid(fidList.get(i-1).getFid());
+//					authority.setNoteId(noteId);
+//					authority.setObvious(obvious);
+//					authorityList.add(authority);
+//				System.out.println(authorityList.get(i).getFid());
+//				System.out.println(fidList);
+//				}
+//				//存储数据库
+//				
+//				authorityService.setAut(authorityList);
 	}
 }

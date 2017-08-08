@@ -16,6 +16,7 @@ import com.TB.TBox.dataBean.ImageResp;
 import com.TB.TBox.note.bean.Note;
 import com.TB.TBox.note.mapper.NoteMapper;
 import com.TB.base.mybatisUtils.SessionFactory;
+import com.TB.base.page.PageBean;
 
 @Service
 public class NoteService {
@@ -73,15 +74,40 @@ public class NoteService {
 	}
 	
 	/**
-	 * 查询我的所有字条
+	 * 按分页查询我的所有字条
 	 * @return
 	 */
-	public List<Note> schMyNoteall(int uid){
+	public PageBean<Note> schMyNoteall(Map<String, Object> val){
+		List<Note> noteList = new ArrayList<Note>();
+		SqlSession sqlSession = sessionFactory.getSession();
+		noteMapper = sqlSession.getMapper(NoteMapper.class);
+		PageBean<Note> notePage = new PageBean<Note>();
+		try {
+			//map形式传入分页查找的数据
+			noteList = noteMapper.schMyNoteall(val);
+			//查询完成后此方法只需封装查询结果即可，其他分页数据在此不用
+			notePage.setDatas(noteList);
+			for(Note note : noteList){
+				log.debug(note);
+			}
+		} finally {
+			// TODO: handle finally clause
+			sqlSession.close();
+		}
+		return notePage;
+	}
+	
+	/**
+	 * 查询某人的note集合
+	 * @param uid
+	 * @return
+	 */
+	public List<Note> schSbNoteLim(int uid){
 		List<Note> noteList = new ArrayList<Note>();
 		SqlSession sqlSession = sessionFactory.getSession();
 		noteMapper = sqlSession.getMapper(NoteMapper.class);
 		try {
-			noteList = noteMapper.schMyNoteall(uid);
+			noteList = noteMapper.schSbNoteall(uid);
 			for(Note note : noteList){
 				log.debug(note);
 			}
@@ -91,6 +117,7 @@ public class NoteService {
 		}
 		return noteList;
 	}
+	
 	/**
 	 * 按id查询
 	 * @param noteId

@@ -3,12 +3,18 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.TB.TBox.note.mapper.AuthorityMapper">
+	<!-- =====添加用户与字条的权限关系====== -->
 	<insert id="addAut" parameterType="List">
 		
-    insert into mood_authority (noteId,fid,obvious)   
+    insert into mood_authority (noteId,friendNumber,obvious)   
     values  
     <foreach collection="list" item="item" index="index" separator="," >  
-        (#{item.noteId},#{item.fid},#{item.obvious})  
+        (#{item.noteId},#{item.friendNumber},#{item.obvious})  
     </foreach>  
 	</insert>
+	
+	<!-- ======查询用户与字条的权限关系====== -->
+	<select id="schAut" resultType="com.TB.TBox.note.bean.Authority" parameterType="int">
+		select * from mood_authority where noteId=#{noteId}
+	</select>	
 </mapper>

@@ -2,12 +2,14 @@ package com.TB.TBox.user.interfaceTo.interfaceToImp;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.TB.TBox.user.bean.User;
 import com.TB.TBox.user.interfaceTo.ToNodeInterface;
 import com.TB.TBox.user.service.UserService;
 import com.TB.base.mybatisUtils.SessionFactory;
 
+@Component
 public class ToNodeImp implements ToNodeInterface {
 	@Autowired
 	private User user;

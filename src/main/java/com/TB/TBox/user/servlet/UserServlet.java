@@ -159,13 +159,9 @@ public class UserServlet {
 			// buf.close();
 		}
 
-<<<<<<< HEAD
 		 log.debug(user.toJson());
 		 userService.createRole(user);
 		
-=======
-		 userService.createRole(user);
->>>>>>> ddff7a6dff07910c6e3d9946edfd2f6a251889f7
 		response.setContentType("text/json");
 		PrintWriter out1 = response.getWriter();
 		out1.print(user.toJson());

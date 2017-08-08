@@ -34,12 +34,20 @@ public interface NoteMapper {
 	/*
 	 * 查看纸条
 	 */
-	//查询我的所有字条
-	public List<Note> schMyNoteall(int uid);
+	//按分页查询我的所有字条
+	public List<Note> schMyNoteall(Map<String, Object> val);
+	
+	//不按分页查询某人的所有字条
+	public List<Note> schSbNoteall(int uid);
+	
+	
 	//按id查找
 	public Note schNotebyId(int noteId);
+	
 	//按uid和time查找noteid
 	public int schnote(Map<String, Object> val);
+	
+	
 	
 	/*
 	 * 储存图片

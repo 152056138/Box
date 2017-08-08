@@ -42,25 +42,25 @@ public class AuthorityServlet {
 	 */
 		int noteId = Integer.parseInt(request.getParameter("noteId"));
 		//将json字串转换为list
-		String fidListStr = request.getParameter("fidList");
+		String friendNumberList = request.getParameter("friendNumberList");
 		Gson gson = new Gson();
 		//将json中的fid数组取出以其类对象的形式保存
-		List<Authority> autList = gson.fromJson(fidListStr, new TypeToken<List<Authority>>() {}.getType());
+		List<Authority> autList = gson.fromJson(friendNumberList, new TypeToken<List<Authority>>() {}.getType());
 		int obvious = Integer.parseInt(request.getParameter("obvious"));
 		//定义和fidList等长的List存储权限类,来批量插入
 		List<Authority> authorityList = new ArrayList<Authority>();
 		for(int i = 0;i<=autList.size();i++){
 			if(i==0){
 				Authority authority = new Authority();//需每次循环都新建一个对象，不然从头到尾都只是改变一个对象的值
-				//每对应一个字条的权限关系，开头都会有一个fid为0的记录，此记录用来查找确认此字条是以什么方式（obvious）设置权限
-				authority.setFid(0);
+				//每对应一个字条的权限关系，开头都会有一个FriendNumber为0-0的记录，此记录用来查找确认此字条是以什么方式（obvious）设置权限
+				authority.setFriendNumber("0-0");;
 				authority.setNoteId(noteId);
 				authority.setObvious(obvious);
 				authorityList.add(authority);
 				continue;
 			}
 			Authority authority = new Authority();
-			authority.setFid(autList.get(i-1).getFid());
+			authority.setFriendNumber(autList.get(i-1).getFriendNumber());
 			authority.setNoteId(noteId);
 			authority.setObvious(obvious);
 			authorityList.add(authority);
@@ -78,4 +78,6 @@ public class AuthorityServlet {
 			out.flush();
 			out.close();
 	}
+	
+	
 }

@@ -3,37 +3,52 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.TB.TBox.note.mapper.NoteMapper">
+	<!-- ========添加纸条=========== -->
     <insert id="addNote" parameterType="com.TB.TBox.note.bean.Note">
         insert into mood_note (mood,noteAdout,noteContent,time,uid) values (#{mood},#{noteAdout},#{noteContent},#{time},#{uid})
     </insert>
     
+    <!-- ==========储存图片=========== -->
     <insert id="addpho" parameterType="com.TB.TBox.dataBean.ImageResp">
     	insert into mood_imageresp (noteId,image) values (#{noteId},#{image})
     </insert>
     
+    <!-- =============删除纸条============ -->
     <delete id="delNotebyId" parameterType="int">
     	delete from mood_note where noteId=#{noteId}
     </delete>
     
+    <!-- ===========按id查找字条============ -->
     <select id="schNotebyId" parameterType="int" resultType="com.TB.TBox.note.bean.Note">
     	select * from mood_note where noteId=#{noteId}
     </select>
     
+    <!-- ===========按uid和time查找noteid============ -->
     <select id="schnote" resultType="int" parameterType="Map">
     	select noteId from mood_note where time=#{time} and uid=#{uid}
     </select>
     
+    <!-- ===============按分页查询我的所有字条================== -->
      <select id="schMyNoteall" resultType="com.TB.TBox.note.bean.Note" parameterType="Map">
-    	select * from mood_note where uid=#{uid} 
+    	select * from mood_note where uid=#{uid} order by ${sort} ${order} limit #{pageOffset},#{pageSize}
     </select>
     
+    <!-- ===============不按分页查询某人的所有字条=============== -->
+    <select id="schSbNoteall" parameterType="int" resultType="com.TB.TBox.note.bean.Note">
+    	select * from mood_note where uid=#{uid}
+    </select>
+    
+    <!-- ============查找图片============= -->
     <select id="selImage" parameterType="int" resultType="byte[]">
   		select * from mood_imageresp where noteId=#{noteId}
+   </select>
    
+   	<!-- ============修改点赞数============ -->
     <update id="updgoodNum" parameterType="int">
     	update mood_note set goodNum=#{goodNum} where noteId=#{noteId}
     </update>
     
+    <!-- =============修改扔鸡蛋数============ -->
     <update id="updegg" parameterType="int">
     	update mood_note set egg=#{egg} where noteId=#{noteId}
     </update>

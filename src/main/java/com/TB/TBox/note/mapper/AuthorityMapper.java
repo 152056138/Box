@@ -12,4 +12,9 @@ public interface AuthorityMapper {
 	 * 添加用户与字条的权限关系
 	 */
 	public void addAut(List<Authority> authorityList);
+	
+	/*
+	 * 查询用户与字条的权限关系
+	 */
+	public List<Authority> schAut(int noteId);
 }

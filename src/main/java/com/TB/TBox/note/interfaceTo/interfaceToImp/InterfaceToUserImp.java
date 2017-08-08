@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.TB.TBox.note.bean.Note;
 import com.TB.TBox.note.interfaceTo.InterfaceToUser;
@@ -16,6 +17,7 @@ import com.TB.TBox.note.mapper.NoteMapper;
 import com.TB.TBox.note.service.NoteService;
 import com.TB.base.mybatisUtils.SessionFactory;
 
+@Component
 public class InterfaceToUserImp implements InterfaceToUser {
 	private SessionFactory sessionFactory;
 	private Note note;
