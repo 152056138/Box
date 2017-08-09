@@ -11,14 +11,14 @@ import com.TB.TBox.note.interfaceTo.IAutToNode;
 import com.TB.TBox.note.service.AuthorityService;
 import com.TB.TBox.note.service.NoteService;
 import com.TB.TBox.user.interfaceTo.ToNodeInterface;
+import com.TB.TBox.user.interfaceTo.interfaceToImp.ToNodeImp;
 
 public class AutToNoteImp implements IAutToNode {
 	@Autowired
 	private NoteService noteService;
 	@Autowired
 	private AuthorityService authorityService;
-	@Autowired
-	private ToNodeInterface toNodeInterface;
+	private ToNodeInterface toNodeInterface = new ToNodeImp();
 	/**
 	 * 判断用户对某亲友的字条是否有权限
 	 */

@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class ImageResp {
 	private int noteId; //对应纸条id
-	private byte[] image;//存的图片
+	private String image;//存的图片
 	
 	public ImageResp(){}
-	public ImageResp(int noteId, byte[] image) {
+	public ImageResp(int noteId, String image) {
 		super();
 		this.noteId = noteId;
 		this.image = image;
@@ -23,10 +23,10 @@ public class ImageResp {
 	public void setNoteId(int noteId) {
 		this.noteId = noteId;
 	}
-	public byte[] getImage() {
+	public String getImage() {
 		return image;
 	}
-	public void setImage(byte[] image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 	

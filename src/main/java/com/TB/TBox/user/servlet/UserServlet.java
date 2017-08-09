@@ -166,11 +166,7 @@ public class UserServlet {
 			// buf.close();
 		}
 
-<<<<<<< HEAD
-		 log.debug(user.toJson());
-		 userService.createRole(user);
-		
-=======
+
 		log.debug(user.toJson());
 		userService.createRole(user);
 		// 创建默认心情颜色
@@ -181,8 +177,6 @@ public class UserServlet {
 		mood_color.setScard("#9400D3");
 		mood_color.setCommen("#FFA07A");
 		userService.addUserMoodColor(mood_color);
-
->>>>>>> 4658790eef2b75a140b15b9dc542a0ede78ed0fb
 		response.setContentType("text/json");
 		PrintWriter out1 = response.getWriter();
 		out1.print(user.toJson());
