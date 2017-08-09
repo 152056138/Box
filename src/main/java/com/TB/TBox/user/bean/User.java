@@ -18,7 +18,7 @@ public class User {
 	private String blood; //血型
 	private String signature; //个性签名
 	private String birthday; //生日
-	private byte[] ufacing; //头像
+	private String ufacing; //头像
 	private String hobby; //兴趣
 	private String job; //职业
 	private String gender; //性别
@@ -31,7 +31,7 @@ public class User {
 		
 	}
 	public User(int uid, String number, String username, String password, String phone, String place,
-			String constellation, String blood, String signature, String birthday, byte[] ufacing, String hobby, String job,
+			String constellation, String blood, String signature, String birthday, String ufacing, String hobby, String job,
 			String gender, String personalPassword, String fingerprint, int age) {
 		super();
 		this.uid = uid;
@@ -55,7 +55,7 @@ public class User {
 
 
 	//注册账号时调用这个构造函数
-	public User(String number, String password, String phone, String place,byte[] ufacing) {
+	public User(String number, String password, String phone, String place,String ufacing) {
 		super();
 		this.number = number;
 		this.password = password;
@@ -66,7 +66,7 @@ public class User {
 	
 	
 	//创建角色的时候调用这个构造函数
-	public User(int uid,String username,String constellation, String blood, String signature, String birthday, byte[] ufacing, String hobby, String job,
+	public User(int uid,String username,String constellation, String blood, String signature, String birthday, String ufacing, String hobby, String job,
 			String gender, String personalPassword, int age) {
 		super();
 		this.uid = uid;
@@ -143,10 +143,10 @@ public class User {
 	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
-	public byte[] getUfacing() {
+	public String getUfacing() {
 		return ufacing;
 	}
-	public void setUfacing(byte[] ufacing) {
+	public void setUfacing(String ufacing) {
 		this.ufacing = ufacing;
 	}
 	public String getHobby() {
