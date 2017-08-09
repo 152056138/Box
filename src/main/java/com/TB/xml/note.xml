@@ -42,11 +42,9 @@
     <select id="selImage" parameterType="int" resultType="byte[]">
   		select * from mood_imageresp where noteId=#{noteId}
    </select>
-<<<<<<< HEAD
    
    	<!-- ============修改点赞数============ -->
-=======
->>>>>>> 4658790eef2b75a140b15b9dc542a0ede78ed0fb
+
     <update id="updgoodNum" parameterType="int">
     	update mood_note set goodNum=#{goodNum} where noteId=#{noteId}
     </update>

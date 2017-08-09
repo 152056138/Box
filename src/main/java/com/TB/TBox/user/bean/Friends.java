@@ -14,7 +14,7 @@ public class Friends {
 	private int cid; //所在分类id
 	private String friendTime; //加为好友时间
 	private String friendNickname; //好友昵称
-	private byte[] facing; //好友头像
+	private String facing; //好友头像
 	private int uid; //好友列表拥有者id（此用户）
 	private int recoverFriend; //删除好友是不会真正的删除数据，而是此标志位变化表示0-好友，1-进行了删除操作
 	private String friendContent;//用户给好友的便签，用来记录一些事情
@@ -30,7 +30,7 @@ public class Friends {
 		
 	}
 	public Friends(int fid, String friendNumber, String friendUsername, int cid, String friendTime,
-			String friendNickname, byte[] facing, int uid, int recoverFriend, String friendContent) {
+			String friendNickname, String facing, int uid, int recoverFriend, String friendContent) {
 		super();
 		this.fid = fid;
 		this.friendNumber = friendNumber;
@@ -48,7 +48,7 @@ public class Friends {
 		
 	}
 	public Friends(String friendNumber, String friendUsername, int cid, String friendTime, String friendNickname,
-			byte[] facing, int uid,int recoverFriend) {
+			String facing, int uid,int recoverFriend) {
 		super();
 		this.friendNumber = friendNumber;
 		this.friendUsername = friendUsername;
@@ -98,10 +98,10 @@ public class Friends {
 	public void setFriendNickname(String friendNickname) {
 		this.friendNickname = friendNickname;
 	}
-	public byte[] getFacing() {
+	public String getFacing() {
 		return facing;
 	}
-	public void setFacing(byte[] facing) {
+	public void setFacing(String facing) {
 		this.facing = facing;
 	}
 	public int getUid() {

@@ -90,10 +90,10 @@ public class UserServlet {
 			} else if (password.equals(repassword)) {
 
 				// 得到默认的头像
-				List<byte[]> ufacings = interfaceToUser.sehImage(0);
-				for (byte[] ufacing : ufacings) {
-					user.setUfacing(ufacing);
-				}
+//				List<byte[]> ufacings = interfaceToUser.sehImage(0);
+//				for (byte[] ufacing : ufacings) {
+//					user.setUfacing(ufacing);
+//				}
 				user.setNumber(number);
 				user.setPassword(password);
 				user.setPhone(phone);

@@ -89,6 +89,17 @@ public class NoteServlet {
 		SimpleDateFormat sdt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String time = sdt.format(new Date());
 		Note note = new Note(mood, noteAdout, noteContent, time, uid);
+<<<<<<< HEAD
+=======
+		// 接收图片数据
+		try {
+			b3List = fileUtil.MultiPartFileUpLoad(re);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+>>>>>>> a4b021d374c96762a20b2499a28d28734c83342e
 		//保存到数据库
 		noteService.addNote(note);
 		Map<String, Object> val = new HashMap<String, Object>();
@@ -163,7 +174,10 @@ public class NoteServlet {
 		out.flush();
 		out.close();
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> a4b021d374c96762a20b2499a28d28734c83342e
 	}
 
 	/**
@@ -173,7 +187,10 @@ public class NoteServlet {
 	 * @throws IOException 
 	 */
 	@RequestMapping(value="/showMyAllNote", method = RequestMethod.POST)
+<<<<<<< HEAD
 
+=======
+>>>>>>> a4b021d374c96762a20b2499a28d28734c83342e
 	public void showMyAllNote(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		/*
 		 * 设置分页数据
@@ -237,10 +254,14 @@ public class NoteServlet {
 		int myUid = Integer.parseInt(request.getParameter("uid"));
 		String myuserNunber = request.getParameter("myuserNunber");
 		//查出用户的所有好友uid
+<<<<<<< HEAD
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("uid", myUid);
 		map.put("recoverFriend", 0);
 		List<Integer> friUidList = toNodeInterface.selectAllFriendUid(map) ;
+=======
+		List<Integer> friUidList = null;
+>>>>>>> a4b021d374c96762a20b2499a28d28734c83342e
 		//查出所有好友的有权限的noteList再集合为一个总的allNoteList
 		List<Note> allNoteList = new ArrayList<Note>();
 		List<Note> noteList = new ArrayList<Note>();
