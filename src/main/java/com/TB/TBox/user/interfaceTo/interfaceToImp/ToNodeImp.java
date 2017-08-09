@@ -50,4 +50,11 @@ public class ToNodeImp implements ToNodeInterface {
 		}
 		return allFriendUid;
 	}
+
+	public String selectUserNumber(int uid) {
+		SqlSession session = sessionFactory.getSession();
+		user = userService.selectUserByID(uid);
+		String userNumber = user.getNumber();
+		return userNumber;
+	}
 }

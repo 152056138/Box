@@ -276,19 +276,25 @@ public class FriendServlet {
 	@RequestMapping(value = "/updateMemo", method = RequestMethod.POST)
 	public void updateMemo(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// 得到json MemiId串
-		String formMemoIds = request.getParameter("memoIds");
-		String memoName = request.getParameter("memoName");
-		String friendContent = request.getParameter("friendContent");
+		String memoId = request.getParameter("memoId");
+		String formMemoName = request.getParameter("memoName");
+		String formFriendContent = request.getParameter("friendContent");
 		// 解析成当前模型，但是模型中只有MemiId有值
-		List<Memo> memoList = gson.fromJson(formMemoIds, new TypeToken<List<Memo>>() {
+		List<Memo> memoList = gson.fromJson(memoId, new TypeToken<List<Memo>>() {
 		}.getType());
-		for (Memo memo : memoList) {
-			memo = friendService.selectMemoById(memo.getMemoId());
-			memo.setMemoName(memoName);
-			memo.setFriendContent(friendContent);
+		
+		List<Memo> memoListMemoName = gson.fromJson(formMemoName, new TypeToken<List<Memo>>() {
+		}.getType());
+		
+		List<Memo> memoListFriendContent = gson.fromJson(formFriendContent, new TypeToken<List<Memo>>() {
+		}.getType());
+			for(int i=0;i<memoListMemoName.size();i++)
+			{
+			memo = friendService.selectMemoById(memoList.get(i).getMemoId());
+			memo.setMemoName(memoListMemoName.get(i).getMemoName());
+			memo.setFriendContent(memoListFriendContent.get(i).getFriendContent());
 			friendService.updateMemo(memo);
 		}
-
 		response.setContentType("text/json");
 		PrintWriter out = response.getWriter();
 		out.print("修改成功！");

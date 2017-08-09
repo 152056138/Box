@@ -91,12 +91,8 @@ public class NoteServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-<<<<<<< HEAD
-		// 保存到数据库
-=======
 
 		//保存到数据库
->>>>>>> 4658790eef2b75a140b15b9dc542a0ede78ed0fb
 		noteService.addNote(note);
 		Map<String, Object> val = new HashMap<String, Object>();
 		val.put("uid", uid);
@@ -163,10 +159,6 @@ public class NoteServlet {
 		out.flush();
 		out.close();
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 4658790eef2b75a140b15b9dc542a0ede78ed0fb
 	}
 
 	/**
@@ -176,7 +168,6 @@ public class NoteServlet {
 	 * @throws IOException 
 	 */
 	@RequestMapping(value="/showMyAllNote", method = RequestMethod.POST)
-<<<<<<< HEAD
 	public void showMyAllNote(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		/*
 		 * 设置分页数据
@@ -240,7 +231,7 @@ public class NoteServlet {
 		int myUid = Integer.parseInt(request.getParameter("uid"));
 		String myuserNunber = request.getParameter("myuserNunber");
 		//查出用户的所有好友uid
-		List<Integer> friUidList = ;
+		List<Integer> friUidList = null;
 		//查出所有好友的有权限的noteList再集合为一个总的allNoteList
 		List<Note> allNoteList = new ArrayList<Note>();
 		List<Note> noteList = new ArrayList<Note>();
@@ -257,10 +248,6 @@ public class NoteServlet {
 		out.print(gson.toJson(allNoteList));
 		out.flush();
 		out.close();
-=======
-	public void showMyAllNote(HttpServletRequest request,HttpServletResponse response){
-		
 
->>>>>>> 4658790eef2b75a140b15b9dc542a0ede78ed0fb
 	}
 }
