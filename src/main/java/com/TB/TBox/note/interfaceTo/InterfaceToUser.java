@@ -12,5 +12,5 @@ public interface InterfaceToUser {
 	/*
 	 * 根据id查询图片
 	 */
-	public List<byte[]> sehImage(int noteId);
+	public List<String> sehImage(int noteId);
 }

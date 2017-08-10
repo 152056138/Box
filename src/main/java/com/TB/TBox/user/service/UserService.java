@@ -59,7 +59,15 @@ public class UserService implements UserMapper{
 		
 	}
 	
-	
+/**
+ * 按手机号查询
+ */
+	public User selectUserByPhone(String phone) {
+		SqlSession session =sessionFactory.getSession();
+		UserMapper userOperation = session.getMapper(UserMapper.class);
+		User user = userOperation.selectUserByPhone(phone);
+		return user;
+	}
 	
 	
 	/**
@@ -218,6 +226,8 @@ public class UserService implements UserMapper{
 		log.info(user.toJson());
 		
 	}
+
+
 
 
 	

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.TB.TBox.driftBottle.mapper.Drift_noteMapper">
+	<insert id="addDrift_note" parameterType="Drift_note"
+		useGeneratedKeys="true" keyProperty="driftId">
+		insert into
+		mood_drift(title,driftContent,sendId,identifier,driftTime,checkTheQuantity,hate)
+		values(#{title},#{driftContent},#{sendId},#{identifier},#{driftTime},#{checkTheQuantity},#{hate})
+	</insert>
+	<update id="updateDrift_note" parameterType="Drift_note">
+		update mood_drift
+		set checkTheQuantity=#{checkTheQuantity},hate=#{hate} where
+		driftId=#{driftId}
+	</update>
+	<select id="selectDrift_noteByID" parameterType="int"
+		resultType="Drift_note">
+		select * from mood_drift where driftId = #{driftId}
+	</select>
+	<!-- 查询某一个漂流瓶下的所有评论 -->
+	<select id="selectAllDrift_note_evaluate" parameterType="int"
+		resultMap="Drift_evaluateList">
+		select * from mood_drift_evaluate where driftId = #{driftId}
+	</select>
+	<resultMap type="Drift_evaluate" id="Drift_evaluateList">
+		<id column="drif_evaluateId" property="drif_evaluateId" />
+		<result column="drifCommentId" property="drifCommentId" />
+		<result column="dirfCommentTime" property="dirfCommentTime" />
+		<result column="drifIfObv" property="drifIfObv" />
+		<result column="drifContent" property="drifContent" />
+		<result column="driftId" property="driftId" />
+	</resultMap>
+	<!-- 漂流瓶评论操作 -->
+	<insert id="addDrift_evaluate" parameterType="Drift_evaluate"
+		useGeneratedKeys="true" keyProperty="drif_evaluateId">
+		insert into
+		mood_drift_evaluate(drifCommentId,dirfCommentTime,drifIfObv,drifContent,driftId)
+		values(#{drifCommentId},#{dirfCommentTime},#{drifIfObv},#{drifContent},#{driftId})
+	</insert>
+	<select id="randomSelectDrift_note" parameterType="int"
+		resultMap="Drift_noteList">
+		select * from mood_drift where hate = #{hate}
+	</select>
+	<resultMap type="Drift_note" id="Drift_noteList">
+		<id column="driftId" property="driftId" />
+		<result column="title" property="title" />
+		<result column="driftContent" property="driftContent" />
+		<result column="sendId" property="sendId" />
+		<result column="identifier" property="identifier" />
+		<result column="driftTime" property="driftTime" />
+		<result column="checkTheQuantity" property="checkTheQuantity" />
+	</resultMap>
+</mapper>

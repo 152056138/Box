@@ -1,9 +1,6 @@
 package com.TB.TBox.user.interfaceTo;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> a4b021d374c96762a20b2499a28d28734c83342e
 import java.util.List;
 import java.util.Map;
 
