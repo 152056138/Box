@@ -15,7 +15,7 @@ import com.TB.TBox.user.service.FriendService;
 import com.TB.TBox.user.service.UserService;
 import com.TB.base.mybatisUtils.SessionFactory;
 
-@Component
+
 public class ToNodeImp implements ToNodeInterface {
 	@Autowired
 	private User user;

@@ -10,7 +10,7 @@
 
 	<properties>
 		<!-- spring version -->
-		<springframework.version>4.2.8.RELEASE</springframework.version>
+		<springframework.version>3.2.17.RELEASE</springframework.version>
 		<mysql.version>5.1.22</mysql.version>
 		<log4j.version>1.2.16</log4j.version>
 		<slf4j.version>1.5.8</slf4j.version>
@@ -40,8 +40,13 @@
 		<!-- ===mybatis end== -->
 
 		<!-- spring begin -->
-		<dependency>
-			<groupId>org.springframework</groupId>
+	  <dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context-support</artifactId>
+		<version>3.2.17.RELEASE</version>
+	 </dependency>
+	   <dependency>
+		<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
@@ -69,7 +74,7 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 			<version>${springframework.version}</version>
-		</dependency>
+		</dependency> 
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -160,6 +165,13 @@
 			<version>2.4</version>
 			<classifier>jdk15</classifier>
 		</dependency>
+		
+		<!-- Quartz framework -->  
+        <dependency>  
+            <groupId>org.quartz-scheduler</groupId>  
+            <artifactId>quartz</artifactId>  
+            <version>1.8.6</version>  
+        </dependency>  
 		
 	</dependencies>
 

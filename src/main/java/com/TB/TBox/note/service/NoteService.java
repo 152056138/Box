@@ -119,6 +119,26 @@ public class NoteService {
 	}
 	
 	/**
+	 * 不按分页查询所有纸条
+	 * @return
+	 */
+	public List<Note> schAllNote(){
+		List<Note> noteList = new ArrayList<Note>();
+		SqlSession sqlSession = sessionFactory.getSession();
+		noteMapper = sqlSession.getMapper(NoteMapper.class);
+		try {
+			noteList = noteMapper.schAllNote();
+			for(Note note : noteList){
+				log.debug(note);
+			}
+		} finally {
+			// TODO: handle finally clause
+			sqlSession.close();
+		}
+		return noteList;
+	}
+	
+	/**
 	 * 按id查询
 	 * @param noteId
 	 * @return
@@ -177,10 +197,10 @@ public class NoteService {
 	 * 根据noteid查找图片
 	 * @param noteId
 	 */
-	public List<byte[]> sehImage(int noteId){
+	public List<String> sehImage(int noteId){
 		SqlSession sqlSession = sessionFactory.getSession();
 		noteMapper = sqlSession.getMapper(NoteMapper.class);
-		List<byte[]> imageList = new ArrayList<byte[]>();
+		List<String> imageList = new ArrayList<String>();
 		try {
 			imageList = noteMapper.selImage(noteId);
 			log.info("图片数目："+imageList.size());

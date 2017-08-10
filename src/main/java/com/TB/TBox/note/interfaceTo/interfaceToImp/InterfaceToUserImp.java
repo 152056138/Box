@@ -38,10 +38,10 @@ public class InterfaceToUserImp implements InterfaceToUser {
 	/**
 	 * 根据id查询图片
 	 */
-	public List<byte[]> sehImage(int noteId) {
+	public List<String> sehImage(int noteId) {
 		SqlSession sqlSession = sessionFactory.getSession();
 		noteMapper = sqlSession.getMapper(NoteMapper.class);
-		List<byte[]> imageList = new ArrayList<byte[]>();
+		List<String> imageList = new ArrayList<String>();
 		try {
 			imageList = noteMapper.selImage(noteId);
 			log.info("图片数目："+imageList.size());

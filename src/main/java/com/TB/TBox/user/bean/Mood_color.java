@@ -3,6 +3,9 @@
  */
 package com.TB.TBox.user.bean;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Mood_color {
 	private int uid; //用户id
 	private String happy;//开心

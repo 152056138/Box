@@ -40,6 +40,8 @@ public interface NoteMapper {
 	//不按分页查询某人的所有字条
 	public List<Note> schSbNoteall(int uid);
 	
+	//不按分页查询所有纸条
+	public List<Note> schAllNote();
 	
 	//按id查找
 	public Note schNotebyId(int noteId);
@@ -57,5 +59,5 @@ public interface NoteMapper {
 	/*
 	 * 查找图片
 	 */
-	public List<byte[]> selImage(int noteId);
+	public List<String> selImage(int noteId);
 }

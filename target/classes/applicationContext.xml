@@ -11,6 +11,62 @@
 	<!-- scan the annotation beans -->
 	<context:component-scan base-package="com.TB.TBox" />
 	<context:component-scan base-package="com.TB.base" />
+	<context:component-scan base-package="test" />
+	 <bean id="note" class="com.TB.TBox.note.bean.Note"></bean> 
+	<!-- Quartz 定时任务 -->
+	<!-- job类 -->
+	<bean name="firstComplexJobDetail"
+	class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+	<property name="jobClass" value="QuartzTest" />
+	<property name="durability" value="true" />
+	<property name="jobDataMap">
+		<map>
+			<entry key="anotherBean" value-ref="anotherBean" />
+		</map>
+	</property>
+	<property name="jobDataAsMap">
+		<map>
+			<entry key="simpleService">
+				<ref bean="simpleService" />
+			</entry>
+		</map>
+	</property> 
+		
+	</bean>
 	
-	
+	<!-- <bean name="secondComplexJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="test.SecQuartzTest" />
+		<property name="durability" value="true" />  
+	</bean> -->
+	<!-- 触发器 -->
+	<bean id="cronTrigger"  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="firstComplexJobDetail" />
+		<!--  <property name="cronExpression" value="0 21 23 10 8 ? 2017" /> -->
+		 <property name="cronExpression">  
+                <value>0 21 23 10 8 ? 2017</value>  
+         </property> 
+	</bean>
+	<!-- <bean id="seccronTrigger"  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="secondComplexJobDetail" />
+		 <property name="cronExpression" value="0/20 * * ? * *" />
+	</bean> -->
+	<!-- 定时器容器 -->
+	<bean id="schedulerFactory"  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+        <property name="jobDetails">  
+            <list>  
+                <ref bean="firstComplexJobDetail" />  
+            </list>  
+        </property>  
+   
+        <property name="triggers">  
+            <list>  
+                <ref local="cronTrigger" />  
+            </list>  
+        </property>  
+    </bean>  
+    <bean id="cronAction" class="test.CronAction" scope="prototype">  
+        <property name="scheduler">  
+            <ref bean="schedulerFactory" />      
+        </property>   
+</bean>  
 </beans>

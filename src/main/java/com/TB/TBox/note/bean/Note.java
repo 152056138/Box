@@ -15,7 +15,7 @@ public class Note {
 	private int mood; //此刻的心情
 	private String noteAdout; //纸条关于谁
 	private String noteContent; //内容
-	private List<byte[]> imageList; //此字段仅作为数据响应到前台
+	private List<String> imageList; //此字段仅作为数据响应到前台
 	private String time; //发布时间
 	private int goodNum; //点赞数
 	private int egg; //扔鸡蛋数
@@ -41,10 +41,10 @@ public class Note {
 	public int getNoteId() {
 		return noteId;
 	}
-	public List<byte[]> getImageList() {
+	public List<String> getImageList() {
 		return imageList;
 	}
-	public void setImageList(List<byte[]> imageList) {
+	public void setImageList(List<String> imageList) {
 		this.imageList = imageList;
 	}
 	public void setNoteId(int noteId) {

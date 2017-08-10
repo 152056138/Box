@@ -136,11 +136,11 @@ public class NoteText {
 		val.put("time", note.getTime());
 //		System.out.println("uid"+note.getUid());
 //		System.out.println("time"+note.getUid());
-		int noteId = noteService.schNote(val);//获得刚存储的字条的id，以存储图片
-		for(byte[] b : b3List){
-			 image = new ImageResp(noteId, b);
-			noteService.addImage(image);
-		}
+//		int noteId = noteService.schNote(val);//获得刚存储的字条的id，以存储图片
+//		for(byte[] b : b3List){
+//			 image = new ImageResp(noteId, b);
+//			noteService.addImage(image);
+//		}
 	}
 	
 	public void good(){

@@ -80,32 +80,26 @@ public class NoteServlet {
 	@RequestMapping(value = "/addNote", method = RequestMethod.POST)
 	public void addNote(HttpServletRequest request, HttpServletResponse response, MultipartRequest re)
 			throws IOException {
-		List<byte[]> b3List = null;
+		List<String> b3List = null;
 		// 从前台接收数据
 		int uid = Integer.parseInt(request.getParameter("uid"));
 		int mood = Integer.parseInt(request.getParameter("mood"));
 		String noteAdout = request.getParameter("noteAdout");
 		String noteContent = request.getParameter("noteContent");
+		String friendNumberList = request.getParameter("friendNumberList");
+		int obvious = Integer.parseInt(request.getParameter("obvious"));
 		SimpleDateFormat sdt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String time = sdt.format(new Date());
 		Note note = new Note(mood, noteAdout, noteContent, time, uid);
-<<<<<<< HEAD
-=======
-		// 接收图片数据
-		try {
-			b3List = fileUtil.MultiPartFileUpLoad(re);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
->>>>>>> a4b021d374c96762a20b2499a28d28734c83342e
+		String userNumber = toNodeInterface.selectUserNumber(uid);
 		//保存到数据库
 		noteService.addNote(note);
 		Map<String, Object> val = new HashMap<String, Object>();
 		val.put("uid", uid);
 		val.put("time", time);
-		int noteId = noteService.schNote(val);// 获得刚存储的字条的id，以存储图片
+		int noteId = noteService.schNote(val);// 获得刚存储的字条的id，以存储图片,设置权限
+		//设置权限
+		autToNode.setAuthority(noteId, friendNumberList, obvious);
 		// 接收图片数据
 		try {
 			b3List = fileUtil.MultiPartFileUpLoad(re,userNumber,noteId);
@@ -113,7 +107,7 @@ public class NoteServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for (byte[] b3 : b3List) {
+		for (String b3 : b3List) {
 			image = new ImageResp(noteId, b3);
 			noteService.addImage(image);
 		}
@@ -173,11 +167,6 @@ public class NoteServlet {
 		out.print(gson.toJson(egg));
 		out.flush();
 		out.close();
-
-<<<<<<< HEAD
-
-=======
->>>>>>> a4b021d374c96762a20b2499a28d28734c83342e
 	}
 
 	/**
@@ -187,10 +176,6 @@ public class NoteServlet {
 	 * @throws IOException 
 	 */
 	@RequestMapping(value="/showMyAllNote", method = RequestMethod.POST)
-<<<<<<< HEAD
-
-=======
->>>>>>> a4b021d374c96762a20b2499a28d28734c83342e
 	public void showMyAllNote(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		/*
 		 * 设置分页数据
@@ -209,6 +194,10 @@ public class NoteServlet {
 		//获得noteList
 		PageBean<Note> notePage = noteService.schMyNoteall(pageDate);
 		List<Note> noteList = notePage.getDatas();
+		//设置图片属性
+		for(int i = 0;i < noteList.size();i++){
+			noteList.get(i).setImageList(noteService.sehImage(noteList.get(i).getNoteId()));
+		}
 		/*
 		 * 数据响应到前台
 		 */
@@ -228,11 +217,17 @@ public class NoteServlet {
 	 */
 	@RequestMapping(value="/showOneFriNote", method = RequestMethod.POST)
 	public void showOneFriNote(HttpServletRequest request,HttpServletResponse response) throws IOException{
-		//获取要看的亲友的Uid和当前用户的id
+		//获取要看的亲友的Uid和当前用户的账号和分页的“脚标”noteId
 		String myuserNunber = request.getParameter("myuserNunber");
 		int friUid = Integer.parseInt(request.getParameter("friUid"));
+		int noteId = 0;
+		noteId = Integer.parseInt(request.getParameter("noteId"));
 		//调用接口得到可看的noteList
-		List<Note> autNoteList = autToNode.getAutNote(friUid, myuserNunber);
+		List<Note> autNoteList = autToNode.getAutNote(friUid, myuserNunber,noteId);
+		//设置图片属性
+		for(int i = 0;i < autNoteList.size();i++){
+			autNoteList.get(i).setImageList(noteService.sehImage(autNoteList.get(i).getNoteId()));
+		}
 		//数据响应到前台
 		Gson gson = new Gson();
 		response.setContentType("text/json");
@@ -250,27 +245,30 @@ public class NoteServlet {
 	 */
 	@RequestMapping(value="/showAllfriNote", method = RequestMethod.POST)
 	public void showAllfriNote(HttpServletRequest request,HttpServletResponse response) throws IOException{
-		//得到当前用户的uid
+		List<Note> allNoteList = new ArrayList<Note>();
+		//获取要看的亲友的Uid和当前用户的账号和分页的“脚标”noteId
 		int myUid = Integer.parseInt(request.getParameter("uid"));
 		String myuserNunber = request.getParameter("myuserNunber");
+		int noteId = Integer.parseInt(request.getParameter("noteId"));//人工分页的判断脚标
 		//查出用户的所有好友uid
-<<<<<<< HEAD
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("uid", myUid);
 		map.put("recoverFriend", 0);
 		List<Integer> friUidList = toNodeInterface.selectAllFriendUid(map) ;
-=======
-		List<Integer> friUidList = null;
->>>>>>> a4b021d374c96762a20b2499a28d28734c83342e
-		//查出所有好友的有权限的noteList再集合为一个总的allNoteList
-		List<Note> allNoteList = new ArrayList<Note>();
-		List<Note> noteList = new ArrayList<Note>();
-		for(int friUid : friUidList){
-			noteList = autToNode.getAutNote(friUid, myuserNunber);
-			for(Note note :noteList){
-				allNoteList.add(note);
-			}
+		allNoteList = autToNode.getAllAutNote(friUidList, myuserNunber, noteId);
+		//设置图片属性
+		for(int i = 0;i < allNoteList.size();i++){
+			allNoteList.get(i).setImageList(noteService.sehImage(allNoteList.get(i).getNoteId()));
 		}
+//		//查出所有好友的有权限的noteList再集合为一个总的allNoteList
+//		
+//		List<Note> noteList = new ArrayList<Note>();
+//		for(int friUid : friUidList){
+//			noteList = autToNode.getAutNote(friUid, myuserNunber);
+//			for(Note note :noteList){
+//				allNoteList.add(note);
+//			}
+//		}
 		//数据响应到前台
 		Gson gson = new Gson();
 		response.setContentType("text/json");

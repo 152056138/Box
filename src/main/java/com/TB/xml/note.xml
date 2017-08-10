@@ -38,9 +38,14 @@
     	select * from mood_note where uid=#{uid}
     </select>
     
+    <!-- ========不按分页查询所有纸条========= -->
+    <select id="schAllNote" resultType="com.TB.TBox.note.bean.Note">
+    	select * from mood_note where 1=1 order by id desc
+    </select>
+    
     <!-- ============查找图片============= -->
-    <select id="selImage" parameterType="int" resultType="byte[]">
-  		select * from mood_imageresp where noteId=#{noteId}
+    <select id="selImage" parameterType="int" resultType="String">
+  		select image from mood_imageresp where noteId=#{noteId}
    </select>
    
    	<!-- ============修改点赞数============ -->
