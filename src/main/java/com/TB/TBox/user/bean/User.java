@@ -55,22 +55,21 @@ public class User {
 
 
 	//注册账号时调用这个构造函数
-	public User(String number, String password, String phone, String place,String ufacing) {
+	public User(String number, String password, String place,String ufacing) {
 		super();
 		this.number = number;
 		this.password = password;
-		this.phone = phone;
-		this.place = place;
 		this.ufacing = ufacing;
 	}
 	
 	
 	//创建角色的时候调用这个构造函数
-	public User(int uid,String username,String constellation, String blood, String signature, String birthday, String ufacing, String hobby, String job,
+	public User(int uid,String username, String phone,String constellation, String blood, String signature, String birthday, String ufacing, String hobby, String job,
 			String gender, String personalPassword, int age) {
 		super();
 		this.uid = uid;
 		this.username = username;
+		this.phone = phone;
 		this.constellation = constellation;
 		this.blood = blood;
 		this.signature = signature;

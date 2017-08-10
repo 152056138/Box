@@ -5,7 +5,7 @@ public class HttpPathUtils {
 	  
 	  /**
 	   * 用户注册模块
-	   * 提供的参数：password（密码），repassword（重复密码），phone（手机号），place（所在省份）
+	   * 提供的参数：password（密码），repassword（重复密码），phone（手机号）
 	   * @return
 	   */
 	  public static String addUser(){
@@ -14,7 +14,7 @@ public class HttpPathUtils {
 
 	  /**
 	   * 创建角色模块
-	   * 提供的参数：uid（注册完返回的uid），username（角色名），constellation（星座），blood（血型）
+	   * 提供的参数：uid（注册完返回的uid），username（角色名），place（所在省份），constellation（星座），blood（血型）
 	   * signature（个性签名），birthday（生日），hobby（爱好），job（工作），gender（性别），personalPassword（私人密码）
 	   * age（年龄），ufacing（头像）
 	   * @return
@@ -61,7 +61,7 @@ public class HttpPathUtils {
 	  }
 	  /**
 	   * 修改用户信息
-	   * 提供的参数：uid，phone，place，ufacing
+	   * 提供的参数：uid，phone，ufacing
 	   * @return
 	   */
 	  public static String updateUserData(){
@@ -70,7 +70,7 @@ public class HttpPathUtils {
 	  }
 	  /**
 	   * 修改角色信息
-	 * 提供的参数：uid，username（角色名），constellation（星座），blood（血型）
+	 * 提供的参数：uid，username（角色名），place，constellation（星座），blood（血型）
 	   * signature（个性签名），birthday（生日），hobby（爱好），job（工作），gender（性别），personalPassword（私人密码）
 	   * age（年龄），ufacing（头像）
 	   * @return
@@ -118,7 +118,7 @@ public class HttpPathUtils {
 		return pre+"category/selectAllCategory";
 		  
 	  }
-	  //======================================================================
+	  //=================================好友模块=====================================
 	  
 	 /**
 	  * 添加好友之前的模糊查询所有符合条件的用户
@@ -182,7 +182,7 @@ public class HttpPathUtils {
 		return pre+"friend/selectDeleteFriend";
 		  
 	  }
-	  //========================================================================
+	  //==============================好友便签模块======================================
 	  /**
 	   * 添加好友便签
 	   * 提供的参数：uid，fid，memoName（便签标题），friendContent（便签内容）
@@ -220,5 +220,54 @@ public class HttpPathUtils {
 		return pre+"friend/selectFriendData";
 		  
 	  }
-	  //===================================================================================
+	  //===========================漂流瓶模块==============================
+
+	  /**
+	   * 添加漂流瓶
+	   * 所需的参数：uid（用户的uid），title（漂流瓶标题），driftContent（漂流记录的内容），identifier（样式编号：数字）
+	   * @return
+	   */
+	  public static String addDrift_note(){
+			return pre+"driftBottle/addDrift_note";
+			  
+		  }
+	  /**
+	   * 添加漂流瓶评论
+	   * 所需的参数：driftId（漂流瓶的id），drifCommentId（评论人的uid），drifIfObv（是否匿名 数字），drifContent（评论内容）
+	   * @return
+	   */
+	  public static String addDrift_evaluate_discuss(){
+			return pre+"driftBottle/addDrift_evaluate_discuss";
+			  
+		  }
+	  /**
+	   * 仍回大海
+	   * 所需的参数：driftId（漂流瓶的id）
+	   * @return
+	   */
+	  public static String atSea(){
+			return pre+"driftBottle/atSea";
+			  
+		  }
+	  /**
+	   * 厌恶此漂流瓶
+	   * 所需参数：driftId
+	   * 注意：一旦点击了厌恶，此漂流瓶将永久不被拾起
+	   * @return
+	   */
+	  public static String hate(){
+			return pre+"driftBottle/hate";
+			  
+		  }
+	  
+	  /**
+	   * 随机抽取一条漂流瓶和其所有评论且不是此用户的
+	   * 所需参数：uid，
+	   * @return
+	   */
+	  public static String randomSelectDrift_note(){
+			return pre+"driftBottle/randomSelectDrift_note";
+			  
+		  }
+	  //================================================
 }
