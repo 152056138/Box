@@ -13,6 +13,9 @@ public interface InterfaceToUser {
 	 * 根据id查询图片
 	 */
 	public List<String> sehImage(int noteId);
+<<<<<<< HEAD
 	
 	
+=======
+>>>>>>> d72664b765ffc71caf72ebcc934525b7ffdcd525
 }

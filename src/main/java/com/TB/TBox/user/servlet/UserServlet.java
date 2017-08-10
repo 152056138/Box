@@ -2,6 +2,7 @@ package com.TB.TBox.user.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,14 +30,13 @@ import com.google.gson.Gson;
 @RequestMapping("/user")
 @Scope("prototype")
 public class UserServlet {
-	
 
 	@Autowired
 	private InterfaceToUser interfaceToUser = new InterfaceToUserImp();
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private FileUploadUtil fileUtil;
+	private FileUploadUtil fileUploadUtil;
 	@Autowired
 	private User user;
 	@Autowired
@@ -58,7 +58,6 @@ public class UserServlet {
 		String password = request.getParameter("password");
 		String repassword = request.getParameter("repassword");
 		String phone = request.getParameter("phone");
-		String place = request.getParameter("place");
 
 		while (true) {
 			// 获取一个随机数
@@ -72,46 +71,54 @@ public class UserServlet {
 		}
 
 		System.out.println(number + " " + password + " " + repassword + " " + phone);
-		if ((password.isEmpty()) || (phone.isEmpty()) || (phone.isEmpty())) {
+
+		if (!(userService.selectUserByPhone(phone) == null)) {
 			response.setContentType("text/json");
 			PrintWriter out = response.getWriter();
-			out.print("用户注册信息填写不完整,请填写完整！");
+			out.print("此手机号已经被注册！！");
 			out.flush();
 			out.close();
 		} else {
-			// 判断密码的长度
-			if (password.length() < 6) {
+			if ((password.isEmpty()) || (phone.isEmpty()) || (phone.isEmpty())) {
 				response.setContentType("text/json");
 				PrintWriter out = response.getWriter();
-				out.print("密码位数太少，最少为6位！");
-				out.flush();
-				out.close();
-				// 重复密码和密码是否一致
-			} else if (password.equals(repassword)) {
-
-				// 得到默认的头像
-//				List<byte[]> ufacings = interfaceToUser.sehImage(0);
-//				for (byte[] ufacing : ufacings) {
-//					user.setUfacing(ufacing);
-//				}
-				user.setNumber(number);
-				user.setPassword(password);
-				user.setPhone(phone);
-				user.setPlace(place);
-				userService.addUser(user);
-				user = userService.selectUserByNumber(number);
-				System.out.println("注册成功");
-				response.setContentType("text/json");
-				PrintWriter out = response.getWriter();
-				out.print(user.toJson());
+				out.print("用户注册信息填写不完整,请填写完整！");
 				out.flush();
 				out.close();
 			} else {
-				response.setContentType("text/json");
-				PrintWriter out = response.getWriter();
-				out.print("密码和重复密码不一致！");
-				out.flush();
-				out.close();
+				// 判断密码的长度
+				if (password.length() < 6) {
+					response.setContentType("text/json");
+					PrintWriter out = response.getWriter();
+					out.print("密码位数太少，最少为6位！");
+					out.flush();
+					out.close();
+					// 重复密码和密码是否一致
+				} else if (password.equals(repassword)) {
+
+					// 得到默认的头像
+					List<String> ufacings = interfaceToUser.sehImage(0);
+					for (String ufacing : ufacings) {
+						user.setUfacing(ufacing);
+					}
+					user.setNumber(number);
+					user.setPassword(password);
+					user.setPhone(phone);
+					userService.addUser(user);
+					user = userService.selectUserByNumber(number);
+					System.out.println("注册成功");
+					response.setContentType("text/json");
+					PrintWriter out = response.getWriter();
+					out.print(user.toJson());
+					out.flush();
+					out.close();
+				} else {
+					response.setContentType("text/json");
+					PrintWriter out = response.getWriter();
+					out.print("密码和重复密码不一致！");
+					out.flush();
+					out.close();
+				}
 			}
 		}
 
@@ -130,7 +137,8 @@ public class UserServlet {
 		String uuid = request.getParameter("uid");
 		int uid = Integer.parseInt(uuid);
 		user = userService.selectUserByID(uid);
-
+		String place = request.getParameter("place");
+		user.setPlace(place);
 		String username = request.getParameter("username");
 		user.setUsername(username);
 		String constellation = request.getParameter("constellation");
@@ -154,10 +162,10 @@ public class UserServlet {
 		user.setAge(age);
 
 		// 获取图片
-		List<byte[]> b3List = null;
-		b3List = fileUtil.MultiPartFileUpLoad(re);
-		for (byte[] b3 : b3List) {
-			user.setUfacing(b3);
+		List<String> imgList = new ArrayList<String>();
+		imgList = fileUploadUtil.MultiPartFileUpLoad(re, user.getNumber(), -1);
+		for (String img : imgList) {
+			user.setUfacing(img);
 			// OutputStream out = new
 			// FileOutputStream("C:/Users/MrDu/Desktop/faa.jpg");
 			// BufferedOutputStream buf = new BufferedOutputStream(out);
@@ -165,7 +173,6 @@ public class UserServlet {
 			// buf.flush();
 			// buf.close();
 		}
-
 
 		log.debug(user.toJson());
 		userService.createRole(user);
@@ -250,7 +257,6 @@ public class UserServlet {
 		User formuser = new User();
 		formuser.setUid(user.getUid());
 		formuser.setPhone(user.getPhone());
-		formuser.setPlace(user.getPlace());
 		formuser.setUfacing(user.getUfacing());
 		formuser.setNumber(user.getNumber());
 		System.out.println(formuser.toJson());
@@ -275,6 +281,7 @@ public class UserServlet {
 		user = userService.selectUserByID(uid);
 		User formRole = new User();
 		formRole.setUsername(user.getUsername());
+		formRole.setPlace(user.getPlace());
 		formRole.setConstellation(user.getConstellation());
 		formRole.setBlood(user.getBlood());
 		formRole.setSignature(user.getSignature());
@@ -307,13 +314,12 @@ public class UserServlet {
 		user = userService.selectUserByID(uid);
 		String phone = request.getParameter("phone");
 		user.setPhone(phone);
-		String place = request.getParameter("place");
-		user.setPlace(place);
+
 		// 获取图片
-		List<byte[]> b3List = null;
-		b3List = fileUtil.MultiPartFileUpLoad(re);
-		for (byte[] b3 : b3List) {
-			user.setUfacing(b3);
+		List<String> imgList = null;
+		imgList = fileUploadUtil.MultiPartFileUpLoad(re, user.getNumber(), -1);
+		for (String img : imgList) {
+			user.setUfacing(img);
 			// OutputStream out = new
 			// FileOutputStream("C:/Users/MrDu/Desktop/faa.jpg");
 			// BufferedOutputStream buf = new BufferedOutputStream(out);
@@ -348,6 +354,8 @@ public class UserServlet {
 		user = userService.selectUserByID(uid);
 		String username = request.getParameter("username");
 		user.setUsername(username);
+		String place = request.getParameter("place");
+		user.setPlace(place);
 		String constellation = request.getParameter("constellation");
 		user.setConstellation(constellation);
 		String blood = request.getParameter("blood");
@@ -369,9 +377,9 @@ public class UserServlet {
 		user.setAge(age);
 
 		// 获取图片
-		List<byte[]> b3List = null;
-		b3List = fileUtil.MultiPartFileUpLoad(re);
-		for (byte[] b3 : b3List) {
+		List<String> b3List = null;
+		b3List = fileUploadUtil.MultiPartFileUpLoad(re, user.getNumber(), -1);
+		for (String b3 : b3List) {
 			user.setUfacing(b3);
 			// OutputStream out = new
 			// FileOutputStream("C:/Users/MrDu/Desktop/faa.jpg");
@@ -402,27 +410,55 @@ public class UserServlet {
 	public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String number = request.getParameter("number");
 		String password = request.getParameter("password");
-		user = userService.selectUserByNumber(number);
-		if (user == null) {
-			response.setContentType("text/json");
-			PrintWriter out = response.getWriter();
-			out.print("您输入的账号不存在！");
-			out.flush();
-			out.close();
-		} else {
-			if (password.equals(user.getPassword())) {
+		if (number.length() == 10) {
+			// 输入的是账号的情况
+			user = userService.selectUserByNumber(number);
+			if (user == null) {
 				response.setContentType("text/json");
 				PrintWriter out = response.getWriter();
-				out.print("登陆成功！" + user.toJson());
+				out.print("您输入的账号不存在！");
 				out.flush();
 				out.close();
 			} else {
+				if (password.equals(user.getPassword())) {
+					response.setContentType("text/json");
+					PrintWriter out = response.getWriter();
+					out.print("登陆成功！" + user.toJson());
+					out.flush();
+					out.close();
+				} else {
+					response.setContentType("text/json");
+					PrintWriter out = response.getWriter();
+					out.print("您输入的密码不正确！");
+					out.flush();
+					out.close();
+				}
+			}
+		} else {
+			//输入的为手机号的情况
+			user = userService.selectUserByPhone(number);
+			if (user == null) {
 				response.setContentType("text/json");
 				PrintWriter out = response.getWriter();
-				out.print("您输入的密码不正确！");
+				out.print("您输入的手机号不存在！");
 				out.flush();
 				out.close();
+			} else {
+				if (password.equals(user.getPassword())) {
+					response.setContentType("text/json");
+					PrintWriter out = response.getWriter();
+					out.print("登陆成功！" + user.toJson());
+					out.flush();
+					out.close();
+				} else {
+					response.setContentType("text/json");
+					PrintWriter out = response.getWriter();
+					out.print("您输入的密码不正确！");
+					out.flush();
+					out.close();
+				}
 			}
+
 		}
 	}
 
@@ -511,10 +547,9 @@ public class UserServlet {
 		UserService userService = new UserService();
 		// 截取字符串
 		String number = null;
-		String password = ("");
+		String password = ("123123");
 		String repassword = ("123123");
 		String phone = ("1234567888");
-		String place = ("北京市");
 
 		while (true) {
 			// 获取一个随机数
@@ -539,14 +574,13 @@ public class UserServlet {
 			} else if (password.equals(repassword)) {
 
 				// 得到默认的头像
-				List<byte[]> ufacings = interfaceToUser.sehImage(0);
-				for (byte[] ufacing : ufacings) {
+				List<String> ufacings = interfaceToUser.sehImage(0);
+				for (String ufacing : ufacings) {
 					user.setUfacing(ufacing);
 				}
 				user.setNumber(number);
 				user.setPassword(password);
 				user.setPhone(phone);
-				user.setPlace(place);
 				userService.addUser(user);
 				user = userService.selectUserByNumber(number);
 				System.out.println("注册成功");

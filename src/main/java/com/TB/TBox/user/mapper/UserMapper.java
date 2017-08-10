@@ -12,6 +12,8 @@ public interface UserMapper {
 	public User selectUserByID(int uid);
 	public void updateRole(User user);
 	public User selectUserByNumber(String number);
+	
+	public User selectUserByPhone(String phone);
 	//用户心情模块操作
 	public void addUserMoodColor(Mood_color mood_color);
 	
