@@ -59,6 +59,11 @@ public class UserServlet {
 		String repassword = request.getParameter("repassword");
 		String phone = request.getParameter("phone");
 
+		// 得到默认的头像
+		List<String> ufacings = interfaceToUser.sehImage(0);
+		for (String ufacing : ufacings) {
+			user.setUfacing(ufacing);
+		}
 		while (true) {
 			// 获取一个随机数
 			double rand = Math.random();
@@ -95,12 +100,6 @@ public class UserServlet {
 					out.close();
 					// 重复密码和密码是否一致
 				} else if (password.equals(repassword)) {
-
-					// 得到默认的头像
-					List<String> ufacings = interfaceToUser.sehImage(0);
-					for (String ufacing : ufacings) {
-						user.setUfacing(ufacing);
-					}
 					user.setNumber(number);
 					user.setPassword(password);
 					user.setPhone(phone);
@@ -435,7 +434,7 @@ public class UserServlet {
 				}
 			}
 		} else {
-			//输入的为手机号的情况
+			// 输入的为手机号的情况
 			user = userService.selectUserByPhone(number);
 			if (user == null) {
 				response.setContentType("text/json");
