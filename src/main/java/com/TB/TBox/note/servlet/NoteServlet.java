@@ -91,11 +91,9 @@ public class NoteServlet {
 		SimpleDateFormat sdt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String time = sdt.format(new Date());
 		Note note = new Note(mood, noteAdout, noteContent, time, uid);
-<<<<<<< HEAD
-		String userNumber = toNodeInterface.selectUserNumber(uid);
-=======
 
->>>>>>> d72664b765ffc71caf72ebcc934525b7ffdcd525
+		String userNumber = toNodeInterface.selectUserNumber(uid);
+
 		//保存到数据库
 		noteService.addNote(note);
 		Map<String, Object> val = new HashMap<String, Object>();
@@ -171,11 +169,7 @@ public class NoteServlet {
 		out.print(gson.toJson(egg));
 		out.flush();
 		out.close();
-<<<<<<< HEAD
-=======
 
-
->>>>>>> d72664b765ffc71caf72ebcc934525b7ffdcd525
 	}
 
 	/**
@@ -260,30 +254,17 @@ public class NoteServlet {
 		String myuserNunber = request.getParameter("myuserNunber");
 		int noteId = Integer.parseInt(request.getParameter("noteId"));//人工分页的判断脚标
 		//查出用户的所有好友uid
-<<<<<<< HEAD
-=======
 
->>>>>>> d72664b765ffc71caf72ebcc934525b7ffdcd525
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("uid", myUid);
 		map.put("recoverFriend", 0);
 		List<Integer> friUidList = toNodeInterface.selectAllFriendUid(map) ;
-<<<<<<< HEAD
+
 		allNoteList = autToNode.getAllAutNote(friUidList, myuserNunber, noteId);
 		//设置图片属性
 		for(int i = 0;i < allNoteList.size();i++){
 			allNoteList.get(i).setImageList(noteService.sehImage(allNoteList.get(i).getNoteId()));
-=======
 
-		//查出所有好友的有权限的noteList再集合为一个总的allNoteList
-		List<Note> allNoteList = new ArrayList<Note>();
-		List<Note> noteList = new ArrayList<Note>();
-		for(int friUid : friUidList){
-			noteList = autToNode.getAutNote(friUid, myuserNunber);
-			for(Note note :noteList){
-				allNoteList.add(note);
-			}
->>>>>>> d72664b765ffc71caf72ebcc934525b7ffdcd525
 		}
 //		//查出所有好友的有权限的noteList再集合为一个总的allNoteList
 //		

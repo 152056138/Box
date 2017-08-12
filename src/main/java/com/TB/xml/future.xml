@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.TB.TBox.future.mapper.FutureMapper">
+	<insert id="addFuture" parameterType="Future" useGeneratedKeys="true"
+		keyProperty="aid">
+		insert into
+		mood_aftertime(afrom,afterAcontent,abegin,aend,astatus)
+		values(#{afrom},#{afterAcontent},#{abegin},#{aend},#{astatus})
+	</insert>
+
+	<select id="selectUserFutureNoteById" parameterType="int"
+		resultType="Future">
+		select * from mood_aftertime where aid=#{aid}
+	</select>
+	<select id="selectUserFutureNote" parameterType="String"
+		resultMap="futureList">
+		select * from mood_aftertime where aend like concat(concat('%',#{aend}),'%')
+	</select>
+	<resultMap type="Future" id="futureList">
+		<id column="aid" property="aid" />
+		<result column="afterAcontent" property="afterAcontent" />
+		<result column="abegin" property="abegin" />
+		<result column="aend" property="aend" />
+	</resultMap>
+	<update id="updateFutureStatus" parameterType="Future">
+		update
+		mood_aftertime set
+		astatus=#{astatus} where aid=#{aid}
+	</update>
+</mapper>
