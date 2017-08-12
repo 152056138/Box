@@ -40,14 +40,14 @@
 		<property name="durability" value="true" />  
 	</bean> 
 	<!-- ======================触发器========================== -->
-	<bean id="cronTrigger"  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+	<bean id="firstComplexJobDetailTrigger"  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="firstComplexJobDetail" />
 		<!--  <property name="cronExpression" value="0 21 23 10 8 ? 2017" /> -->
 		 <property name="cronExpression">  
                 <value>* * * * * ? 2099</value>  
          </property> 
 	</bean>
-	 <bean id="seccronTrigger"  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+	 <bean id="secondComplexJobDetailTrigger"  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="secondComplexJobDetail" />
 		 <property name="cronExpression" value="* * * * * ? 2099" />
 	</bean>
