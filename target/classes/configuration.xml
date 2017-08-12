@@ -33,6 +33,7 @@
 		<mapper resource="com/TB/xml/friend.xml" />
 		<mapper resource="com/TB/xml/authority.xml"/>
 		<mapper resource="com/TB/xml/Drift_note.xml"/>
+		<mapper resource="com/TB/xml/warn.xml"/>
 	</mappers>
 
 

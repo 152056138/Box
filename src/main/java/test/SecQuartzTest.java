@@ -10,6 +10,7 @@ public class SecQuartzTest extends QuartzJobBean {
 	protected void executeInternal(JobExecutionContext arg0) throws JobExecutionException {
 		// TODO Auto-generated method stub
 		log.info("Allowed to launch");
+		System.out.println("Allowed to launch");
 	}
 
 }

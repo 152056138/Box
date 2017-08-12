@@ -33,7 +33,4 @@ public class QuartzTest extends QuartzJobBean {
         
 	}
 	
-	public static void main(String[] args) {
-		AbstractApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");  
-	}
 }

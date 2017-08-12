@@ -16,7 +16,7 @@ public interface ScheduleService {
      * @param name  Quartz CronTrigger名称 
      * @param cronExpression Quartz Cron 表达式，如 "0/10 * * ? * * *"等 
      */  
-    void schedule(String name,String cronExpression);  
+    void schedule(String job,String name,String cronExpression);  
       
     /** 
      * 根据 Quartz Cron Expression 调试任务 
@@ -29,7 +29,7 @@ public interface ScheduleService {
      * @param name Quartz CronTrigger名称 
      * @param cronExpression Quartz CronExpression 
      */  
-    void schedule(String name,CronExpression cronExpression);  
+    void schedule(String job,String name,CronExpression cronExpression);  
       
     /** 
      * 在startTime时执行调试一次 

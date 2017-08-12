@@ -49,6 +49,12 @@ public class CronAction {
 				 
 				 ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");  
 				 ScheduleService schedulerService = (ScheduleService)context.getBean("schedulerImpl"); 
-				 schedulerService.schedule("0 35 21 10 8 ? 2017"); 
+				 String job = "";
+				 switch("secondComplexJobDetail"){
+				 case "secondComplexJobDetail":{job="secondComplexJobDetail";break;}
+				 case "firstComplexJobDetail":{job="firstComplexJobDetail";break;}
+				 }
+				 schedulerService.schedule(job,"seccronTrigger","0 21 21 11 8 ? 2017");
+				 
 	}
 }

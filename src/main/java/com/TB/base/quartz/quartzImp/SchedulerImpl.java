@@ -7,6 +7,7 @@ import org.quartz.CronExpression;
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
+import org.quartz.SimpleTrigger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -15,40 +16,55 @@ import org.springframework.stereotype.Service;
 public class SchedulerImpl implements ScheduleService {
 
 	private Scheduler scheduler;  
-    private JobDetail jobDetail;  
+    private JobDetail firstComplexJobDetail;
+    private JobDetail secondComplexJobDetail;
+  
+  
+  
   
     @Autowired  
-    public void setJobDetail( JobDetail jobDetail) {  
-        this.jobDetail = jobDetail;  
+    public void setSecondComplexJobDetail(@Qualifier("secondComplexJobDetail")JobDetail jobDetail) {  
+        this.secondComplexJobDetail = jobDetail;  
+    }  
+    
+    @Autowired  
+    public void setFirstComplexJobDetail(@Qualifier("firstComplexJobDetail")JobDetail jobDetail) {  
+        this.firstComplexJobDetail = jobDetail;  
     }  
   
     @Autowired  
-    public void setScheduler( Scheduler scheduler) {  
+    public void setScheduler(@Qualifier("schedulerFactory")Scheduler scheduler) {  
         this.scheduler = scheduler;  
     }  
   
+    
     public void schedule(String cronExpression) {  
-        schedule(null, cronExpression);  
+        schedule(null,null, cronExpression);  
     }  
   
-    public void schedule(String name, String cronExpression) {  
+    public void schedule(String job,String name, String cronExpression) {  
         try {  
-            schedule(name, new CronExpression(cronExpression));  
+            schedule(job,name, new CronExpression(cronExpression));  
         } catch (Exception e) {  
             throw new RuntimeException(e);  
         }  
     }  
   
     public void schedule(CronExpression cronExpression) {  
-        schedule(null, cronExpression);  
+//        schedule(null, cronExpression);  
     }  
   
-    public void schedule(String name, CronExpression cronExpression) {  
+    public void schedule(String job,String name, CronExpression cronExpression) {  
+    	JobDetail jobDetail = null;
         if (name == null || name.trim().equals("")) {  
             name = UUID.randomUUID().toString();  
         }  
   
         try {  
+        	switch(job){
+        	case "firstComplexJobDetail":{jobDetail = firstComplexJobDetail;break;}
+        	case "secondComplexJobDetail":{jobDetail = secondComplexJobDetail;break;}
+        	}
             scheduler.addJob(jobDetail, true);  
   
             CronTrigger cronTrigger = new CronTrigger(name, Scheduler.DEFAULT_GROUP, jobDetail.getName(),  
@@ -89,15 +105,25 @@ public class SchedulerImpl implements ScheduleService {
         schedule(null, startTime, endTime, repeatCount, repeatInterval);  
     }
 
-//	public void schedule(String name, CronExpression cronExpression) {
-//		// TODO Auto-generated method stub
-//		
-//	}
 
-	public void schedule(String name, Date startTime, Date endTime, int repeatCount, long repeatInterval) {
-		// TODO Auto-generated method stub
-		
-	}  
+
+    public void schedule(String name, Date startTime, Date endTime, int repeatCount, long repeatInterval) {  
+//        if (name == null || name.trim().equals("")) {  
+//            name = UUID.randomUUID().toString();  
+//        }  
+//  
+//        try {  
+//            scheduler.addJob(jobDetail, true);  
+//  
+//            SimpleTrigger SimpleTrigger = new SimpleTrigger(name, Scheduler.DEFAULT_GROUP, jobDetail.getName(),  
+//                    Scheduler.DEFAULT_GROUP, startTime, endTime, repeatCount, repeatInterval);  
+//            scheduler.scheduleJob(SimpleTrigger);  
+//            scheduler.rescheduleJob(name, Scheduler.DEFAULT_GROUP, SimpleTrigger);  
+//  
+//        } catch (Exception e) {  
+//            throw new RuntimeException(e);  
+//        }  
+    }  
   
     
 }
