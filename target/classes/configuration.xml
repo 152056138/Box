@@ -11,6 +11,8 @@
 		<typeAlias alias="Drift_note" type="com.TB.TBox.driftBottle.bean.Drift_note" />
 		<typeAlias alias="Drift_evaluate" type="com.TB.TBox.driftBottle.bean.Drift_evaluate" />
 		<typeAlias alias="Future" type="com.TB.TBox.future.bean.Future" />
+		<typeAlias alias="PushMsg" type="com.TB.TBox.push.bean.PushMsg" />
+		<typeAlias alias="Message" type="com.TB.TBox.future.bean.Message" />
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -35,7 +37,7 @@
 		<mapper resource="com/TB/xml/Drift_note.xml"/>
 		<mapper resource="com/TB/xml/warn.xml"/>
 		<mapper resource="com/TB/xml/future.xml"/>
-
+		<mapper resource="com/TB/xml/pushMsg.xml"/>
 	</mappers>
 
 
