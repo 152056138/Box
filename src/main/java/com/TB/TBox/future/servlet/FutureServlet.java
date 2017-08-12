@@ -20,8 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.TB.TBox.future.bean.Future;
+import com.TB.TBox.future.bean.Message;
 import com.TB.TBox.future.service.FutureService;
+import com.TB.TBox.push.bean.PushMsg;
+import com.TB.TBox.push.service.PushMsgService;
 import com.TB.TBox.user.servlet.FriendServlet;
+import com.TB.push.PushMsgToSingleDevice;
+import com.baidu.yun.push.exception.PushClientException;
+import com.baidu.yun.push.exception.PushServerException;
 import com.google.gson.Gson;
 
 @Controller
@@ -36,7 +42,14 @@ public class FutureServlet {
 	private Future future;
 	@Autowired
 	private FutureService futureService;
-	
+	@Autowired
+	private PushMsg pushMsg;
+	@Autowired
+	private PushMsgService pushMsgService;
+	@Autowired
+	private Message message;
+	@Autowired
+	private PushMsgToSingleDevice pushMsgToSingleDevice;
 	/**
 	 * 添加未来纸条
 	 * @param request
@@ -68,14 +81,21 @@ public void addFuture(HttpServletRequest request, HttpServletResponse response) 
 
 /**
  * 整个传输过程
+ * @throws PushServerException 
+ * @throws PushClientException 
  */
-//public void updateFutureStatus(){
-//	Date date = new Date();
-//	String aend= mimate.format(date);
-//	System.out.println(aend);
-//	List<Future> futureList = new ArrayList<Future>();
-//	futureList = futureService.selectUserFutureNote(aend);
-//}
+public void updateFutureStatus() throws PushClientException, PushServerException{
+	Date date = new Date();
+	String aend= mimate.format(date);
+	System.out.println(aend);
+	List<Future> futureList = new ArrayList<Future>();
+	futureList = futureService.selectUserFutureNote(aend);
+	for(Future future : futureList){
+		pushMsg = pushMsgService.selectPushMsg(future.getAfrom());
+		String msg = futureService.setMessage(future);
+		pushMsgToSingleDevice.getpushMsg(msg,pushMsg.getChannelId());
+	}
+}
 @Test
 public void test(){
 	Future future = new Future();
