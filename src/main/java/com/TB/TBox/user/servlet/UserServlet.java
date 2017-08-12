@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartRequest;
 import com.TB.TBox.dataUtils.FileUploadUtil;
 import com.TB.TBox.note.interfaceTo.InterfaceToUser;
 import com.TB.TBox.note.interfaceTo.interfaceToImp.InterfaceToUserImp;
+import com.TB.TBox.push.bean.PushMsg;
+import com.TB.TBox.push.service.PushMsgService;
 import com.TB.TBox.user.bean.Mood_color;
 import com.TB.TBox.user.bean.User;
 import com.TB.TBox.user.service.UserService;
@@ -41,6 +43,10 @@ public class UserServlet {
 	private User user;
 	@Autowired
 	private Mood_color mood_color;
+	@Autowired
+	private PushMsg pushMsg;
+	@Autowired
+	private PushMsgService pushMsgService;
 	private Logger log = Logger.getLogger(UserServlet.class);
 	Gson gson = new Gson();
 
@@ -58,6 +64,7 @@ public class UserServlet {
 		String password = request.getParameter("password");
 		String repassword = request.getParameter("repassword");
 		String phone = request.getParameter("phone");
+		String channelId = request.getParameter("channelId");
 
 		// 得到默认的头像
 		List<String> ufacings = interfaceToUser.sehImage(0);
@@ -105,6 +112,11 @@ public class UserServlet {
 					user.setPhone(phone);
 					userService.addUser(user);
 					user = userService.selectUserByNumber(number);
+					//获得推送ID的方法
+					pushMsg.setUid(user.getUid());
+					pushMsg.setChannelId(channelId);
+					//保存推送id为以后推送做准备
+					pushMsgService.addPushMsg(pushMsg);
 					System.out.println("注册成功");
 					response.setContentType("text/json");
 					PrintWriter out = response.getWriter();
@@ -409,6 +421,7 @@ public class UserServlet {
 	public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String number = request.getParameter("number");
 		String password = request.getParameter("password");
+		String channelId = request.getParameter("channelId");
 		if (number.length() == 10) {
 			// 输入的是账号的情况
 			user = userService.selectUserByNumber(number);
@@ -420,6 +433,11 @@ public class UserServlet {
 				out.close();
 			} else {
 				if (password.equals(user.getPassword())) {
+					//用户每次登陆的时候更新一次推送id防止推送id变化
+					pushMsg = pushMsgService.selectPushMsg(user.getUid());
+					pushMsg.setChannelId(channelId);
+					pushMsgService.updatePushMsg(pushMsg);
+					
 					response.setContentType("text/json");
 					PrintWriter out = response.getWriter();
 					out.print("登陆成功！" + user.toJson());

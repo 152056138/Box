@@ -5,7 +5,7 @@ public class HttpPathUtils {
 	  
 	  /**
 	   * 用户注册模块
-	   * 提供的参数：password（密码），repassword（重复密码），phone（手机号）
+	   * 提供的参数：password（密码），repassword（重复密码），phone（手机号）channelId（用户绑定时生成的）
 	   * @return
 	   */
 	  public static String addUser(){
@@ -81,7 +81,7 @@ public class HttpPathUtils {
 	  
 	  /**
 	   * 登陆
-	   * 提供的参数:number(登陆账号),password(登陆密码)
+	   * 提供的参数:number(登陆账号),password(登陆密码)，channelId（每次登陆的时候进行一次更新，防止变化）
 	   * @return
 	   */
 	  public static String login(){

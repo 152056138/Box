@@ -10,17 +10,20 @@ import org.springframework.stereotype.Service;
 
 import com.TB.TBox.driftBottle.service.Drift_noteService;
 import com.TB.TBox.future.bean.Future;
+import com.TB.TBox.future.bean.Message;
 import com.TB.TBox.future.mapper.FutureMapper;
 import com.TB.base.mybatisUtils.SessionFactory;
+import com.google.gson.Gson;
 
 @Service
 public class FutureService implements FutureMapper {
 	Logger log = Logger.getLogger(Drift_noteService.class);
 	SessionFactory sessionFactory = new SessionFactory();
-
+	Gson gson = new Gson();
 	@Autowired
 	private Future future;
-
+	@Autowired
+	private Message message;
 	// 添加未来纸条
 	public void addFuture(Future future) {
 		SqlSession session = sessionFactory.getSession();
@@ -64,4 +67,10 @@ public class FutureService implements FutureMapper {
 		return futureList;
 	}
 
+	public String setMessage(Future future){
+		message.setTitle("未来纸条");
+		message.setDescription("您在"+future.getAbegin()+"写了一个纸条，现在给您推送过来。/n"+"纸条内容为："+future.getAfterAcontent());
+		return gson.toJson(message);
+		
+	}
 }
