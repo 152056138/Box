@@ -10,6 +10,7 @@
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	<!-- scan the annotation beans -->
 	<context:component-scan base-package="com.TB.TBox" />
+	<context:component-scan base-package="com.TB.push" />
 	<context:component-scan base-package="com.TB.base" />
 	<context:component-scan base-package="test" />
 	 <bean id="note" class="com.TB.TBox.note.bean.Note"></bean> 
@@ -39,7 +40,21 @@
 		<property name="jobClass" value="test.SecQuartzTest" />
 		<property name="durability" value="true" />  
 	</bean> 
+	<!-- 未来纸条bean -->
+	<bean name="FutureNote" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+	<property name="jobClass" value="com.TB.TBox.jobClass.FutureNote" />
+		<property name="durability" value="true" /> 
+	</bean>
+	
 	<!-- ======================触发器========================== -->
+	<!-- 未来纸条触发器 -->
+	<bean id="FutureNoteTrigger"  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="FutureNote" />
+		<!--  <property name="cronExpression" value="0 21 23 10 8 ? 2017" /> -->
+		 <property name="cronExpression">  
+                <value>* * * * * ? 2099</value>  
+         </property> 
+	</bean>
 	<bean id="firstComplexJobDetailTrigger"  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="firstComplexJobDetail" />
 		<!--  <property name="cronExpression" value="0 21 23 10 8 ? 2017" /> -->
@@ -57,6 +72,7 @@
             <list>  
                 <ref bean="firstComplexJobDetail" />  
                 <ref bean="secondComplexJobDetail" />  
+                 <ref bean="FutureNote" /> 
             </list>  
         </property>  
    

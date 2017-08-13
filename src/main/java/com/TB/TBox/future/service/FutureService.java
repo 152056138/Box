@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -71,6 +72,15 @@ public class FutureService implements FutureMapper {
 		message.setTitle("未来纸条");
 		message.setDescription("您在"+future.getAbegin()+"写了一个纸条，现在给您推送过来。/n"+"纸条内容为："+future.getAfterAcontent());
 		return gson.toJson(message);
+		
+	}
+	
+	@Test
+	public void test(){
+		FutureService futureService = new FutureService();
+		List<Future> futureList = new ArrayList<Future>();
+		futureList = futureService.selectUserFutureNote("2017-10-23");
+		log.info(futureList.size()+"====================================");
 		
 	}
 }
