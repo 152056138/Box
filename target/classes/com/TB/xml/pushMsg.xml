@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.TB.TBox.push.mapper.PushMsgMapper">
+	<insert id="addPushMsg" parameterType="PushMsg">
+		insert into
+		mood_push(uid,channelId)
+		values(#{uid},#{channelId})
+	</insert>
+<select id="selectPushMsg" parameterType="int" resultType="PushMsg">
+		select * from mood_push where uid=#{uid}
+	</select>
+	<update id="updatePushMsg" parameterType="PushMsg">
+		update mood_push
+		set channelId=#{channelId} where uid=#{uid}
+	</update>
+</mapper>

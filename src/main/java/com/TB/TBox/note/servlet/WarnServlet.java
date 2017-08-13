@@ -63,4 +63,22 @@ public class WarnServlet {
 		out.flush();
 		out.close();
 	} 
+	
+	/**
+	 * 设置提醒字条
+	 * @param request
+	 * @param response
+	 * @throws IOException 
+	 */
+	public void delWarn(HttpServletRequest request ,HttpServletResponse response) throws IOException{
+		//接收参数
+		int wid = Integer.parseInt(request.getParameter("wid"));
+		//调用方法
+		warnService.delWarn(wid);
+		response.setContentType("text/json");
+		PrintWriter out = response.getWriter();
+		out.print("删除提醒成功");
+		out.flush();
+		out.close();
+	} 
 }

@@ -11,5 +11,7 @@
 		insert into mood_warn (wcintent,wtime,wto,wfrom) values (#{wcintent},#{wtime},#{wto},#{wfrom})
 	</insert>
 	
-	
+	<delete id="delWarn" parameterType="int" >
+		delete from mood_warn where wid=#{wid}
+	</delete>
 </mapper>

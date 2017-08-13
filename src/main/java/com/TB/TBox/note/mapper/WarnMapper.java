@@ -18,4 +18,9 @@ public interface WarnMapper {
 	 * @param date
 	 */
 	public List<Warn> selWarn(String date);
+	/**
+	 * 根据wid删除
+	 * @param wid
+	 */
+	public void delWarn(int wid);
 }

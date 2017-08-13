@@ -64,4 +64,20 @@ public class WarnService {
 		}
 		return warnList;
 	}
+	/**
+	 * 按id删除提醒字条
+	 * @param warn
+	 */
+	public void delWarn(int wid){
+		SqlSession sqlSession = sessionFactory.getSession();
+		warnmapper = sqlSession.getMapper(WarnMapper.class);
+		try {
+			warnmapper.delWarn(wid);;
+			sqlSession.commit();
+			log.debug("删除成功");
+		} finally {
+			// TODO: handle finally clause
+			sqlSession.close();
+		}
+	}
 }
