@@ -4,10 +4,13 @@ import org.quartz.JobExecutionException;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
+
+import com.TB.base.quartz.QuartzThreadPool;
 
 @Component("quartzTest")
 public class QuartzTest extends QuartzJobBean {
@@ -31,6 +34,16 @@ public class QuartzTest extends QuartzJobBean {
 			e.printStackTrace();
 		} 
         
+	}
+	public static void main(String[] args) {
+		
+	
+		// TODO Auto-generated method stub
+		ApplicationContext a = new ClassPathXmlApplicationContext("applicationContext.xml");
+		test.SecQuartzTest secQuartzTest =  (test.SecQuartzTest) a.getBean("secQuartzTest");
+		secQuartzTest.setAid(10);
+		QuartzThreadPool q = new QuartzThreadPool();
+		q.setText("secondComplexJobDetail", "2017-8-13 10:55:00");
 	}
 	
 }
