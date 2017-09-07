@@ -54,7 +54,7 @@ public class CronAction {
 				 case "secondComplexJobDetail":{job="secondComplexJobDetail";break;}
 				 case "firstComplexJobDetail":{job="firstComplexJobDetail";break;}
 				 }
-				 schedulerService.schedule(job,"seccronTrigger","0 21 21 11 8 ? 2017");
+				 schedulerService.schedule(job,"seccronTrigger","0 49 16 14 8 ? 2017");
 				 
 	}
 }

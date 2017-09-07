@@ -14,7 +14,7 @@ public interface WarnMapper {
 	 */
 	public void addWarn(Warn warn);
 	/**
-	 * 根据提醒时间查询
+	 * 根据提醒时间模糊查询
 	 * @param date
 	 */
 	public List<Warn> selWarn(String date);

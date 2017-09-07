@@ -25,7 +25,7 @@ public class ToNodeImp implements ToNodeInterface {
 	private FriendService friendService;
 	SessionFactory sessionFactory = new SessionFactory();
 	/**
-	 * 通过好友的fid查询到好友对应的uid
+	 * 通过好友的friendnumber查询到好友对应的uid
 	 * @param friendNumber
 	 * @return
 	 */

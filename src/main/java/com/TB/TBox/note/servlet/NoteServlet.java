@@ -36,7 +36,7 @@ import com.TB.base.page.SystemContext;
 import com.google.gson.Gson;
 
 @Controller
-@RequestMapping("/noteServlet")
+@RequestMapping("/note")
 @Scope("prototype")
 public class NoteServlet {
 	@Autowired
@@ -129,9 +129,9 @@ public class NoteServlet {
 	 */
 	@RequestMapping(value = "/getGoodNum", method = RequestMethod.POST)
 	public void getGoodNum(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		// 获得当前点赞数和当前纸条id
-		int goodNum = Integer.parseInt(request.getParameter("goodNum")) + 1;
+		// 获得当前纸条id
 		int noteId = Integer.parseInt(request.getParameter("noteId"));
+		int goodNum = noteService.schNotebyId(noteId).getGoodNum() + 1;
 		Map<String, Object> val = new HashMap<String, Object>();
 		val.put("goodNum", goodNum);
 		val.put("noteId", noteId);
@@ -155,8 +155,8 @@ public class NoteServlet {
 	@RequestMapping(value = "/getEgg", method = RequestMethod.POST)
 	public void getEgg(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// 获得当前点赞数和当前纸条id
-		int egg = Integer.parseInt(request.getParameter("egg")) + 1;
 		int noteId = Integer.parseInt(request.getParameter("noteId"));
+		int egg = noteService.schNotebyId(noteId).getEgg() + 1;
 		Map<String, Object> val = new HashMap<String, Object>();
 		val.put("egg", egg);
 		val.put("noteId", noteId);
@@ -249,7 +249,7 @@ public class NoteServlet {
 	@RequestMapping(value="/showAllfriNote", method = RequestMethod.POST)
 	public void showAllfriNote(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		List<Note> allNoteList = new ArrayList<Note>();
-		//获取要看的亲友的Uid和当前用户的账号和分页的“脚标”noteId
+		//获取当前用户的Uid和当前用户的账号和分页的“脚标”noteId
 		int myUid = Integer.parseInt(request.getParameter("uid"));
 		String myuserNunber = request.getParameter("myuserNunber");
 		int noteId = Integer.parseInt(request.getParameter("noteId"));//人工分页的判断脚标

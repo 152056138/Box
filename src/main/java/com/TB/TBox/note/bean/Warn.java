@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Warn {
 	private int wid; //提醒字条id
-	private String wcintent; //提醒内容
+	private String wcontent; //提醒内容
 	private String wtime; //提醒时间
 	private String wto; //被提醒人
 	private String wfrom; //提醒人（此用户）
@@ -19,7 +19,7 @@ public class Warn {
 	
 	public Warn(String wcintent, String wtime, String wto, String wfrom) {
 		super();
-		this.wcintent = wcintent;
+		this.wcontent = wcintent;
 		this.wtime = wtime;
 		this.wto = wto;
 		this.wfrom = wfrom;
@@ -31,11 +31,11 @@ public class Warn {
 	public void setWid(int wid) {
 		this.wid = wid;
 	}
-	public String getWcintent() {
-		return wcintent;
+	public String getWcontent() {
+		return wcontent;
 	}
-	public void setWcintent(String wcintent) {
-		this.wcintent = wcintent;
+	public void setWcontent(String wcintent) {
+		this.wcontent = wcintent;
 	}
 	public String getWtime() {
 		return wtime;

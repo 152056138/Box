@@ -11,10 +11,12 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.TB.TBox.future.bean.Message;
 import com.TB.TBox.note.bean.Warn;
 import com.TB.TBox.note.mapper.EvaluateMapper;
 import com.TB.TBox.note.mapper.WarnMapper;
 import com.TB.base.mybatisUtils.SessionFactory;
+import com.google.gson.Gson;
 
 @Service
 public class WarnService {
@@ -23,6 +25,8 @@ public class WarnService {
 	private WarnMapper warnmapper;
 	@Autowired
 	private Warn warn;
+	@Autowired
+	private Message message;
 	/*
 	 * set上的注解注入
 	 */
@@ -79,5 +83,16 @@ public class WarnService {
 			// TODO: handle finally clause
 			sqlSession.close();
 		}
+	}
+	/**
+	 * 获得json格式的信息
+	 * @param warn2
+	 * @return
+	 */
+	public String setMessage(Warn warn) {
+		Gson gson = new Gson();
+		message.setTitle("提醒纸条");
+		message.setDescription("来自"+warn.getWfrom()+"的提醒:/n"+warn.getWcontent());
+		return gson.toJson(message);
 	}
 }

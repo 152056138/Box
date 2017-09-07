@@ -269,5 +269,72 @@ public class HttpPathUtils {
 			return pre+"driftBottle/randomSelectDrift_note";
 			  
 		  }
-	  //================================================
+	  //====================纸条模块============================
+	  /**
+	   * 发布纸条
+	   * 所需参数：uid（发布纸条人的uid），mood（纸条设置的心情颜色id），noteAdout（纸条关于的人的userNumber），noteContent（纸条的内容）
+	   * 		   friendNumberList（设置权限勾选的亲友的friendNumber），obvious（设置权限的方式0：设置可见用户，其他用户不可见；1：设置不可见用户，其他用户可见）
+	   */
+	  public static String addNote(){
+		  return pre+"note/addNote";
+	  }
+	  /**
+	   * 点赞
+	   * 所需参数：noteId（点赞纸条id）
+	   * @return
+	   */
+	  public static String getGoodNum(){
+		  return pre+"note/getGoodNum";
+	  }
+	  /**
+	   * 扔鸡蛋
+	   * 所需参数：noteId（扔鸡蛋纸条id）
+	   * @return
+	   */
+	  public static String getEgg(){
+		  return pre+"note/getEgg";
+	  }
+	  /**
+	   * 分页显示用户的所有字条
+	   * 所需参数：noteId（此为分页的最后一条字条的id，第一次为0），uid（要显示字条用户的uid），
+	   * @return
+	   */
+	  public static String showMyAllNote(){
+		  return pre+"note/showMyAllNote";
+	  }
+	  /**
+	   * 显示某个亲友的自己有权限看的字条
+	   * 所需参数：myuserNunber（当前用户的userNumber），friUid（要看的亲友的uid），noteId（此为分页的最后一条字条的id，第一次为0）
+	   * @return
+	   */
+	  public static String showOneFriNote(){
+		  return pre+"note/showOneFriNote";
+	  }
+	  /**
+	   * 显示所有亲友的自己有权限看的字条
+	   * 所需参数：uid（当前用户uid），myuserNunber（当前用户userNumber），noteId（此为分页的最后一条字条的id，第一次为0）
+	   * @return
+	   */
+	  public static String showAllfriNote(){
+		  return pre+"note/showAllfriNote";
+	  }
+	  
+	  //==============评论模块=====================
+	  /**
+	   * 发表评论
+	   * 所需参数：noteId（评回的纸条的id），commentId（评论人id），ifObv（是否匿名0是,1否），econtent（评论内容）
+	   * @return
+	   */
+	  public static String pushcomment(){
+		  return pre+"evaluate/pushcomment";
+	  }
+	  /**
+	   * 发表回复
+	   * 所需参数：noteId（评回的纸条id），commentId（被回复的人的id），replyId（回复的人的id），ifObv（是否匿名0是,1否），econtent（回复内容）
+	   *           eflag（被回复的评回的标志位）
+	   * @return
+	   */
+	  public static String pushReply(){
+		  return pre+"evaluate/pushReply";
+	  }
 }

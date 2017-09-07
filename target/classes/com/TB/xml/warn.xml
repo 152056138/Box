@@ -3,14 +3,17 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.TB.TBox.note.mapper.WarnMapper">
+	<!-- ============根据提醒时间模糊查询=========== -->
 	<select id="selWarn" resultType="com.TB.TBox.note.bean.Warn" parameterType="String">
-		select * from mood_warn where wtime=#{wtime}
+		select * from mood_warn where wtime like concat(concat('%',#{wtime}),'%')
 	</select>
 	
+	<!-- =============添加提醒字条=============== -->
 	<insert id="addWarn" parameterType="com.TB.TBox.note.bean.Warn">
 		insert into mood_warn (wcintent,wtime,wto,wfrom) values (#{wcintent},#{wtime},#{wto},#{wfrom})
 	</insert>
 	
+	<!-- ==============根据wid删除================= -->
 	<delete id="delWarn" parameterType="int" >
 		delete from mood_warn where wid=#{wid}
 	</delete>

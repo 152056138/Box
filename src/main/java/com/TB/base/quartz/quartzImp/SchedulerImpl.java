@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SchedulerImpl implements ScheduleService {
-
+	
 	private Scheduler scheduler;  
     private JobDetail firstComplexJobDetail;
     private JobDetail secondComplexJobDetail;
@@ -22,17 +22,16 @@ public class SchedulerImpl implements ScheduleService {
   
   
   
-    @Autowired  
+     
     public void setSecondComplexJobDetail(@Qualifier("secondComplexJobDetail")JobDetail jobDetail) {  
         this.secondComplexJobDetail = jobDetail;  
     }  
     
-    @Autowired  
+     
     public void setFirstComplexJobDetail(@Qualifier("firstComplexJobDetail")JobDetail jobDetail) {  
         this.firstComplexJobDetail = jobDetail;  
     }  
-  
-    @Autowired  
+//    @Autowired
     public void setScheduler(@Qualifier("schedulerFactory")Scheduler scheduler) {  
         this.scheduler = scheduler;  
     }  

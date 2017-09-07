@@ -15,12 +15,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.TB.base.quartz.quartzImp.ScheduleService;
+import com.TB.base.quartz.quartzImp.SchedulerImpl;
 
 public class QuartUtils implements Runnable {
 	private String jobClass;
 	private String time;
 	Logger log = Logger.getLogger(QuartUtils.class);
-
 	public QuartUtils(String jobClass, String time) {
 		super();
 		this.jobClass = jobClass;
@@ -59,7 +59,7 @@ public class QuartUtils implements Runnable {
         String cron = second+" "+minute+" "+hour+" "+day+" "+month+" ? "+year;
         log.debug(cron);
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        ScheduleService schedulerService = (ScheduleService)context.getBean("schedulerImpl");
+        ScheduleService schedulerService = (ScheduleService) context.getBean("SchedulerImpl");
         //获得job类，触发器的name,动态的操控定时器
         String job = "";
 		 switch(jobClass){

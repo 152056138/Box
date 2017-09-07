@@ -49,8 +49,13 @@ public class FutureNote extends QuartzJobBean {
 				pushMsg = pushMsgService.selectPushMsg(future.getAfrom());
 				String msg = futureService.setMessage(future);
 				try {
-					pushMsgToSingleDevice.getpushMsg(msg,pushMsg.getChannelId());
-				} catch (PushClientException | PushServerException e) {
+					try {
+						pushMsgToSingleDevice.getpushMsg(msg,pushMsg.getChannelId());
+					} catch (PushClientException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} catch ( PushServerException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

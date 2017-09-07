@@ -43,7 +43,7 @@ public class QuartzTest extends QuartzJobBean {
 		test.SecQuartzTest secQuartzTest =  (test.SecQuartzTest) a.getBean("secQuartzTest");
 		secQuartzTest.setAid(10);
 		QuartzThreadPool q = new QuartzThreadPool();
-		q.setText("secondComplexJobDetail", "2017-8-13 10:55:00");
+		q.setText("secondComplexJobDetail", "2017-9-6 19:45:00");
 	}
 	
 }

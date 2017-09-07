@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,15 +15,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.TB.TBox.dataUtils.ToAndroid;
 import com.TB.TBox.note.bean.Evaluate;
 import com.TB.TBox.note.service.EvaluateService;
 
 @Controller
-@RequestMapping("/evaluateServlet")
+@RequestMapping("/evaluate")
 @Scope("prototype")
 public class EvaluateServlet {
 	@Autowired
+	private ToAndroid toand;
+	@Autowired
 	private EvaluateService evaluateService;
+	
+	
 	/**
 	 * 发表评论
 	 * @param request
@@ -60,7 +66,7 @@ public class EvaluateServlet {
 	 * @param response
 	 * @throws IOException 
 	 */
-	@RequestMapping(value="/pushcomment", method = RequestMethod.POST)
+	@RequestMapping(value="/pushReply", method = RequestMethod.POST)
 	public void pushReply(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		//获取参数
 				int noteId = Integer.parseInt(request.getParameter("noteId"));
