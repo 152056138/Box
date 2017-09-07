@@ -22,17 +22,14 @@ public class SchedulerImpl implements ScheduleService {
   
   
   
-    @Autowired  
     public void setSecondComplexJobDetail(@Qualifier("secondComplexJobDetail")JobDetail jobDetail) {  
         this.secondComplexJobDetail = jobDetail;  
     }  
     
-    @Autowired  
     public void setFirstComplexJobDetail(@Qualifier("firstComplexJobDetail")JobDetail jobDetail) {  
         this.firstComplexJobDetail = jobDetail;  
     }  
   
-    @Autowired  
     public void setScheduler(@Qualifier("schedulerFactory")Scheduler scheduler) {  
         this.scheduler = scheduler;  
     }  
