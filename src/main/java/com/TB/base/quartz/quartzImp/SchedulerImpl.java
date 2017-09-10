@@ -22,26 +22,16 @@ public class SchedulerImpl implements ScheduleService {
   
   
   
-<<<<<<< HEAD
-     
-=======
->>>>>>> b8133472a643e5097e8909dad132712b1b4dc325
+
     public void setSecondComplexJobDetail(@Qualifier("secondComplexJobDetail")JobDetail jobDetail) {  
         this.secondComplexJobDetail = jobDetail;  
     }  
     
-<<<<<<< HEAD
-     
-    public void setFirstComplexJobDetail(@Qualifier("firstComplexJobDetail")JobDetail jobDetail) {  
-        this.firstComplexJobDetail = jobDetail;  
-    }  
-//    @Autowired
-=======
+
     public void setFirstComplexJobDetail(@Qualifier("firstComplexJobDetail")JobDetail jobDetail) {  
         this.firstComplexJobDetail = jobDetail;  
     }  
   
->>>>>>> b8133472a643e5097e8909dad132712b1b4dc325
     public void setScheduler(@Qualifier("schedulerFactory")Scheduler scheduler) {  
         this.scheduler = scheduler;  
     }  

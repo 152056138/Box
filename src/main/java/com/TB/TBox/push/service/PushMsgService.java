@@ -61,13 +61,13 @@ public class PushMsgService implements PushMsgMapper {
 	public void test() {
 		PushMsg pushMsg = new PushMsg();
 		PushMsgService pushMsgService = new PushMsgService();
-//		pushMsg.setUid(1);
-//		pushMsg.setChangeId("4516889113908580579");
-//		pushMsgService.addPushMsg(pushMsg);
+		pushMsg.setUid(2);
+		pushMsg.setChannelId("4516889113908580579");
+		pushMsgService.addPushMsg(pushMsg);
 		
-		pushMsg = pushMsgService.selectPushMsg(1);
-		pushMsgService.updatePushMsg(pushMsg);
-		log.info(gson.toJson(pushMsg));
+//		pushMsg = pushMsgService.selectPushMsg(1);
+//		pushMsgService.updatePushMsg(pushMsg);
+//		log.info(gson.toJson(pushMsg));
 	}
 
 }
