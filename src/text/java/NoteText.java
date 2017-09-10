@@ -26,11 +26,8 @@ import org.springframework.web.multipart.MultipartRequest;
 
 import com.TB.TBox.dataBean.ImageResp;
 import com.TB.TBox.dataUtils.FileUploadUtil;
-<<<<<<< HEAD
 import com.TB.TBox.dataUtils.ToAndroid;
-=======
 import com.TB.TBox.note.bean.Evaluate;
->>>>>>> b8133472a643e5097e8909dad132712b1b4dc325
 import com.TB.TBox.note.bean.Note;
 import com.TB.TBox.note.service.NoteService;
 import com.google.gson.Gson;
@@ -98,44 +95,9 @@ public class NoteText {
 	//gson转list为json
 	@Test
 	public void ListtoJson(){
-		Gson gson = new Gson();
-<<<<<<< HEAD
-		List<Note> noteList = new ArrayList<Note>();
-		for(int i = 0;i <5;i++){
-			noteList.add(new Note(1, "me", "fjskdg", "10:09", 2));
-		}
-		log.info(gson.toJson(noteList));
-		T t = new T();
-		t.setA("a");
-		List<String> b = new ArrayList<>();
-		b.add("sss");
-		b.add("yyy");
-		t.setB(b);
-		List<T> tlist = new ArrayList<>();
-		tlist.add(t);
-		tlist.add(t);
-		List<ToAndroid> tl = new ArrayList<>();
-	
-			ToAndroid to1 = new ToAndroid();
-			to1.setTitle("a");
-			to1.setValue(t.getA());
-			tl.add(to1);
-			ToAndroid to2 = new ToAndroid();
-			to2.setTitle("b");
-			to2.setValue(t.getB());
-			tl.add(to2);
-		
-//		
-		System.out.println(gson.toJson(tlist));
-=======
-//		List<Note> noteList = new ArrayList<Note>();
-//		for(int i = 0;i <5;i++){
-//			noteList.add(new Note(1, "me", "fjskdg", "10:09", 2));
-//		}
-//		log.info(gson.toJson(noteList));
-		Evaluate e = new Evaluate(2, 3, 1, 0, "2017-8-15 20:33:00", "good", 2);
-		System.out.println(gson.toJson(e));
->>>>>>> b8133472a643e5097e8909dad132712b1b4dc325
+		String houzhui="a.jpg";
+		 houzhui = houzhui.substring(houzhui.lastIndexOf("."));
+		 System.out.println(houzhui);
 	}
 	
 	//测试上传note方法

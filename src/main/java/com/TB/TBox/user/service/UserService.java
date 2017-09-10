@@ -138,6 +138,15 @@ public class UserService implements UserMapper{
 				userList = userOperation.selectUserByByVagueNumber(number);
 				return userList;
 			}
+			
+			//模糊查询（用于添加好友）
+			public List<User> selectUserByVaguePhone(String phone) {
+				SqlSession session =sessionFactory.getSession();
+				List<User> userList = new ArrayList<User>();
+				UserMapper userOperation = session.getMapper(UserMapper.class);
+				userList = userOperation.selectUserByVaguePhone(phone);
+				return userList;
+			}
 	//=============================================================
 	//添加用户心情颜色
 	public void addUserMoodColor(Mood_color mood_color) {

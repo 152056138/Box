@@ -14,10 +14,7 @@
 	<context:component-scan base-package="com.TB.base" />
 	<context:component-scan base-package="test" />
 	 <bean id="note" class="com.TB.TBox.note.bean.Note"></bean> 
-<<<<<<< HEAD
-	 
-=======
->>>>>>> b8133472a643e5097e8909dad132712b1b4dc325
+
 	 <bean name="SchedulerImpl" class="com.TB.base.quartz.quartzImp.SchedulerImpl">
 	 	<property name="firstComplexJobDetail" ref="firstComplexJobDetail"></property>
 	 	<property name="scheduler" ref="scheduler"></property>
@@ -25,10 +22,6 @@
 	 </bean>
 	 <bean name="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"/>
 	 
-<<<<<<< HEAD
-=======
-	 
->>>>>>> b8133472a643e5097e8909dad132712b1b4dc325
 	<!--============= Quartz 定时任务 ===================-->
 	
 	<!-- ==================job类========================= -->

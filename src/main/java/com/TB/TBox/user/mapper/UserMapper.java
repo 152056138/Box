@@ -27,4 +27,6 @@ public interface UserMapper {
 	//模糊查询
 	public List<User> selectUserByByVagueNumber(String number);
 	
+	public List<User> selectUserByVaguePhone(String phone);
+	
 }

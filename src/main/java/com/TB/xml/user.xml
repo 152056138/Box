@@ -38,6 +38,12 @@
 		concat(concat('%',#{username}),'%')
 	</select>
 	<!-- 对用户的模糊查询为添加好友做准备 -->
+	<select id="selectUserByVaguePhone" parameterType="String"
+		resultMap="userList">
+		select * from mood_user where phone like
+		concat(concat('%',#{phone}),'%')
+	</select>
+	<!-- 对用户的模糊查询为添加好友做准备 -->
 	<select id="selectUserByByVagueNumber" parameterType="String"
 		resultType="User">
 		select * from mood_user where number like

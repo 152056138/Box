@@ -67,7 +67,7 @@ public class FriendServlet {
 		String selectName = request.getParameter("selectName");
 		List<User> userList = new ArrayList<User>();
 		userList = toFriendsInterface.vagueSelectUsers(selectName);
-		response.setContentType("text/json");
+		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print(gson.toJson(userList));
 		out.flush();
@@ -103,7 +103,7 @@ public class FriendServlet {
 		System.out.println(time);
 		friend.setFriendTime(time);
 		friendService.addFriend(friend);
-		response.setContentType("text/json");
+		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print("添加成功！");
 		out.flush();
@@ -159,13 +159,13 @@ public class FriendServlet {
 		map.put("recoverFriend", 0);
 		List<Friends> friendsList = friendService.selectAllFriends(map);
 		if (friendsList.isEmpty()) {
-			response.setContentType("text/json");
+			response.setContentType("text/json;charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.print("您还没有好友哦，快去添加几个好友吧！");
 			out.flush();
 			out.close();
 		} else {
-			response.setContentType("text/json");
+			response.setContentType("text/json;charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.print(gson.toJson(friendsList));
 			out.flush();
@@ -179,6 +179,7 @@ public class FriendServlet {
 	 * @param request
 	 * @param response
 	 * @throws IOException
+	 * 好友账号，用户昵称，好友备注
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/selectFriend", method = RequestMethod.POST)
@@ -207,7 +208,7 @@ public class FriendServlet {
 		for (Friends friend : friendList) {
 			fids.add(friend.getFid());
 		}
-		response.setContentType("text/json");
+		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print(gson.toJson(fids));
 		out.flush();
@@ -231,13 +232,13 @@ public class FriendServlet {
 		map.put("recoverFriend", 1);
 		List<Friends> friendsList = friendService.selectAllFriends(map);
 		if (friendsList.isEmpty()) {
-			response.setContentType("text/json");
+			response.setContentType("text/json;charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.print("您还没有删除的好友！");
 			out.flush();
 			out.close();
 		} else {
-			response.setContentType("text/json");
+			response.setContentType("text/json;charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.print(gson.toJson(friendsList));
 			out.flush();
@@ -259,7 +260,7 @@ public class FriendServlet {
 		memo.setFriendContent(friendContent);
 		memo.setMemoName(memoName);
 		friendService.addMemo(memo);
-		response.setContentType("text/json");
+		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print("添加成功！");
 		out.flush();
@@ -295,7 +296,7 @@ public class FriendServlet {
 			memo.setFriendContent(memoListFriendContent.get(i).getFriendContent());
 			friendService.updateMemo(memo);
 		}
-		response.setContentType("text/json");
+		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print("修改成功！");
 		out.flush();
@@ -335,17 +336,15 @@ public class FriendServlet {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("uid", uid);
 		map.put("fid", fid);
-		prosceniumFriend.setUser(userService.selectUserByNumber(friendNumber));
-		prosceniumFriend.setFriendUsername(friendService.selectFriendByFid(fid).getFriendUsername());
-		prosceniumFriend.setMemoList(friendService.selectMemo(map));
-		response.setContentType("text/json");
+		prosceniumFriend = getMemo(userService.selectUserByNumber(friendNumber), friendService.selectMemo(map), friendService.selectFriendByFid(fid).getFriendUsername());
+		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print(gson.toJson(prosceniumFriend));
 		out.flush();
 		out.close();
 	}
 
-	@Test
+//	@Test
 	public void test() {
 
 		// String number = ("12345678912");
@@ -484,15 +483,86 @@ public class FriendServlet {
 		// System.out.println(fids.size() +
 		// "-------------------------------------------------");
 
-		ToFriendsImp toFriendsImp = new ToFriendsImp();
-		String selectName = ("2");
-		List<User> userList = new ArrayList<User>();
-		userList = toFriendsImp.vagueSelectUsers(selectName);
-		System.out.println(userList.size() + "======================================");
-		for (User user1 : userList) {
-			log.info(user1.toJson());
-		}
-		System.out.println(userList.size() + "======================================");
+//		ToFriendsImp toFriendsImp = new ToFriendsImp();
+//		String selectName = ("2");
+//		List<User> userList = new ArrayList<User>();
+//		userList = toFriendsImp.vagueSelectUsers(selectName);
+//		System.out.println(userList.size() + "======================================");
+//		for (User user1 : userList) {
+//			log.info(user1.toJson());
+//		}
+//		System.out.println(userList.size() + "======================================");
+		
+	}
+	@Test
+	public ProsceniumFriend getMemo(User user,List<Memo> memoList,String friendUsername){
+		ProsceniumFriend PF = new ProsceniumFriend();
+		//封装头像和手机号
+		PF.setHead(user.getUfacing());
+		PF.setPhone(user.getPhone());
+		PF.setFriendUsername(friendUsername);
+		// ---
+		Memo memo1 = new Memo();
+		memo1.setMemoName("账号");
+		memo1.setFriendContent(user.getNumber());
+		memo1.setMemoId(-1);
+		memoList.add(memo1);
+		// ---
+		Memo memo2 = new Memo();
+		memo1.setMemoName("生日");
+		memo1.setFriendContent(user.getBirthday() + "（" + user.getAge() + "岁）");
+		memo1.setMemoId(-1);
+		memoList.add(memo2);
+		// ---
+		Memo memo3 = new Memo();
+		memo1.setMemoName("职业");
+		memo1.setFriendContent(user.getJob());
+		memo1.setMemoId(-1);
+		memoList.add(memo3);
+		// ---
+		Memo memo4 = new Memo();
+		memo1.setMemoName("兴趣");
+		memo1.setFriendContent(user.getHobby());
+		memo1.setMemoId(-1);
+		memoList.add(memo4);
+		// ---
+		Memo memo5 = new Memo();
+		memo1.setMemoName("所在地");
+		memo1.setFriendContent(user.getPlace());
+		memo1.setMemoId(-1);
+		memoList.add(memo5);
+		// ---
+		Memo memo6 = new Memo();
+		memo1.setMemoName("其他");
+		memo1.setFriendContent(user.getConstellation() + "  " + user.getBlood());
+		memo1.setMemoId(-1);
+		memoList.add(memo6);
+		//封装便签集合
+		PF.setMemoList(memoList);
+		return PF;
+	}
+}
+class user {
+	String name;
+
+	public String getName() {
+		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+}
+class memo{
+	int a;
+
+	public int getA() {
+		return a;
+	}
+
+	public void setA(int a) {
+		this.a = a;
+	}
+	
 }
