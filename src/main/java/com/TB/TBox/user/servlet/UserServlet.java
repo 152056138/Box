@@ -1,6 +1,9 @@
 package com.TB.TBox.user.servlet;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,8 +48,8 @@ public class UserServlet {
 	private User user;
 	@Autowired
 	private Mood_color mood_color;
-	@Autowired
-	private PushMsg pushMsg;
+//	@Autowired
+//	private PushMsg pushMsg;
 	@Autowired
 	private PushMsgService pushMsgService;
 	private Logger log = Logger.getLogger(UserServlet.class);
@@ -65,7 +70,7 @@ public class UserServlet {
 		String repassword = request.getParameter("repassword");
 		String phone = request.getParameter("phone");
 		String channelId = request.getParameter("channelId");
-
+        log.info(channelId);
 		// 得到默认的头像
 		List<String> ufacings = interfaceToUser.sehImage(0);
 		for (String ufacing : ufacings) {
@@ -85,14 +90,14 @@ public class UserServlet {
 		System.out.println(number + " " + password + " " + repassword + " " + phone);
 
 		if (!(userService.selectUserByPhone(phone) == null)) {
-			response.setContentType("text/json");
+			response.setContentType("text/json;charset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.print("此手机号已经被注册！！");
+			out.print("此手机号已经被注册！");
 			out.flush();
 			out.close();
 		} else {
 			if ((password.isEmpty()) || (phone.isEmpty()) || (phone.isEmpty())) {
-				response.setContentType("text/json");
+				response.setContentType("text/json;charset=UTF-8");
 				PrintWriter out = response.getWriter();
 				out.print("用户注册信息填写不完整,请填写完整！");
 				out.flush();
@@ -100,7 +105,7 @@ public class UserServlet {
 			} else {
 				// 判断密码的长度
 				if (password.length() < 6) {
-					response.setContentType("text/json");
+					response.setContentType("text/json;charset=UTF-8");
 					PrintWriter out = response.getWriter();
 					out.print("密码位数太少，最少为6位！");
 					out.flush();
@@ -112,19 +117,21 @@ public class UserServlet {
 					user.setPhone(phone);
 					userService.addUser(user);
 					user = userService.selectUserByNumber(number);
+					log.info(gson.toJson(user));
 					//获得推送ID的方法
+					PushMsg pushMsg = new PushMsg();
 					pushMsg.setUid(user.getUid());
 					pushMsg.setChannelId(channelId);
 					//保存推送id为以后推送做准备
 					pushMsgService.addPushMsg(pushMsg);
 					System.out.println("注册成功");
-					response.setContentType("text/json");
+					response.setContentType("text/json;charset=UTF-8");
 					PrintWriter out = response.getWriter();
 					out.print(user.toJson());
 					out.flush();
 					out.close();
 				} else {
-					response.setContentType("text/json");
+					response.setContentType("text/json;charset=UTF-8");
 					PrintWriter out = response.getWriter();
 					out.print("密码和重复密码不一致！");
 					out.flush();
@@ -174,15 +181,17 @@ public class UserServlet {
 
 		// 获取图片
 		List<String> imgList = new ArrayList<String>();
+		//返回图片名集合
 		imgList = fileUploadUtil.MultiPartFileUpLoad(re, user.getNumber(), -1);
 		for (String img : imgList) {
 			user.setUfacing(img);
-			// OutputStream out = new
-			// FileOutputStream("C:/Users/MrDu/Desktop/faa.jpg");
-			// BufferedOutputStream buf = new BufferedOutputStream(out);
-			// buf.write(b3);
-			// buf.flush();
-			// buf.close();
+			log.debug(user.getUfacing());
+//			 OutputStream out = new
+//			 FileOutputStream("C:/Users/MrDu/Desktop/faa.jpg");
+//			 BufferedOutputStream buf = new BufferedOutputStream(out);
+//			 buf.write(b3);
+//			 buf.flush();
+//			 buf.close();
 		}
 
 		log.debug(user.toJson());
@@ -195,7 +204,7 @@ public class UserServlet {
 		mood_color.setScard("#9400D3");
 		mood_color.setCommen("#FFA07A");
 		userService.addUserMoodColor(mood_color);
-		response.setContentType("text/json");
+		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out1 = response.getWriter();
 		out1.print(user.toJson());
 		out1.flush();
@@ -220,7 +229,7 @@ public class UserServlet {
 		user.setPersonalPassword(personalPassword);
 		userService.updateRole(user);
 		System.out.println(user.toJson());
-		response.setContentType("text/json");
+		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print(user.toJson());
 		out.flush();
@@ -245,7 +254,7 @@ public class UserServlet {
 		user.setPassword(password);
 		userService.updateRole(user);
 		System.out.println(user.toJson());
-		response.setContentType("text/json");
+		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print(user.toJson());
 		out.flush();
@@ -271,7 +280,7 @@ public class UserServlet {
 		formuser.setUfacing(user.getUfacing());
 		formuser.setNumber(user.getNumber());
 		System.out.println(formuser.toJson());
-		response.setContentType("text/json");
+		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print(formuser.toJson());
 		out.flush();
@@ -303,7 +312,7 @@ public class UserServlet {
 		formRole.setGender(user.getGender());
 		formRole.setAge(user.getAge());
 		System.out.println(formRole.toJson());
-		response.setContentType("text/json");
+		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print(formRole.toJson());
 		out.flush();
@@ -341,7 +350,7 @@ public class UserServlet {
 
 		log.debug(user.toJson());
 		userService.updateRole(user);
-		response.setContentType("text/json");
+		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out1 = response.getWriter();
 		out1.print(user.toJson());
 		out1.flush();
@@ -403,7 +412,7 @@ public class UserServlet {
 		log.debug(user.toJson());
 		userService.updateRole(user);
 
-		response.setContentType("text/json");
+		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out1 = response.getWriter();
 		out1.print(user.toJson());
 		out1.flush();
@@ -426,25 +435,26 @@ public class UserServlet {
 			// 输入的是账号的情况
 			user = userService.selectUserByNumber(number);
 			if (user == null) {
-				response.setContentType("text/json");
+				response.setContentType("text/json;charset=UTF-8");
 				PrintWriter out = response.getWriter();
 				out.print("您输入的账号不存在！");
 				out.flush();
 				out.close();
 			} else {
 				if (password.equals(user.getPassword())) {
+					PushMsg pushMsg = new PushMsg();
 					//用户每次登陆的时候更新一次推送id防止推送id变化
 					pushMsg = pushMsgService.selectPushMsg(user.getUid());
 					pushMsg.setChannelId(channelId);
 					pushMsgService.updatePushMsg(pushMsg);
 					
-					response.setContentType("text/json");
+					response.setContentType("text/json;charset=UTF-8");
 					PrintWriter out = response.getWriter();
-					out.print("登陆成功！" + user.toJson());
+					out.print(user.toJson());
 					out.flush();
 					out.close();
 				} else {
-					response.setContentType("text/json");
+					response.setContentType("text/json;charset=UTF-8");
 					PrintWriter out = response.getWriter();
 					out.print("您输入的密码不正确！");
 					out.flush();
@@ -455,20 +465,20 @@ public class UserServlet {
 			// 输入的为手机号的情况
 			user = userService.selectUserByPhone(number);
 			if (user == null) {
-				response.setContentType("text/json");
+				response.setContentType("text/json;charset=UTF-8");
 				PrintWriter out = response.getWriter();
 				out.print("您输入的手机号不存在！");
 				out.flush();
 				out.close();
 			} else {
 				if (password.equals(user.getPassword())) {
-					response.setContentType("text/json");
+					response.setContentType("text/json;charset=UTF-8");
 					PrintWriter out = response.getWriter();
-					out.print("登陆成功！" + user.toJson());
+					out.print(user.toJson());
 					out.flush();
 					out.close();
 				} else {
-					response.setContentType("text/json");
+					response.setContentType("text/json;charset=UTF-8");
 					PrintWriter out = response.getWriter();
 					out.print("您输入的密码不正确！");
 					out.flush();
@@ -503,7 +513,7 @@ public class UserServlet {
 		mood_color.setScard(scard);
 		mood_color.setCommen(commen);
 		userService.updateMoodColor(mood_color);
-		response.setContentType("text/json");
+		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print("修改成功！");
 		out.flush();
@@ -523,7 +533,7 @@ public class UserServlet {
 		String formuid = request.getParameter("uid");
 		int uid = Integer.parseInt(formuid);
 		mood_color = userService.selectUserMoodColor(uid);
-		response.setContentType("text/json");
+		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print(gson.toJson(mood_color));
 		out.flush();
@@ -560,14 +570,15 @@ public class UserServlet {
 		// mood_color.setCommen("commen");
 		// userService.updateMoodColor(mood_color);
 		// log.info(mood_color);
+		PushMsgService pushMsgService = new PushMsgService();
 		User user = new User();
 		UserService userService = new UserService();
 		// 截取字符串
-		String number = null;
+		String number = "";
 		String password = ("123123");
 		String repassword = ("123123");
 		String phone = ("1234567888");
-
+		String channelId = "12346753247544323456";
 		while (true) {
 			// 获取一个随机数
 			double rand = Math.random();
@@ -600,6 +611,16 @@ public class UserServlet {
 				user.setPhone(phone);
 				userService.addUser(user);
 				user = userService.selectUserByNumber(number);
+				log.info(gson.toJson(user));
+				int uid = user.getUid();
+				log.info(gson.toJson(uid));
+				//获得推送ID的方法
+				ApplicationContext c = new ClassPathXmlApplicationContext("applicationContext.xml");
+				PushMsg pushMsg = c.getBean(PushMsg.class);
+				pushMsg.setUid(uid);
+				pushMsg.setChannelId(channelId);
+				//保存推送id为以后推送做准备
+				pushMsgService.addPushMsg(pushMsg);
 				System.out.println("注册成功");
 			} else {
 				System.out.println("密码和重复密码不一致！");

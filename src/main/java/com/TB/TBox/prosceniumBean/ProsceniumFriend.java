@@ -8,14 +8,21 @@ import com.TB.TBox.user.bean.Memo;
 import com.TB.TBox.user.bean.User;
 @Component
 public class ProsceniumFriend {
-private User user;
-private String friendUsername;
+private String head;//头像
+private String phone;//手机号
+private String friendUsername;//备注
 private List<Memo> memoList;
-public User getUser() {
-	return user;
+public String getHead() {
+	return head;
 }
-public void setUser(User user) {
-	this.user = user;
+public void setHead(String head) {
+	this.head = head;
+}
+public String getPhone() {
+	return phone;
+}
+public void setPhone(String phone) {
+	this.phone = phone;
 }
 public String getFriendUsername() {
 	return friendUsername;
@@ -29,5 +36,6 @@ public List<Memo> getMemoList() {
 public void setMemoList(List<Memo> memoList) {
 	this.memoList = memoList;
 }
+
 
 }

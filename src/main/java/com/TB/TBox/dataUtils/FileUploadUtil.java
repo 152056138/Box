@@ -35,7 +35,7 @@ public class FileUploadUtil {
 		List<String> b3List = new ArrayList<String>();
 		int cont = 0;// b3List脚标
 		// 对图片的获取
-		List<MultipartFile> fileList = re.getFiles("head");
+		List<MultipartFile> fileList = re.getFiles("ufacing");
 		// 遍历MultipartFile集合
 		for (MultipartFile file : fileList) {
 			// multipartfile 转 file 上传文件大小若小于2048，则不会生成临时文件
@@ -57,9 +57,21 @@ public class FileUploadUtil {
 					e.printStackTrace();
 				}
 			}
+			//获取保存路径
+			String houzhui ="";
 			try {
 				// 创建临时文件输入流
-				in = new FileInputStream(tmpFile);
+				if(tmpFile!=null){
+					in = new FileInputStream(tmpFile);
+					//获取保存路径
+					 houzhui = tmpFile.getName().substring(tmpFile.getName().lastIndexOf("."));
+				}
+				else{
+					in = new FileInputStream(f);
+					String a = f.getName();
+					//获取保存路径
+					 houzhui = f.getName().substring(f.getName().lastIndexOf("."));
+				}
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -68,11 +80,9 @@ public class FileUploadUtil {
 			BufferedInputStream bis = new BufferedInputStream(in);
 			int length = bis.available();//获取输入流长度
 			byte[] bin = new byte[length];
-			//获取保存路径
-			String houzhui = file.getName().substring(file.getName().lastIndexOf("."));
 			Properties property = new Properties();
-			property.load(getClass().getClassLoader().getResourceAsStream("fileupload.properties"));
-			String savePath = property.getProperty("savepath")+userNumber+"_"+noteId+houzhui;
+//			property.load(getClass().getClassLoader().getResourceAsStream("fileupload.properties"));
+			String savePath = "C:/image/"+userNumber+"_"+noteId+houzhui;
 			//获得文件输出流,并存入库中
 			OutputStream out = new FileOutputStream(savePath);
 			BufferedOutputStream bot = new BufferedOutputStream(out);
@@ -80,7 +90,7 @@ public class FileUploadUtil {
 			bot.flush();
 			bot.close();
 			// 获取文件保存库的路径放入list
-			b3List.add(savePath);
+			b3List.add(userNumber+"_"+noteId+houzhui);
 			
 		}
 		return b3List;

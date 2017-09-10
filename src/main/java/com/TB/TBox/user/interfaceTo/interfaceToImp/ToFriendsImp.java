@@ -20,6 +20,7 @@ public class ToFriendsImp implements ToFriendsInterface {
 		List<User> userList = new ArrayList<User>();
 		userList = userService.selectUserByByVagueNumber(selectName);
 		userList.addAll(userService.selectUserByVagueUsername(selectName));
+		userList.addAll(userService.selectUserByVaguePhone(selectName));
 		HashSet h = new HashSet(userList);
 		userList.clear();
 		userList.addAll(h);
