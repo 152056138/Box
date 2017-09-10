@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.TB.TBox.dataUtils.ToAndroid;
 import com.TB.TBox.note.bean.Evaluate;
 import com.TB.TBox.note.service.EvaluateService;
 
@@ -23,8 +22,6 @@ import com.TB.TBox.note.service.EvaluateService;
 @RequestMapping("/evaluate")
 @Scope("prototype")
 public class EvaluateServlet {
-	@Autowired
-	private ToAndroid toand;
 	@Autowired
 	private EvaluateService evaluateService;
 	

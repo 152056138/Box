@@ -65,6 +65,8 @@ public class QuartUtils implements Runnable {
 		 switch(jobClass){
 		 case "secondComplexJobDetail":{job="secondComplexJobDetail";break;}
 		 case "firstComplexJobDetail":{job="firstComplexJobDetail";break;}
+		 case "FutureNote" :{job="FutureNote";break;}
+		 case "WarnJob":{job = "WarnJob";break;}
 		 }
 		 schedulerService.schedule(job,job+"Trigger",cron);
 		

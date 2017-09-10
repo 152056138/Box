@@ -16,32 +16,35 @@ import org.springframework.stereotype.Service;
 public class SchedulerImpl implements ScheduleService {
 	
 	private Scheduler scheduler;  
+	//测试用例
     private JobDetail firstComplexJobDetail;
     private JobDetail secondComplexJobDetail;
+    //未来纸条定时任务
+    private JobDetail FutureNote;
+    //提醒纸条定时任务
+    private JobDetail WarnJob;
   
   
-  
-  
-<<<<<<< HEAD
-     
-=======
->>>>>>> b8133472a643e5097e8909dad132712b1b4dc325
-    public void setSecondComplexJobDetail(@Qualifier("secondComplexJobDetail")JobDetail jobDetail) {  
+    
+    public void setFutureNote(@Qualifier("FutureNote")JobDetail futureNote) {
+		FutureNote = futureNote;
+	}
+
+
+	public void setWarnJob(@Qualifier("WarnJob")JobDetail warnJob) {
+		WarnJob = warnJob;
+	}
+
+
+	public void setSecondComplexJobDetail(@Qualifier("secondComplexJobDetail")JobDetail jobDetail) {  
         this.secondComplexJobDetail = jobDetail;  
     }  
     
-<<<<<<< HEAD
-     
-    public void setFirstComplexJobDetail(@Qualifier("firstComplexJobDetail")JobDetail jobDetail) {  
-        this.firstComplexJobDetail = jobDetail;  
-    }  
-//    @Autowired
-=======
+
     public void setFirstComplexJobDetail(@Qualifier("firstComplexJobDetail")JobDetail jobDetail) {  
         this.firstComplexJobDetail = jobDetail;  
     }  
   
->>>>>>> b8133472a643e5097e8909dad132712b1b4dc325
     public void setScheduler(@Qualifier("schedulerFactory")Scheduler scheduler) {  
         this.scheduler = scheduler;  
     }  
@@ -73,6 +76,8 @@ public class SchedulerImpl implements ScheduleService {
         	switch(job){
         	case "firstComplexJobDetail":{jobDetail = firstComplexJobDetail;break;}
         	case "secondComplexJobDetail":{jobDetail = secondComplexJobDetail;break;}
+        	case "WarnJob":{jobDetail = WarnJob;break;}
+        	case "FutureNote":{jobDetail = FutureNote;break;}
         	}
             scheduler.addJob(jobDetail, true);  
   
