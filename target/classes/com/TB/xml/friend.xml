@@ -88,7 +88,7 @@
 	</resultMap>
 	<!-- 删除便签 -->
 	<delete id="deleteMemo" parameterType="int">
-		delete from mo_friend where memoId=#{memoId}
+		delete from mood_memo where memoId=#{memoId}
 	</delete>
 
 </mapper>

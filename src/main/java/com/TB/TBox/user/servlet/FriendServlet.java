@@ -196,6 +196,7 @@ public class FriendServlet {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/selectFriend", method = RequestMethod.POST)
 	public void selectFriend(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("utf-8");
 		String formuid = request.getParameter("uid");
 		int uid = Integer.parseInt(formuid);
 		String selectName = request.getParameter("selectName");
@@ -261,6 +262,7 @@ public class FriendServlet {
 	// ===============================好友便签模块===========================================
 	@RequestMapping(value = "/addMemo", method = RequestMethod.POST)
 	public void addMemo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("utf-8");
 		String formuid = request.getParameter("uid");
 		String formfid = request.getParameter("fid");
 		String memoName = request.getParameter("memoName");
@@ -340,6 +342,7 @@ public class FriendServlet {
 
 	@RequestMapping(value = "/selectFriendData", method = RequestMethod.POST)
 	public void selectFriendData(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("utf-8");
 		String formuid = request.getParameter("uid");
 		int uid = Integer.parseInt(formuid);
 		
@@ -364,6 +367,7 @@ public class FriendServlet {
 
 	public ProsceniumFriend getMemo(User user,List<Memo> memoList,String friendUsername,String proId){
 		ProsceniumFriend PF = new ProsceniumFriend();
+		List<Memo> memoList3 = new ArrayList<>();//为了让账号显示再前面需要将便签置后
 		//设置ProId
 		PF.setProId(proId);
 		//封装头像和手机号
@@ -375,7 +379,7 @@ public class FriendServlet {
 		memo1.setMemoName("账号");
 		memo1.setFriendContent(user.getNumber());
 		memo1.setMemoId(-1);
-		memoList.add(memo1);
+		memoList3.add(memo1);
 		// ---
 		
 			Memo memo2 = new Memo();
@@ -387,26 +391,26 @@ public class FriendServlet {
 				memo2.setFriendContent(null);
 			}
 			memo2.setMemoId(-1);
-			memoList.add(memo2);
+			memoList3.add(memo2);
 		
 		// ---
 		Memo memo3 = new Memo();
 		memo3.setMemoName("职业");
 		memo3.setFriendContent(user.getJob());
 		memo3.setMemoId(-1);
-		memoList.add(memo3);
+		memoList3.add(memo3);
 		// ---
 		Memo memo4 = new Memo();
 		memo4.setMemoName("兴趣");
 		memo4.setFriendContent(user.getHobby());
 		memo4.setMemoId(-1);
-		memoList.add(memo4);
+		memoList3.add(memo4);
 		// ---
 		Memo memo5 = new Memo();
 		memo5.setMemoName("所在地");
 		memo5.setFriendContent(user.getPlace());
 		memo5.setMemoId(-1);
-		memoList.add(memo5);
+		memoList3.add(memo5);
 		// ---
 		Memo memo6 = new Memo();
 		memo6.setMemoName("其他");
@@ -423,13 +427,16 @@ public class FriendServlet {
 			memo6.setFriendContent(null);
 		}
 		memo6.setMemoId(-1);
-		memoList.add(memo6);
+		memoList3.add(memo6);
 		for(Memo memo:memoList){
 			log.info(gson.toJson(memo));
 		}
-		memoList = judgeNull(memoList);
 		//封装便签集合
-		PF.setMemoList(memoList);
+		memoList3 = judgeNull(memoList3);
+		for(Memo m1 : memoList){
+			memoList3.add(m1);
+		}
+		PF.setMemoList(memoList3);
 		return PF;
 	}
 	
