@@ -8,10 +8,18 @@ import com.TB.TBox.user.bean.Memo;
 import com.TB.TBox.user.bean.User;
 @Component
 public class ProsceniumFriend {
+private String proId;
 private String head;//头像
 private String phone;//手机号
 private String friendUsername;//备注
 private List<Memo> memoList;
+
+public String getProId() {
+	return proId;
+}
+public void setProId(String proId) {
+	this.proId = proId;
+}
 public String getHead() {
 	return head;
 }
