@@ -25,7 +25,7 @@ public class SchedulerImpl implements ScheduleService {
     private JobDetail WarnJob;
   
   
-<<<<<<< HEAD
+
     
     public void setFutureNote(@Qualifier("FutureNote")JobDetail futureNote) {
 		FutureNote = futureNote;
@@ -38,12 +38,7 @@ public class SchedulerImpl implements ScheduleService {
 
 
 	public void setSecondComplexJobDetail(@Qualifier("secondComplexJobDetail")JobDetail jobDetail) {  
-=======
-  
-  
 
-    public void setSecondComplexJobDetail(@Qualifier("secondComplexJobDetail")JobDetail jobDetail) {  
->>>>>>> c92a4ce402967ced4cdc52a0e5b423401f67b684
         this.secondComplexJobDetail = jobDetail;  
     }  
     

@@ -42,51 +42,53 @@ public class FileUploadUtil {
 			CommonsMultipartFile cf = (CommonsMultipartFile) file;
 			DiskFileItem fi = (DiskFileItem) cf.getFileItem();
 			File f = fi.getStoreLocation();
-			File tmpFile = null;
+//			File tmpFile = null;
+			byte[] buffer = file.getBytes();
 			// 手动创建临时文件
-			if (f.length() < 2048) {
-				tmpFile = new File(
-						System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + f.getName());
-				try {
-					file.transferTo(tmpFile);
-				} catch (IllegalStateException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+//			if (f.length() < 2048) {
+//				tmpFile = new File(
+//						System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + f.getName());
+//				try {
+//					
+//					file.transferTo(tmpFile);
+//				} catch (IllegalStateException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
 			//获取保存路径
-			String houzhui ="";
-			try {
-				// 创建临时文件输入流
-				if(tmpFile!=null){
-					in = new FileInputStream(tmpFile);
-					//获取保存路径
-					 houzhui = tmpFile.getName().substring(tmpFile.getName().lastIndexOf("."));
-				}
-				else{
-					in = new FileInputStream(f);
-					String a = f.getName();
-					//获取保存路径
-					 houzhui = f.getName().substring(f.getName().lastIndexOf("."));
-				}
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			// 创建缓冲区
-			BufferedInputStream bis = new BufferedInputStream(in);
-			int length = bis.available();//获取输入流长度
-			byte[] bin = new byte[length];
-			Properties property = new Properties();
+			String houzhui =".jpg";
+//			try {
+//				// 创建临时文件输入流
+//				if(tmpFile!=null){
+//					in = new FileInputStream(tmpFile);
+//					//获取保存路径
+////					 houzhui = tmpFile.getName().substring(tmpFile.getName().lastIndexOf("."));
+//				}
+//				else{
+//					in = new FileInputStream(f);
+//					String a = f.getName();
+//					//获取保存路径
+////					 houzhui = f.getName().substring(f.getName().lastIndexOf("."));
+//				}
+//			} catch (FileNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			// 创建缓冲区
+//			BufferedInputStream bis = new BufferedInputStream(in);
+//			int length = bis.available();//获取输入流长度
+//			byte[] bin = new byte[length];
+//			Properties property = new Properties();
 //			property.load(getClass().getClassLoader().getResourceAsStream("fileupload.properties"));
 			String savePath = "C:/image/"+userNumber+"_"+noteId+houzhui;
 			//获得文件输出流,并存入库中
 			OutputStream out = new FileOutputStream(savePath);
 			BufferedOutputStream bot = new BufferedOutputStream(out);
-			bot.write(bin);
+			bot.write(buffer);
 			bot.flush();
 			bot.close();
 			// 获取文件保存库的路径放入list

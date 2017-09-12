@@ -26,10 +26,7 @@ import org.springframework.web.multipart.MultipartRequest;
 
 import com.TB.TBox.dataBean.ImageResp;
 import com.TB.TBox.dataUtils.FileUploadUtil;
-<<<<<<< HEAD
-=======
-import com.TB.TBox.dataUtils.ToAndroid;
->>>>>>> c92a4ce402967ced4cdc52a0e5b423401f67b684
+
 import com.TB.TBox.note.bean.Evaluate;
 import com.TB.TBox.note.bean.Note;
 import com.TB.TBox.note.service.NoteService;
@@ -98,31 +95,10 @@ public class NoteText {
 	//gson转list为json
 	@Test
 	public void ListtoJson(){
-<<<<<<< HEAD
-		Gson gson = new Gson();
-		List<Note> noteList = new ArrayList<Note>();
-		for(int i = 0;i <5;i++){
-			noteList.add(new Note(1, "me", "fjskdg", "10:09", 2));
-		}
-		log.info(gson.toJson(noteList));
-		
-		
-//		
-		System.out.println(gson.toJson(noteList));
 
-//		List<Note> noteList = new ArrayList<Note>();
-//		for(int i = 0;i <5;i++){
-//			noteList.add(new Note(1, "me", "fjskdg", "10:09", 2));
-//		}
-//		log.info(gson.toJson(noteList));
-		Evaluate e = new Evaluate(2, 3, 1, 0, "2017-8-15 20:33:00", "good", 2);
-		System.out.println(gson.toJson(e));
-
-=======
 		String houzhui="a.jpg";
 		 houzhui = houzhui.substring(houzhui.lastIndexOf("."));
 		 System.out.println(houzhui);
->>>>>>> c92a4ce402967ced4cdc52a0e5b423401f67b684
 	}
 	
 	//测试上传note方法

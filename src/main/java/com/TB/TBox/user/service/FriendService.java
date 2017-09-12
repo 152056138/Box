@@ -215,30 +215,30 @@ public class FriendService implements FriendMapper {
 		// memo.setFriendContent("温顺尔雅");
 		// friendService.addMemo(memo);
 
-		// Map map = new HashMap<String, Object>();
-		// map.put("uid", 1);
-		// map.put("fid", 1);
-		// memeos = friendService.selectMemo(map);
-		// System.out.println(memeos.size());
-		// for(Memo memeo : memeos){
-		// System.out.println(memeo.toJson());
-		// }
+		 Map map = new HashMap<String, Object>();
+		 map.put("uid", 1);
+		 map.put("fid", 1);
+		 memeos = friendService.selectMemo(map);
+		 System.out.println(memeos.size());
+		 for(Memo memeo : memeos){
+		 System.out.println(memeo.toJson());
+		 }
 
 		// memo = friendService.selectMemoById(1);
 		// System.out.println(memo.toJson());
 		// memo.setFriendContent("骚的一B");
 		// friendService.updateMemo(memo);
 		// log.info(memo.toJson());
-
-		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("uid", 1);
-		map.put("recoverFriend", 0);
-		map.put("friendNickname", "y");
-		List<Friends> friendList = new ArrayList<Friends>();
-		friendList = friendService.selectFriendsByNickname(map);
-		System.out.println(friendList.size());
-		for (Friends friend : friendList) {
-			System.out.println(friend.toJson());
-		}
+//
+//		Map<String,Object> map = new HashMap<String, Object>();
+//		map.put("uid", 1);
+//		map.put("recoverFriend", 0);
+//		map.put("friendNickname", "y");
+//		List<Friends> friendList = new ArrayList<Friends>();
+//		friendList = friendService.selectFriendsByNickname(map);
+//		System.out.println(friendList.size());
+//		for (Friends friend : friendList) {
+//			System.out.println(friend.toJson());
+//		}
 	}
 }
