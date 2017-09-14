@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 public class Friends {
 	private int fid; //好友列表id 主键
 	private String friendNumber; //好友账号
-	private String friendUsername; //好友名称
+	private String friendUsername; //好友备注
 	private int cid; //所在分类id
 	private String friendTime; //加为好友时间
 	private String friendNickname; //好友昵称
