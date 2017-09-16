@@ -34,15 +34,15 @@ public class EvaluateService {
 	public void setEvaluate(Evaluate evaluate) {
 		this.evaluate = evaluate;
 	}
-	/*
+	/**
 	 * 显示某字条所有评回
 	 */
-	public List<Evaluate> showEva(){
+	public List<Evaluate> showEva(int noteId){
 		SqlSession sqlSession = sessionFactory.getSession();
 		evaluateMapper = sqlSession.getMapper(EvaluateMapper.class);
 		List<Evaluate> evaluateList = new ArrayList<Evaluate>();
 		try {
-			evaluateList = evaluateMapper.selEva();
+			evaluateList = evaluateMapper.selEva(noteId);
 		} finally {
 			// TODO: handle finally clause
 			sqlSession.close();
@@ -50,7 +50,7 @@ public class EvaluateService {
 		return evaluateList;
 	}
 	
-	/*
+	/**
 	 * 写评价或回复
 	 */
 	public void addEva(Evaluate evaluate){
@@ -65,7 +65,7 @@ public class EvaluateService {
 			sqlSession.close();
 		}
 	}
-	/*
+	/**
 	 * 删除评价或回复
 	 */
 	public void delEva(int eid){

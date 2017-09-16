@@ -5,7 +5,7 @@
 <mapper namespace="com.TB.TBox.note.mapper.NoteMapper">
 	<!-- ========添加纸条=========== -->
     <insert id="addNote" parameterType="com.TB.TBox.note.bean.Note">
-        insert into mood_note (mood,noteAdout,noteContent,time,uid) values (#{mood},#{noteAdout},#{noteContent},#{time},#{uid})
+        insert into mood_note (mood,noteAdout,noteContent,time,uid) values (#{mood},#{noteAdout},#{noteContent},#{time},#{user.uid})
     </insert>
     
     <!-- ==========储存图片=========== -->
@@ -19,7 +19,7 @@
     </delete>
     
     <!-- ===========按id查找字条============ -->
-    <select id="schNotebyId" parameterType="int" resultType="com.TB.TBox.note.bean.Note">
+    <select id="schNotebyId" parameterType="int" resultMap="Note">
     	select * from mood_note where noteId=#{noteId}
     </select>
     
@@ -29,18 +29,18 @@
     </select>
     
     <!-- ===============按分页查询我的所有字条================== -->
-     <select id="schMyNoteall" resultType="com.TB.TBox.note.bean.Note" parameterType="Map">
+     <select id="schMyNoteall" resultMap="Note" parameterType="Map">
     	select * from mood_note where uid=#{uid} order by ${sort} ${order} limit #{pageOffset},#{pageSize}
     </select>
     
     <!-- ===============不按分页查询某人的所有字条=============== -->
-    <select id="schSbNoteall" parameterType="int" resultType="com.TB.TBox.note.bean.Note">
+    <select id="schSbNoteall" parameterType="int" resultMap="Note">
     	select * from mood_note where uid=#{uid}
     </select>
     
     <!-- ========不按分页查询所有纸条========= -->
-    <select id="schAllNote" resultType="com.TB.TBox.note.bean.Note">
-    	select * from mood_note where 1=1 order by id desc
+    <select id="schAllNote" resultMap="Note">
+    	select * from mood_note where 1=1 order by noteId desc
     </select>
     
     <!-- ============查找图片============= -->
@@ -50,13 +50,37 @@
    
    	<!-- ============修改点赞数============ -->
 
-    <update id="updgoodNum" parameterType="int">
+    <update id="updgoodNum" parameterType="Map">
     	update mood_note set goodNum=#{goodNum} where noteId=#{noteId}
     </update>
-    
+    <!-- ==============关联点赞用户========== -->
+    <insert id="updgoodUser" parameterType="Map">
+    	insert into mood_good (noteId,userNum) values (#{noteId},#{userNum}) 
+    </insert>
+    <!-- =============遍历得到相应纸条点赞用户=============== -->
+    <select id="selgoodUser" resultMap="goodUser" parameterType="Map">
+    	select * from mood_good where noteId = #{noteId} and userNum = #{userNum}
+    </select>
     <!-- =============修改扔鸡蛋数============ -->
     <update id="updegg" parameterType="int">
     	update mood_note set egg=#{egg} where noteId=#{noteId}
     </update>
-    
+    <resultMap type="com.TB.TBox.note.bean.Good" id="goodUser">
+    	<id column="goodId" property="goodId"></id>
+    	<result column="noteId" property="noteId"></result>
+    	<result column="userNum" property="userNum"></result>
+    </resultMap>
+    <resultMap type="com.TB.TBox.note.bean.Note" id="Note">
+    	<id	 column="noteId" property="noteId" />
+		<result column="mood" property="mood" />
+		<result column="noteAdout" property="noteAdout" />
+		<result column="noteContent" property="noteContent" />
+		<result column="time" property="time" />
+		<result column="goodNum" property="goodNum" />
+		<result column="egg" property="egg" />
+    	<result column="highOpinion" property="highOpinion" />
+		<result column="lowOpinion" property="lowOpinion" />
+		<result column="opinionNumber" property="opinionNumber" />
+		<association property="user" column="uid" select="com.TB.TBox.user.mapper.UserMapper.selectUserByID" />
+    </resultMap>
 </mapper>

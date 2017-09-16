@@ -39,7 +39,7 @@ public class AuthorityService {
 	 * 设置权限
 	 * @param authorityList
 	 */
-	public void setAut(List<Authority> authorityList){
+	public void setAut(Authority authorityList){
 		SqlSession sqlSession = sessionFactory.getSession();
 		authorityMapper = sqlSession.getMapper(AuthorityMapper.class);
 		try {

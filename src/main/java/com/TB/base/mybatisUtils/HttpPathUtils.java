@@ -331,7 +331,7 @@ public class HttpPathUtils {
 	  /**
 	   * 发表回复
 	   * 所需参数：noteId（评回的纸条id），commentId（被回复的人的id），replyId（回复的人的id），ifObv（是否匿名0是,1否），econtent（回复内容）
-	   *           eflag（被回复的评回的标志位）
+	   *           eflag（被回复的评回的标志位）/标志位 1：为评价纸条 2：为回复评价的纸条 3：为回复回复的纸条
 	   * @return
 	   */
 	  public static String pushReply(){

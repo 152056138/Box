@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.TB.TBox.note.bean.Authority;
 import com.TB.TBox.note.bean.Note;
@@ -18,15 +19,17 @@ import com.TB.TBox.user.interfaceTo.ToNodeInterface;
 import com.TB.TBox.user.interfaceTo.interfaceToImp.ToNodeImp;
 import com.TB.base.page.PageBean;
 import com.TB.base.page.SystemContext;
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
+@Component
 public class AutToNoteImp implements IAutToNode {
 	@Autowired
 	private NoteService noteService;
 	@Autowired
 	private AuthorityService authorityService;
-	private ToNodeInterface toNodeInterface = new ToNodeImp();
+	@Autowired
+	private ToNodeInterface toNodeInterface ;
 
 	/*
 	 * 设置分页数据
@@ -122,7 +125,7 @@ public class AutToNoteImp implements IAutToNode {
 		allNoteList = noteService.schAllNote();
 		for (Note note : allNoteList) {
 			for (int friUid : friUidList) {
-				if (friUid == note.getUid()) {
+				if (friUid == note.getUser().getUid()) {
 					// 获取到权限关系集合
 					List<Authority> authorityList = authorityService.schAutByid(note.getNoteId());
 					// 遍历权限关系集合，判断my是否有权限
@@ -222,15 +225,14 @@ public class AutToNoteImp implements IAutToNode {
 	/**
 	 * 设置权限
 	 */
-	public void setAuthority(int noteId, String friendNumberList, int obvious) {
+	public void setAuthority(int noteId, String friendNumber, int obvious) {
 		/*
 		 * 接收数据
 		 */
 		// 将json字串转换为list
 		Gson gson = new Gson();
 		// 将json中的fid数组取出以其类对象的形式保存
-		List<Authority> autList = gson.fromJson(friendNumberList, new TypeToken<List<Authority>>() {
-		}.getType());
+		List<String> autList = JSON.parseArray(friendNumber, String.class);
 		// 定义和fidList等长的List存储权限类,来批量插入
 		List<Authority> authorityList = new ArrayList<Authority>();
 		for (int i = 0; i < autList.size(); i++) {
@@ -245,7 +247,7 @@ public class AutToNoteImp implements IAutToNode {
 			// continue;
 			// }
 			Authority authority = new Authority();
-			authority.setFriendNumber(autList.get(i).getFriendNumber());
+			authority.setFriendNumber(autList.get(i));
 			authority.setNoteId(noteId);
 			authority.setObvious(obvious);
 			authorityList.add(authority);
@@ -253,7 +255,9 @@ public class AutToNoteImp implements IAutToNode {
 		/*
 		 * 存储数据库
 		 */
-		authorityService.setAut(authorityList);
+		for(Authority a : authorityList){
+			authorityService.setAut(a);
+		}
 
 	}
 

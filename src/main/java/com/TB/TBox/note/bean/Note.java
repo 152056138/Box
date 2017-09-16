@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.TB.TBox.user.bean.User;
 import com.google.gson.Gson;
 
 @Component
@@ -19,27 +20,55 @@ public class Note {
 	private String time; //发布时间
 	private int goodNum; //点赞数
 	private int egg; //扔鸡蛋数
-	private int uid; // 写纸条的人
+	private User user; // 写纸条的人
 	private int highOpinion; //好评量
 	private int lowOpinion; //坏评量
+	private String locate;//发布纸条时的所在地
 	private int opinionNumber; //评论总人数
+	private List<Evaluate> evaluate; //相关评回
 	
 	private static Gson gson = new Gson();
 	
 	//构造函数
 	public Note(){}
-	public Note( int mood, String noteAdout,  String noteContent, String time, int uid) {
+	
+	public Note(int mood, String noteAdout, String noteContent, String time,
+			 User user,String locate) {
 		super();
 		this.mood = mood;
 		this.noteAdout = noteAdout;
 		this.noteContent = noteContent;
 		this.time = time;
-		this.uid = uid;
+		this.user = user;
+		this.locate = locate;
 	}
+
 	//set-get
 	
 	public int getNoteId() {
 		return noteId;
+	}
+	public String getLocate() {
+		return locate;
+	}
+
+	public void setLocate(String locate) {
+		this.locate = locate;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<Evaluate> getEvaluate() {
+		return evaluate;
+	}
+	public void setEvaluate(List<Evaluate> evaluate) {
+		this.evaluate = evaluate;
 	}
 	public List<String> getImageList() {
 		return imageList;
@@ -86,12 +115,7 @@ public class Note {
 	public void setEgg(int egg) {
 		this.egg = egg;
 	}
-	public int getUid() {
-		return uid;
-	}
-	public void setUid(int uid) {
-		this.uid = uid;
-	}
+	
 	public int getHighOpinion() {
 		return highOpinion;
 	}

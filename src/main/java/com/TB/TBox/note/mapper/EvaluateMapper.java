@@ -19,5 +19,5 @@ public interface EvaluateMapper {
 	/*
 	 * 查看评回
 	 */
-	public List<Evaluate> selEva();
+	public List<Evaluate> selEva(int noteId);
 }

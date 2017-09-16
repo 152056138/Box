@@ -6,11 +6,7 @@
 	<!-- =====添加用户与字条的权限关系====== -->
 	<insert id="addAut" parameterType="List">
 		
-    insert into mood_authority (noteId,friendNumber,obvious)   
-    values  
-    <foreach collection="list" item="item" index="index" separator="," >  
-        (#{item.noteId},#{item.friendNumber},#{item.obvious})  
-    </foreach>  
+    insert into mood_authority (noteId,friendNumber,obvious) values (#{noteId},#{friendNumber},#{obvious})  
 	</insert>
 	
 	<!-- ======查询用户与字条的权限关系====== -->

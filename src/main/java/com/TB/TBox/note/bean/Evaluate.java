@@ -19,12 +19,14 @@ public class Evaluate {
 	private String commentTime; //评回时间
 	private String econtent; //评回内容
 	private int eflag; //标志位 1：为评价纸条 2：为回复评价的纸条 3：为回复回复的纸条
+	private String commentNum; //评论人账号
+	private String replyNum; // 回复人账号
+	private int replyEid; //被回复的评回id
 	
-	private Gson gson = new Gson();
 	
 	public Evaluate(){}
 	
-	public Evaluate(int noteId, int replyId, int commentId, int ifObv, String commentTime, String econtent, int eflag) {
+	public Evaluate(int noteId, int replyId, int commentId,String commentNum,String replyNum, int ifObv, String commentTime, String econtent, int eflag,int replyEid) {
 		super();
 		this.noteId = noteId;
 		this.replyId = replyId;
@@ -33,11 +35,38 @@ public class Evaluate {
 		this.commentTime = commentTime;
 		this.econtent = econtent;
 		this.eflag = eflag;
+		this.commentNum = commentNum;
+		this.replyNum = replyNum;
+		this.replyEid = replyEid;
 	}
 	//set-get
 	
 	public int getEid() {
 		return eid;
+	}
+
+	public int getReplyEid() {
+		return replyEid;
+	}
+
+	public void setReplyEid(int replyEid) {
+		this.replyEid = replyEid;
+	}
+
+	public String getCommentNum() {
+		return commentNum;
+	}
+
+	public void setCommentNum(String commentNum) {
+		this.commentNum = commentNum;
+	}
+
+	public String getReplyNum() {
+		return replyNum;
+	}
+
+	public void setReplyNum(String replyNum) {
+		this.replyNum = replyNum;
 	}
 
 	public void setEid(int eid) {
@@ -87,6 +116,7 @@ public class Evaluate {
 	}
 	
 	public String toJson(){
+		 Gson gson = new Gson();
 		return gson.toJson(this);
 	}
 	

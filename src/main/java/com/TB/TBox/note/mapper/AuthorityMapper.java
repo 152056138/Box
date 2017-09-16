@@ -11,7 +11,7 @@ public interface AuthorityMapper {
 	/*
 	 * 添加用户与字条的权限关系
 	 */
-	public void addAut(List<Authority> authorityList);
+	public void addAut(Authority authorityList);
 	
 	/*
 	 * 查询用户与字条的权限关系

@@ -24,7 +24,7 @@ public class EvaluateTest {
 	@Test
 	public void addEva(){
 		eservice = appContext.getBean(EvaluateService.class);
-		Evaluate evaluate = new Evaluate(7, 1, 2, 1, "xx:xx", "xXxxx", 1);
-		eservice.addEva(evaluate);
+//		Evaluate evaluate = new Evaluate(7, 1, 2, 1, "xx:xx", "xXxxx", 1);
+//		eservice.addEva(evaluate);
 	}
 }

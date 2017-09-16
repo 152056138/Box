@@ -10,6 +10,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 
@@ -34,8 +35,14 @@ public class SessionFactory {
      */
     public static SqlSession getSession(){
         return sqlSessionFactory.openSession();
+        
     }
     
-    
-   
+    /**
+     * 获得SqlSessionTemplate对象
+     */
+   public static SqlSessionTemplate getSqlSessionTemplate(){
+	  SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
+	  return sqlSessionTemplate;
+   }
 }

@@ -4,15 +4,18 @@
 package com.TB.TBox.note.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.TB.TBox.dataBean.ImageResp;
+import com.TB.TBox.note.bean.Good;
 import com.TB.TBox.note.bean.Note;
 import com.TB.TBox.note.mapper.NoteMapper;
 import com.TB.base.mybatisUtils.SessionFactory;
@@ -79,8 +82,9 @@ public class NoteService {
 	 */
 	public PageBean<Note> schMyNoteall(Map<String, Object> val){
 		List<Note> noteList = new ArrayList<Note>();
-		SqlSession sqlSession = sessionFactory.getSession();
-		noteMapper = sqlSession.getMapper(NoteMapper.class);
+//		SqlSession sqlSession = sessionFactory.getSession();
+		SqlSessionTemplate sqlSessionTemplate = sessionFactory.getSqlSessionTemplate();
+		noteMapper = sqlSessionTemplate.getMapper(NoteMapper.class);
 		PageBean<Note> notePage = new PageBean<Note>();
 		try {
 			//map形式传入分页查找的数据
@@ -92,7 +96,7 @@ public class NoteService {
 			}
 		} finally {
 			// TODO: handle finally clause
-			sqlSession.close();
+//			sqlSessionTemplate.close();
 		}
 		return notePage;
 	}
@@ -164,7 +168,7 @@ public class NoteService {
 	public int schNote(Map<String, Object> val){
 		SqlSession sqlSession = sessionFactory.getSession();
 		noteMapper = sqlSession.getMapper(NoteMapper.class);
-		int noteId=0;
+		int noteId ;
 		try {
 			noteId = noteMapper.schnote(val);
 			log.debug(noteId);
@@ -217,6 +221,7 @@ public class NoteService {
 		SqlSession sqlSession = sessionFactory.getSession();
 		noteMapper = sqlSession.getMapper(NoteMapper.class);
 		try {
+			noteMapper.updgoodUser(val);
 			noteMapper.updgoodNum(val);
 			sqlSession.commit();
 			log.info("赞一个");
@@ -225,7 +230,23 @@ public class NoteService {
 			sqlSession.close();
 		}
 	}
-	
+	/**
+	 * 遍历得到相应纸条点赞用户
+	 * @param val noteId 和 userNum
+	 * @return
+	 */
+	public Good selgoodUser(Map<String, Object> val){
+		SqlSession sqlSession = sessionFactory.getSession();
+		noteMapper = sqlSession.getMapper(NoteMapper.class);
+		Good good = new Good();
+		try {
+			good = noteMapper.schgoodUser(val);
+		} finally {
+			// TODO: handle finally clause
+			sqlSession.close();
+		}
+		return good;
+	}
 	/**
 	 * 修改扔鸡蛋数
 	 */

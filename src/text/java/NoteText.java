@@ -66,8 +66,8 @@ public class NoteText {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		Note note=new Note(1, "me", "fjskdg", "10:09", 2) ;
-		noteService.addNote(note);
+//		Note note=new Note(1, "me", "fjskdg", "10:09", 2) ;
+//		noteService.addNote(note);
 	}
 	
 	//测试删除
@@ -97,7 +97,8 @@ public class NoteText {
 	public void ListtoJson(){
 
 		String houzhui="a.jpg";
-		 houzhui = houzhui.substring(houzhui.lastIndexOf("."));
+		System.out.println(houzhui.lastIndexOf("."));
+		 houzhui = houzhui.substring(houzhui.lastIndexOf("."),3);
 		 System.out.println(houzhui);
 
 	}
@@ -116,7 +117,7 @@ public class NoteText {
 //		String noteContent = request.getParameter("noteContent");
 //		SimpleDateFormat sdt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		String time = sdt.format(new Date());
-		Note note = new Note(1, "xx", "xx", "xx:xx", 2);
+//		Note note = new Note(1, "xx", "xx", "xx:xx", 2);
 		//接收图片数据
 //		try {
 //			b3List = fileUtil.MultiPartFileUpLoad(re);
@@ -131,10 +132,10 @@ public class NoteText {
 			b3List.add(b3);
 		}
 		//保存到数据库
-		noteService.addNote(note);
-		Map<String, Object> val = new HashMap<String, Object>();
-		val.put("uid", note.getUid());
-		val.put("time", note.getTime());
+//		noteService.addNote(note);
+//		Map<String, Object> val = new HashMap<String, Object>();
+//		val.put("uid", note.getUid());
+//		val.put("time", note.getTime());
 //		System.out.println("uid"+note.getUid());
 //		System.out.println("time"+note.getUid());
 //		int noteId = noteService.schNote(val);//获得刚存储的字条的id，以存储图片

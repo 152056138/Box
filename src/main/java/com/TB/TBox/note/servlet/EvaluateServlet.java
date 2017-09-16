@@ -3,6 +3,7 @@ package com.TB.TBox.note.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.TB.TBox.note.bean.Evaluate;
 import com.TB.TBox.note.service.EvaluateService;
+import com.TB.TBox.user.interfaceTo.ToNodeInterface;
+import com.google.gson.Gson;
 
 @Controller
 @RequestMapping("/evaluate")
@@ -24,8 +27,9 @@ import com.TB.TBox.note.service.EvaluateService;
 public class EvaluateServlet {
 	@Autowired
 	private EvaluateService evaluateService;
-	
-	
+	@Autowired
+	ToNodeInterface toNode;
+	Gson gson = new Gson();
 	/**
 	 * 发表评论
 	 * @param request
@@ -34,6 +38,8 @@ public class EvaluateServlet {
 	 */
 	@RequestMapping(value="/pushcomment", method = RequestMethod.POST)
 	public void pushcomment(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
 		//获取参数
 		int noteId = Integer.parseInt(request.getParameter("noteId"));
 		int commentId = Integer.parseInt(request.getParameter("commentId"));
@@ -43,12 +49,19 @@ public class EvaluateServlet {
 		String econtent = request.getParameter("econtent");
 		//封装类型
 		//此为评论所以replyId回复人id=0，标志位eflag=1
-		Evaluate evaluate = new Evaluate(noteId, 0, commentId, ifObv, commentTime, econtent, 1);
+		String commentNum = null;
+		if(ifObv!=0){
+			commentNum = toNode.selectUserNumber(commentId);
+		}
+		Evaluate evaluate = new Evaluate(noteId, 0, commentId,commentNum,null, ifObv, commentTime, econtent, 1,0);
 		evaluateService.addEva(evaluate);
+		//发布完成后，将本纸条的所有评论打包返回
+		List<Evaluate> evaluateLst = new ArrayList<>();
+		evaluateLst = evaluateService.showEva(noteId);
 		//数据响应到前台
 		response.setContentType("text/json");
 		PrintWriter out = response.getWriter();
-		out.print(evaluate.toJson());
+		out.print(gson.toJson(evaluateLst));
 		out.flush();
 		out.close();
 	}
@@ -65,6 +78,8 @@ public class EvaluateServlet {
 	 */
 	@RequestMapping(value="/pushReply", method = RequestMethod.POST)
 	public void pushReply(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
 		//获取参数
 				int noteId = Integer.parseInt(request.getParameter("noteId"));
 				int commentId = Integer.parseInt(request.getParameter("commentId"));//被回复评回的发布者
@@ -73,23 +88,31 @@ public class EvaluateServlet {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String commentTime = sdf.format(new Date());
 				String econtent = request.getParameter("econtent");
-				int eflagBefor = Integer.parseInt(request.getParameter("eflag"));//被回复的评回的标志位，判断是评价还是回复
-				int eflag = 0;
+				int eflag = Integer.parseInt(request.getParameter("eflag"));//回复的评回的标志位
+				int replyEid = Integer.parseInt(request.getParameter("replyEid"));
+//				int eflag = 0;
 				//根据被回复的评回标志位判断本次评回的标志位
-				if(eflagBefor == 1){
-					eflag = 2;
-				}
-				else {
-					eflag = 3;
-				}
+//				if(eflagBefor == 1){
+//					eflag = 2;
+//				}
+//				else {
+//					eflag = 3;
+//				}
 				//封装类型
-				//此为评论所以replyId回复人id=0，标志位eflag=1
-				Evaluate evaluate = new Evaluate(noteId, replyId, commentId, ifObv, commentTime, econtent, eflag);
+				String replyNum=null;
+				if(ifObv!=0){
+					replyNum = toNode.selectUserNumber(replyId);
+				}	
+				String commentNum = toNode.selectUserNumber(commentId);
+				Evaluate evaluate = new Evaluate(noteId, replyId, commentId,commentNum,replyNum, ifObv, commentTime, econtent, eflag,replyEid);
 				evaluateService.addEva(evaluate);
+				//发布完成后，将本纸条的所有评论打包返回
+				List<Evaluate> evaluateLst = new ArrayList<>();
+				evaluateLst = evaluateService.showEva(noteId);
 				//数据响应到前台
 				response.setContentType("text/json");
 				PrintWriter out = response.getWriter();
-				out.print(evaluate.toJson());
+				out.print(gson.toJson(evaluateLst));
 				out.flush();
 				out.close();
 	}

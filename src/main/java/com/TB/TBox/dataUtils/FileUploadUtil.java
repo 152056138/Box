@@ -21,10 +21,10 @@ import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 @Repository
-public class FileUploadUtil {
-
+public class FileUploadUtil{
+	
 	/**
-	 * 封装传入MultipartFile时将其存入图片仓库，并返回保存路径
+	 * 封装传入MultipartFile时将其存入图片仓库，并返回保存名
 	 * 
 	 * @param re
 	 * @return
@@ -37,6 +37,7 @@ public class FileUploadUtil {
 		// 对图片的获取
 		List<MultipartFile> fileList = re.getFiles("ufacing");
 		// 遍历MultipartFile集合
+		int i = 0;
 		for (MultipartFile file : fileList) {
 			// multipartfile 转 file 上传文件大小若小于2048，则不会生成临时文件
 			CommonsMultipartFile cf = (CommonsMultipartFile) file;
@@ -84,16 +85,16 @@ public class FileUploadUtil {
 //			byte[] bin = new byte[length];
 //			Properties property = new Properties();
 //			property.load(getClass().getClassLoader().getResourceAsStream("fileupload.properties"));
-			String savePath = "C:/image/"+userNumber+"_"+noteId+houzhui;
+			String savePath = "C:/image/"+userNumber+"_"+noteId+"_"+i+houzhui;
 			//获得文件输出流,并存入库中
 			OutputStream out = new FileOutputStream(savePath);
 			BufferedOutputStream bot = new BufferedOutputStream(out);
 			bot.write(buffer);
 			bot.flush();
 			bot.close();
-			// 获取文件保存库的路径放入list
-			b3List.add(userNumber+"_"+noteId+houzhui);
-			
+			// 获取文件保存库的名字放入list
+			b3List.add(userNumber+"_"+noteId+"_"+i+houzhui);
+			++i;
 		}
 		return b3List;
 	}
