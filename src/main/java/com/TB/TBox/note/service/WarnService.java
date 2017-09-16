@@ -5,6 +5,7 @@ package com.TB.TBox.note.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
@@ -83,6 +84,41 @@ public class WarnService {
 			// TODO: handle finally clause
 			sqlSession.close();
 		}
+	}
+	
+	/**
+	 * 修改提醒表状态
+	 * @param wid
+	 */
+	public void updateWarn(int wid) {
+		SqlSession sqlSession = sessionFactory.getSession();
+		warnmapper = sqlSession.getMapper(WarnMapper.class);
+		try {
+			warnmapper.updateWarn(wid);
+			sqlSession.commit();
+			log.debug("修改成功！");
+		} finally {
+			sqlSession.close();
+		}
+
+	}
+	
+	/**
+	 * 前台查找方法
+	 */
+	
+	public List<Warn> selWarnByPre(Map<String,Object> map){
+		SqlSession sqlSession = sessionFactory.getSession();
+		warnmapper = sqlSession.getMapper(WarnMapper.class);
+		List<Warn> warnList = new ArrayList<Warn>();
+		try {
+			warnList = warnmapper.selWarnByPre(map);
+			log.debug("查找成功");
+		} finally {
+			// TODO: handle finally clause
+			sqlSession.close();
+		}
+		return warnList;
 	}
 	/**
 	 * 获得json格式的信息

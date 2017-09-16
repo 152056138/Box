@@ -12,18 +12,41 @@ public class Warn {
 	private String wcontent; //提醒内容
 	private String wtime; //提醒时间
 	private String wto; //被提醒人
-	private String wfrom; //提醒人（此用户）
-	
+	private int wfrom; //提醒人（此用户）
+	private String wphone;
+	private int status;//没有提醒为0，触发提醒为1，提醒完毕为2
 	
 	public Warn(){}
 	
-	public Warn(String wcintent, String wtime, String wto, String wfrom) {
+	
+	public Warn( String wcontent, String wtime, String wto, int wfrom, String wphone, int status) {
 		super();
-		this.wcontent = wcintent;
+		
+		this.wcontent = wcontent;
 		this.wtime = wtime;
 		this.wto = wto;
 		this.wfrom = wfrom;
+		this.wphone = wphone;
+		this.status = status;
 	}
+
+
+	public String getWphone() {
+		return wphone;
+	}
+
+	public void setWphone(String wphone) {
+		this.wphone = wphone;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	//set-get
 	public int getWid() {
 		return wid;
@@ -49,12 +72,15 @@ public class Warn {
 	public void setWto(String wto) {
 		this.wto = wto;
 	}
-	public String getWfrom() {
+
+	public int getWfrom() {
 		return wfrom;
 	}
-	public void setWfrom(String wfrom) {
+
+	public void setWfrom(int wfrom) {
 		this.wfrom = wfrom;
 	}
+	
 	
 	
 }
