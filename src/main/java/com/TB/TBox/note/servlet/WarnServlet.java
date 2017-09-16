@@ -45,6 +45,7 @@ public class WarnServlet {
 	 */
 	@RequestMapping(value = "/addWarn", method = RequestMethod.POST)
 	public void setWarn(HttpServletRequest request ,HttpServletResponse response) throws IOException{
+		request.setCharacterEncoding("utf-8");
 		//接收参数
 		String wcontent = request.getParameter("wcintent");
 		String wtime = request.getParameter("wtime");
@@ -61,7 +62,7 @@ public class WarnServlet {
 		Warn warn = new Warn(wcontent, wtime, wto, wfrom, wphone, status);
 		//调用方法
 		warnService.setWarn(warn);
-		response.setContentType("text/json");
+		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print("提醒设置成功");
 		out.flush();
@@ -115,6 +116,7 @@ public class WarnServlet {
 	 */
 	@RequestMapping(value = "/selWarnByPre", method = RequestMethod.POST)
 	public void selWarnByPre(HttpServletRequest request ,HttpServletResponse response) throws IOException{
+	 request.setCharacterEncoding("utf-8");
 	 int wfrom = Integer.parseInt(request.getParameter("uid"));
 	 int status = 1;
 	 List<Warn> warnList = new ArrayList<>();
@@ -122,7 +124,7 @@ public class WarnServlet {
 	 map.put("wfrom", wfrom);
 	 map.put("status",status);
 	 warnList =warnService.selWarnByPre(map);
-	 response.setContentType("text/json");
+	 response.setContentType("text/json;charset=UTF-8");
 	  PrintWriter out = response.getWriter();
 		out.print("删除提醒成功");
 		out.flush();

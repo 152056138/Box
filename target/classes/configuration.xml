@@ -39,7 +39,7 @@
 		<mapper resource="com/TB/xml/warn.xml"/>
 		<mapper resource="com/TB/xml/future.xml"/>
 		<mapper resource="com/TB/xml/pushMsg.xml"/>
-		<mapper resource="com/TB/xml/Warn.xml"/>
+		<mapper resource="com/TB/xml/warn.xml"/>
 	</mappers>
 
 
