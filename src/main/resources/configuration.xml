@@ -13,6 +13,7 @@
 		<typeAlias alias="Future" type="com.TB.TBox.future.bean.Future" />
 		<typeAlias alias="PushMsg" type="com.TB.TBox.push.bean.PushMsg" />
 		<typeAlias alias="Message" type="com.TB.TBox.future.bean.Message" />
+		<typeAlias alias="Warn" type="com.TB.TBox.note.bean.Warn" />
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -38,6 +39,7 @@
 		<mapper resource="com/TB/xml/warn.xml"/>
 		<mapper resource="com/TB/xml/future.xml"/>
 		<mapper resource="com/TB/xml/pushMsg.xml"/>
+		<mapper resource="com/TB/xml/warn.xml"/>
 	</mappers>
 
 

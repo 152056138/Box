@@ -4,17 +4,34 @@
 
 <mapper namespace="com.TB.TBox.note.mapper.WarnMapper">
 	<!-- ============根据提醒时间模糊查询=========== -->
-	<select id="selWarn" resultType="com.TB.TBox.note.bean.Warn" parameterType="String">
+	<select id="selWarn" resultMap="warnList" parameterType="String">
 		select * from mood_warn where wtime like concat(concat('%',#{wtime}),'%')
 	</select>
 	
 	<!-- =============添加提醒字条=============== -->
 	<insert id="addWarn" parameterType="com.TB.TBox.note.bean.Warn">
-		insert into mood_warn (wcintent,wtime,wto,wfrom) values (#{wcintent},#{wtime},#{wto},#{wfrom})
+		insert into mood_warn (wcintent,wtime,wto,wfrom,wphone,status) values (#{wcintent},#{wtime},#{wto},#{wfrom},#{wphone},#{status})
 	</insert>
 	
 	<!-- ==============根据wid删除================= -->
-	<delete id="delWarn" parameterType="int" >
+	<delete id="delWarn" parameterType="int">
 		delete from mood_warn where wid=#{wid}
 	</delete>
+	<!-- 更新状态 -->
+	<update id="updateWarn" parameterType="int">
+		update mood_warn set status=#{status} where wid=#{wid}
+	</update>
+	<!-- 前台查询 -->
+	<select id="selWarnByPre"  parameterType="Map" resultMap="warnList">
+		select * from mood_warn where wfrom=#{wfrom} and status=#{status}
+	</select>
+	<resultMap type="com.TB.TBox.note.bean.Warn" id="warnList">
+		<id column="wid" property="wid" />
+		<result column="wcintent" property="wcintent" />
+		<result column="wtime" property="wtime" />
+		<result column="wto" property="wto" />
+		<result column="wfrom" property="wfrom" />
+		<result column="wphone" property="wphone" />
+		<result column="status" property="status" />
+	</resultMap>
 </mapper>

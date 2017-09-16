@@ -10,8 +10,9 @@ public class Warntest {
 	public void addwarn(){
 		ApplicationContext application = new ClassPathXmlApplicationContext("applicationContext.xml");
 		WarnService warnService = (WarnService) application.getBean("warnService");
-		Warn warn = new Warn("sb", "xx-xx", "me", "it");
-		//调用方法
-		warnService.setWarn(warn);
-	}
+//		Warn warn = new Warn("sb", "xx-xx", "me", "it");
+//		//调用方法
+//		warnService.setWarn(warn);
+//	}
+}
 }
