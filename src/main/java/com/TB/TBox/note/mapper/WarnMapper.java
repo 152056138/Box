@@ -4,6 +4,7 @@
 package com.TB.TBox.note.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.TB.TBox.note.bean.Warn;
 
@@ -18,9 +19,23 @@ public interface WarnMapper {
 	 * @param date
 	 */
 	public List<Warn> selWarn(String date);
+	
 	/**
 	 * 根据wid删除
 	 * @param wid
 	 */
 	public void delWarn(int wid);
+	
+	
+	/**
+	 * 修改提醒表状态
+	 */
+	public void updateWarn(int wid);
+	
+	
+	/**
+	 * 前台查找用
+	 */
+	
+	public List<Warn> selWarnByPre(Map<String,Object> map);
 }

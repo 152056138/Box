@@ -67,7 +67,19 @@ public class FriendService implements FriendMapper {
 		}
 
 	}
-
+	/**
+	 * 查询某一个好友,看是否是删除的好友
+	 */
+	@Override
+	public Friends selectFriendByUidAndNumber(Map<String,Object> map) {
+		SqlSession session = sessionFactory.getSession();
+		Friends friend = new Friends();
+		FriendMapper friendOperation = session.getMapper(FriendMapper.class);
+		friend = friendOperation.selectFriendByUidAndNumber(map);
+		// System.out.println(friend.toString());
+		return friend;
+	   
+	}
 	/**
 	 * 删除好友
 	 */
@@ -185,60 +197,17 @@ public class FriendService implements FriendMapper {
 	
 	@Test
 	public void test() {
-		// Date date=new Date();
-		// DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		// String time=format.format(date);
-		// System.out.println(time);
+		Friends friend = new  Friends();	
 		FriendService friendService = new FriendService();
-		UserService userService = new UserService();
-		// User user = userService.selectUserByID(1);
-		// Friends friend = new Friends("2094434681", "王磊", 4, time, "Brienty",
-		// user.getUfacing(), 1,1);
-		// friendServlet.addFriend(friend);
-		// log.info(friend);
-
-		// Map map = new HashMap<String, Object>();
-		// map.put("uid", 1);
-		// map.put("cid", 4);
-		// map.put("recoverFriend", 1);
-		// List<Friends> friends = friendService.selectAllFriends(map);
-		// System.out.println(friends.size() +
-		// "=================================================");
-		// for (Friends friend : friends) {
-		// log.info(friend.toJson());
-		// }
-		List<Memo> memeos = new ArrayList<Memo>();
-		Memo memo = new Memo();
-		// memo.setFid(1);
-		// memo.setUid(1);
-		// memo.setMemoName("脾气");
-		// memo.setFriendContent("温顺尔雅");
-		// friendService.addMemo(memo);
-
-		 Map map = new HashMap<String, Object>();
-		 map.put("uid", 1);
-		 map.put("fid", 1);
-		 memeos = friendService.selectMemo(map);
-		 System.out.println(memeos.size());
-		 for(Memo memeo : memeos){
-		 System.out.println(memeo.toJson());
-		 }
-
-		// memo = friendService.selectMemoById(1);
-		// System.out.println(memo.toJson());
-		// memo.setFriendContent("骚的一B");
-		// friendService.updateMemo(memo);
-		// log.info(memo.toJson());
-//
-//		Map<String,Object> map = new HashMap<String, Object>();
-//		map.put("uid", 1);
-//		map.put("recoverFriend", 0);
-//		map.put("friendNickname", "y");
-//		List<Friends> friendList = new ArrayList<Friends>();
-//		friendList = friendService.selectFriendsByNickname(map);
-//		System.out.println(friendList.size());
-//		for (Friends friend : friendList) {
-//			System.out.println(friend.toJson());
-//		}
+		//UserService userService = new UserService();
+		Map<String,Object> map =new  HashMap<String, Object>();
+		map.put("uid", 20);
+		map.put("friendNumber","6942171882");
+		map.put("recoverFriend", 1);
+		friend = friendService.selectFriendByUidAndNumber(map);
+		log.info(friend.getFriendNickname());
+		
 	}
+
+	
 }

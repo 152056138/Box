@@ -34,6 +34,9 @@ public class WarnJob extends QuartzJobBean{
 	private PushMsg pushMsg;
 	ToNodeInterface toNodeI = new ToNodeImp();
 	@Override
+	/**
+	 * 有点问题
+	 */
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		//获取与定时器触发相同的时间（有误差没关系我们是按天模糊查询）
 		Date date = new Date();
@@ -46,6 +49,7 @@ public class WarnJob extends QuartzJobBean{
 			String message = warnService.setMessage(warn);
 			//获得接收者（被推送人）的id
 			int uid = toNodeI.selectFriendUid(warn.getWto());
+			
 			pushMsg = pushMsgService.selectPushMsg(uid);
 			String channelId = pushMsg.getChannelId();
 			try {
@@ -56,6 +60,10 @@ public class WarnJob extends QuartzJobBean{
 			} catch (PushServerException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}finally{
+				//调用了这个方法以后会修改提醒记录为调用状态
+				warn.setStatus(1);
+				warnService.updateWarn(warn.getWid());
 			}
 		}
 	}

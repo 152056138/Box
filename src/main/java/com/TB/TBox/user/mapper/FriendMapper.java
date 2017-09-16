@@ -12,6 +12,8 @@ public interface FriendMapper {
 	public List<Friends> selectAllFriends(Map<String,Object> map);
 
 	public void updateFriendName(Friends friend);
+	
+	public Friends selectFriendByUidAndNumber(Map<String,Object> map);
 
 	public void deleteFriend(Friends friend);
 

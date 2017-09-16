@@ -51,13 +51,17 @@
 	<select id="selectFriendByFid" parameterType="int" resultType="Friends">
 		select * from mood_friend where fid=#{fid}
 	</select>
+	<!-- 按uid 和friendNumber查询，用来判断添加的好友是否是已经删除的好友 -->
+	<select id="selectFriendByUidAndNumber" parameterType="Map" resultType="Friends">
+		select * from mood_friend where uid=#{uid} and friendNumber=#{friendNumber} and recoverFriend=#{recoverFriend}
+	</select>
 	<update id="updateFriendName" parameterType="Friends">
 		update mood_friend
 		set friendUsername=#{friendUsername} where fid=#{fid}
 	</update>
 	<update id="deleteFriend" parameterType="Friends">
 		update mood_friend set
-		recoverFriend=#{recoverFriend} where uid=#{uid}
+		recoverFriend=#{recoverFriend} where fid=#{fid}
 	</update>
 
 	<!-- 好友便签部分 -->

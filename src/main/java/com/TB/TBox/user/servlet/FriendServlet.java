@@ -97,29 +97,63 @@ public class FriendServlet {
 		String number = request.getParameter("number");
 		String formuid = request.getParameter("uid");
 		int uid = Integer.parseInt(formuid);
-		friend.setUid(uid);
-		String formcid = request.getParameter("cid");
-		int cid = Integer.parseInt(formcid);
-		friend.setCid(cid);
-		user = userService.selectUserByNumber(number);
-		friend.setFriendNumber(user.getNumber());
-		friend.setFacing(user.getUfacing());
-		friend.setFriendNickname(user.getUsername());
+		//判断要添加的好友是否是之前删除的好友 
+		Map<String,Object> map =new  HashMap<String, Object>();
+		map.put("uid", uid);
+		map.put("friendNumber",number);
+		map.put("recoverFriend", 1);
 		String friendUsername = request.getParameter("friendUsername");
+		System.out.println(friendUsername+"===================");
 		friend.setFriendUsername(friendUsername);
-		int recoverFriend = 0;
-		friend.setRecoverFriend(recoverFriend);
-		Date date = new Date();
-		String time = format.format(date);
-		System.out.println(time);
-		friend.setFriendTime(time);
-		friendService.addFriend(friend);
-		response.setContentType("text/json;charset=UTF-8");
-		PrintWriter out = response.getWriter();
-		//返回添加好友的信息；
-		out.print(gson.toJson(friend));
-		out.flush();
-		out.close();
+		friend = friendService.selectFriendByUidAndNumber(map);
+		//如果是的情况
+		if(friend!=null){
+			friend.setRecoverFriend(0);
+			friendService.deleteFriend(friend);
+			
+			map.remove("recoverFriend");
+			map.put("recoverFriend", 0);
+			friend = friendService.selectFriendByUidAndNumber(map);
+			log.info(gson.toJson(friend));
+			friend.setFriendUsername(friendUsername);
+			friendService.updateFriendName(friend);
+			response.setContentType("text/json;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			//返回添加好友的信息；
+			out.print(gson.toJson(friend));
+			out.flush();
+			out.close();
+		}else{
+			//不是的情况
+			Friends friend = new Friends();
+			System.out.println(uid+"======================================");
+			friend.setUid(uid);
+			String formcid = request.getParameter("cid");
+			int cid = Integer.parseInt(formcid);
+			friend.setCid(cid);
+			user = userService.selectUserByNumber(number);
+			friend.setFriendNumber(user.getNumber());
+			friend.setFacing(user.getUfacing());
+			friend.setFriendNickname(user.getUsername());
+			friend.setFriendUsername(friendUsername);
+			int recoverFriend = 0;
+			friend.setRecoverFriend(recoverFriend);
+			Date date = new Date();
+			String time = format.format(date);
+			System.out.println(time);
+			friend.setFriendTime(time);
+			friendService.addFriend(friend);
+			
+			friend.setFriendUsername(friendUsername);
+			friendService.updateFriendName(friend);
+			response.setContentType("text/json;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			//返回添加好友的信息；
+			out.print(gson.toJson(friend));
+			out.flush();
+			out.close();
+		}
+		
 	}
 
 	/**
@@ -131,6 +165,7 @@ public class FriendServlet {
 	 */
 	@RequestMapping(value = "/updateFriendName", method = RequestMethod.POST)
 	public void updateFriendName(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("utf-8");
 		String formFid = request.getParameter("fid");
 		int fid = Integer.parseInt(formFid);
 		String friendUsername = request.getParameter("friendUsername");
@@ -157,7 +192,6 @@ public class FriendServlet {
 
 	/**
 	 * 查询所有好友
-	 * 
 	 * @param request
 	 * @param response
 	 * @throws IOException
@@ -276,7 +310,7 @@ public class FriendServlet {
 		friendService.addMemo(memo);
 		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		out.print("添加成功！");
+		out.print(gson.toJson(memo));
 		out.flush();
 		out.close();
 	}
