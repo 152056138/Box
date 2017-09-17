@@ -9,7 +9,7 @@ private int afrom;//用户的uid
 private String afterAcontent;//内容
 private String abegin;//开始时间
 private String aend;//推送时间
-private int astatus;//0代表还没有推送，1代表已经推送了
+private int astatus;//0代表还没有推送，1代表已经推送了,2代表查询完毕
 
 //get-set
 public int getAid() {

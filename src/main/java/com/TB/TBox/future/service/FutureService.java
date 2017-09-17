@@ -2,6 +2,7 @@ package com.TB.TBox.future.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
@@ -74,6 +75,17 @@ public class FutureService implements FutureMapper {
 		return gson.toJson(message);
 		
 	}
+	/**
+	 * 用户查询未来记录
+	 */
+	@Override
+	public List<Future> selectUserFutureNoteByPre(Map<String, Object> map) {
+		SqlSession session = sessionFactory.getSession();
+		List<Future> futureList = new ArrayList<Future>();
+		FutureMapper futureOperation = session.getMapper(FutureMapper.class);
+		futureList = futureOperation.selectUserFutureNoteByPre(map);
+		return futureList;
+	}
 	
 	@Test
 	public void test(){
@@ -83,4 +95,6 @@ public class FutureService implements FutureMapper {
 		log.info(futureList.size()+"====================================");
 		
 	}
+
+	
 }
