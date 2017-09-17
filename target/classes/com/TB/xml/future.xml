@@ -17,6 +17,10 @@
 		resultMap="futureList">
 		select * from mood_aftertime where aend like concat(concat('%',#{aend}),'%')
 	</select>
+	<select id="selectUserFutureNoteByPre" parameterType="Map"
+		resultMap="futureList">
+		select * from mood_aftertime where aend=#{aend} and afrom=#{afrom} and astatus=#{astatus} 
+	</select>
 	<resultMap type="Future" id="futureList">
 		<id column="aid" property="aid" />
 		<result column="afterAcontent" property="afterAcontent" />

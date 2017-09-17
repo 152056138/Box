@@ -34,9 +34,7 @@ public class WarnJob extends QuartzJobBean{
 	private PushMsg pushMsg;
 	ToNodeInterface toNodeI = new ToNodeImp();
 	@Override
-	/**
-	 * 有点问题
-	 */
+	
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		//获取与定时器触发相同的时间（有误差没关系我们是按天模糊查询）
 		Date date = new Date();
