@@ -49,15 +49,10 @@ public class WarnServlet {
 		//接收参数
 		String wcontent = request.getParameter("wcintent");
 		String wtime = request.getParameter("wtime");
-		String wto = request.getParameter("wto");
+		String wto = request.getParameter("wto");//备注
 		String wphone;
-		int wfrom= Integer.parseInt(request.getParameter("wfrom"));
-		if(wto!=null){
-			 wphone = userService.selectUserByNumber(wto).getPhone();
-		}else
-		{
+		int wfrom= Integer.parseInt(request.getParameter("wfrom"));	
 			wphone = request.getParameter("wphone");
-		}
 		int status = 0;
 		Warn warn = new Warn(wcontent, wtime, wto, wfrom, wphone, status);
 		//调用方法
