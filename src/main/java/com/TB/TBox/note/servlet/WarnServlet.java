@@ -37,50 +37,53 @@ public class WarnServlet {
 	public WarnService warnService;
 	@Autowired
 	public UserService userService;
+
+	Gson gson = new Gson();
+
 	/**
 	 * 设置提醒字条
 	 * @param request
 	 * @param response
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@RequestMapping(value = "/addWarn", method = RequestMethod.POST)
-	public void setWarn(HttpServletRequest request ,HttpServletResponse response) throws IOException{
+	public void setWarn(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.setCharacterEncoding("utf-8");
-		//接收参数
+		// 接收参数
 		String wcontent = request.getParameter("wcintent");
 		String wtime = request.getParameter("wtime");
 		String wto = request.getParameter("wto");
 		String wphone;
-		int wfrom= Integer.parseInt(request.getParameter("wfrom"));
-		if(wto!=null){
-			 wphone = userService.selectUserByNumber(wto).getPhone();
-		}else
-		{
+		int wfrom = Integer.parseInt(request.getParameter("wfrom"));
+		if (wto != null) {
+			wphone = userService.selectUserByNumber(wto).getPhone();
+		} else {
 			wphone = request.getParameter("wphone");
 		}
 		int status = 0;
 		Warn warn = new Warn(wcontent, wtime, wto, wfrom, wphone, status);
-		//调用方法
+		// 调用方法
 		warnService.setWarn(warn);
 		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print("提醒设置成功");
 		out.flush();
 		out.close();
-	} 
-	
+	}
+
 	/**
 	 * 按时间查找提醒字条
+	 * 
 	 * @param request
 	 * @param response
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	
-	public void sehWarn(HttpServletRequest request ,HttpServletResponse response) throws IOException{
-		//接收参数
+
+	public void sehWarn(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// 接收参数
 		String wtime = request.getParameter("wtime");
 		List<Warn> warnList = new ArrayList<Warn>();
-		//调用方法
+		// 调用方法
 		warnList = warnService.sehWarn(wtime);
 		Gson gson = new Gson();
 		response.setContentType("text/json");
@@ -88,26 +91,27 @@ public class WarnServlet {
 		out.print(gson.toJson(warnList));
 		out.flush();
 		out.close();
-	} 
-	
+	}
+
 	/**
 	 * 删除提醒字条
+	 * 
 	 * @param request
 	 * @param response
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public void delWarn(HttpServletRequest request ,HttpServletResponse response) throws IOException{
-		//接收参数
+	public void delWarn(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// 接收参数
 		int wid = Integer.parseInt(request.getParameter("wid"));
-		//调用方法
+		// 调用方法
 		warnService.delWarn(wid);
 		response.setContentType("text/json");
 		PrintWriter out = response.getWriter();
 		out.print("删除提醒成功");
 		out.flush();
 		out.close();
-	} 
-	
+	}
+
 	/**
 	 * 前台查找已触发后修改过状态的提醒记录
 	 * @param request
@@ -115,33 +119,32 @@ public class WarnServlet {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/selWarnByPre", method = RequestMethod.POST)
-	public void selWarnByPre(HttpServletRequest request ,HttpServletResponse response) throws IOException{
-	 request.setCharacterEncoding("utf-8");
-	 int wfrom = Integer.parseInt(request.getParameter("uid"));
-	 int status = 1;
-	 List<Warn> warnList = new ArrayList<>();
-	 Map<String,Object> map = new HashMap<>();
-	 map.put("wfrom", wfrom);
-	 map.put("status",status);
-	 warnList =warnService.selWarnByPre(map);
-	 response.setContentType("text/json;charset=UTF-8");
-	  PrintWriter out = response.getWriter();
-		out.print("删除提醒成功");
+	public void selWarnByPre(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("utf-8");
+		int wfrom = Integer.parseInt(request.getParameter("uid"));
+		int status = 1;
+		List<Warn> warnList = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>();
+		map.put("wfrom", wfrom);
+		map.put("status", status);
+		warnList = warnService.selWarnByPre(map);
+		response.setContentType("text/json;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.print(gson.toJson(warnList));
 		out.flush();
 		out.close();
-		//前台返回去以后进行修改状态
-		for(Warn warn :warnList){
+		// 前台返回去以后进行修改状态
+		for (Warn warn : warnList) {
 			warn.setStatus(2);
 			warnService.updateWarn(warn.getWid());
 		}
-		
-}
-	
-	
+
+	}
+
 	@Test
-	public void test(){
+	public void test() {
 		ApplicationContext ap = new ClassPathXmlApplicationContext("applicationContext.xml");
-		
+
 		UserService userService;
 		userService = ap.getBean(UserService.class);
 		WarnService warnService = new WarnService();
@@ -149,17 +152,16 @@ public class WarnServlet {
 		String wtime = "2017-9-17";
 		String wto = "6813990908";
 		String wphone;
-		int wfrom=20;
-		if(wto!=null){
-			 wphone = userService.selectUserByNumber(wto).getPhone();
-		}else
-		{
+		int wfrom = 20;
+		if (wto != null) {
+			wphone = userService.selectUserByNumber(wto).getPhone();
+		} else {
 			wphone = "wphone";
 		}
 		int status = 0;
 		Warn warn = new Warn(wcontent, wtime, wto, wfrom, wphone, status);
-		//调用方法
+		// 调用方法
 		warnService.setWarn(warn);
-        System.out.println("添加成功！");
+		System.out.println("添加成功！");
 	}
 }
